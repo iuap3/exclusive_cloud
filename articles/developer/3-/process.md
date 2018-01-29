@@ -46,6 +46,11 @@ cd developercenter_enterprise
 </div>
 <p align="center">图 3</p>
 
+6、选择本机IP地址，如果本机仅有一个ip，则安装程序自动选择该ip，并直接进入之后的安装过程；如果本机有多个ip，则需要输入序号选择ip地址（请选择可以和其他主机或虚拟机相区分的内网IP地址）。
+<div align=center>
+<img src="/articles/developer/3-/images/4.png"/>
+</div>
+<p align="center">图 4</p>
 
 
 
