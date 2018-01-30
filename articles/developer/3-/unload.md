@@ -19,7 +19,8 @@ yum remove -y docker
 ```
 
 ## 常见问题
-#### 卸载时报错“Device or resource basy”
+
+#### 卸载时报错 “Device or resource basy”
 删除 docker 安装包时，提示如下：
 <div align=center>
 <img src="/articles/developer/3-/images/30.png"/>
