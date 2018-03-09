@@ -1,115 +1,330 @@
-# API接口文档规范
+# CMDM-API接口文档规范
 
-API接口分为以下几部分组成。每一部分必须详细讲解描述。
+主数据提供数据写入和查询的REST服务。各服务地址和参数说明如下。
 
-## 接口名称
+## 主数据写入服务-insertMd
 
-首先向用户说明API接口名称。接口名称一般为动宾结构。 必须把动作和对象描述清楚。 便于用户能够迅速理解。
-例如在云打印API中的接口名称：
+数据写入数据服务 for 主数据建模I 生成的主数据：
 
 ```
-保存业务对象
+主数据写入服务-insertMd
 ```
 
 ## 接口说明
 
-用文字在接口说明部分中，详细讲解接口的作用。在什么场景中会使用该接口。
-例如：
-
-```
-保存业务对象
-```
-
-这种和接口名称重复的说明是没有任何意义的。 必须说明保存什么对象， 具体的作用是什么。 必须详细说明。 如下：
-
-```
-通过数据接口，开发者可以获取与公众平台官网统计模块类似但更灵活的数据，还可根据需要进行高级处理。
-在公众号登录授权机制的权限集划分中，用户分析数据接口属于用户管理权限。
-```
+数据写入数据服务 for 主数据建模I 生成的主数据。根据id值是否在主数据存在，区别数据新增OR更新。
 
 ## 接口URI
 
-接口访问的URI
-
-路径又称"终点"（endpoint），表示API的具体网址。
-在RESTful架构中，每个网址代表一种资源（resource），所以网址中不能有动词，只能有名词，而且所用的名词往往与数据库的表格名对应。一般来说，数据库中的表都是同种记录的"集合"（collection），所以API中的名词也应该使用复数。
-举例来说，有一个API提供动物园（zoo）的信息，还包括各种动物和雇员的信息，则它的路径应该设计成下面这样。
-
-```
-https://api.example.com/v1/products
-
-https://api.example.com/v1/users
-
-https://api.example.com/v1/employees
-```
+1.http://ip:port/iuapmdm/cxf/mdmrs/center/com.yonyou.iuapmdm.centerService/insertMd
 
 ## 请求方式
 
-对于资源的具体操作类型，由HTTP动词表示。
-常用的HTTP动词有下面四个（括号里是对应的SQL命令）。
-
 ```
-GET（SELECT）：从服务器取出资源（一项或多项）。
-POST（CREATE）：在服务器新建一个资源。
-PUT（UPDATE）：在服务器更新资源（客户端提供改变后的完整资源）。
-DELETE（DELETE）：从服务器删除资源。
+POST
 ```
 
-下面是一些例子。
+## 请求参数
+1、POST请求参数：
+{
+    "systemCode":"远程系统编码",
+    "gdCode":"主数据定义编码",
+    "masterData":"主数据（json数组格式）"
+}
+
+json数组格式：
+[{"id":"bin1001","code":"c1001","name":"n1001"},{"id":"bin1002","code":"c1002","name":"n1002"}]
+具体属性根据配置修改。
+
+2、header请求参数：
+header里面需要两个参数,用于认证合法性:
+mdmtoken:远程系统的令牌,这个值是远程系统节点，系统对应的认证令牌；
+tenantid租户id (默认写：tenant)；
+
+## 返回参数
+
+返回结果
+{
+    "data":"返回的主数据(json)",
+    "success":"MDM与第三方系统交互成功与否",
+    "message":"结果描述信息"
+}
+
+
+## 主数据写入服务-insertDynaMd
+
+数据写入数据服务 for 主数据建模II 生成的主数据：
 
 ```
-GET /product：列出所有商品
-POST /product：新建一个商品
-GET /product/ID：获取某个指定商品的信息
-PUT /product/ID：更新某个指定商品的信息
-DELETE /product/ID：删除某个商品
-GET /product/ID/purchase ：列出某个指定商品的所有投资者
-get /product/ID/purchase/ID：获取某个指定商品的指定投资者信息
+主数据写入服务-insertDynaMd
+```
+
+## 接口说明
+
+数据写入数据服务 for 主数据建模II 生成的主数据。根据id值是否在主数据存在，区别数据新增OR更新。
+
+
+## 接口URI
+
+1.http://ip:port/iuapmdm/cxf/mdmrs/center/com.yonyou.iuapmdm.centerService/insertDynaMd
+
+## 请求方式
+
+```
+POST
 ```
 
 ## 请求参数
 
-用列表的方式详细想用户说明请求参数。一个参数分4部分组成。
+1、POST请求参数
+{
+    "systemCode":"远程系统编码",
+    "gdCode":"新的动态建模主数据编码",
+    "masterData":"主数据（json数组格式）"
+}
 
-| 参数 | 参数类型 | 是否必须 | 说明 |
-| --- | :---: | --- | --- |
-
-
-例如：
-
-| 参数 | 参数类型 |是否必须| 说明 |
-| --- | --- | :--- | :--- |
-| access\_token | String | Y | 调用接口凭证 |
-| begin\_date | String | Y | 获取数据的起始日期，begin\_date和end\_date的差值需小于“最大时间跨度” |
-| end\_date | String | Y | 取数据的结束日期，end\_date允许设置的最大值为昨日 |
+2、header请求参数，
+header里面需要两个参数,用于认证合法性:
+mdmtoken:远程系统的令牌,这个值是远程系统节点，系统对应的认证令牌；
+tenantid租户id (默认写：tenant)；
 
 ## 返回参数
 
-只要api接口成功接到请求，就不能返回200以外的HTTP状态。
-为了保障前后端的数据交互的顺畅，建议规范数据的返回，并采用固定的数据格式进行封装。
-接口返回模板：
+返回结果
+{
+    "data":"返回的主数据(json)",
+    "success":"MDM与第三方系统交互成功与否",
+    "message":"结果描述信息"
+}
 
-例如：
+
+##主数据查询服务-queryListMdByIds
+
+数据查询数据服务 for 主数据建模I 生成的主数据：
 
 ```
-{
-"list": [
-{
-"ref_date": "2014-12-07",
-"user_source": 0,
-"new_user": 0,
-"cancel_user": 0
-}
-]
-}
+主数据查询服务-queryListMdByIds
 ```
 
-将返回的参数进行详细的说明：
+## 接口说明
 
-| 参数 | 参数说明 |
-| --- | :--- |
-| ref_date | 数据的日期|
-| user_source | 用户的渠道，数值代表的含义如下：0代表其他合计 1代表公众号搜索 17代表名片分享 30代表扫描二维码 43代表图文页右上角菜单 51代表支付后关注（在支付完成页） 57代表图文页内公众号名称 75代表公众号文章广告 78代表朋友圈广告| 
-| new_user | 新增的用户数量|
-| cancel_user | 取消关注的用户数量|
-| cancel_user | 取消关注的用户数量|
+数据写入数据服务 for 主数据建模I 生成的主数据。根据id列表查询相应远程系统的主数据详细信息。
+
+
+## 接口URI
+
+1.http://ip:port/iuapmdm/cxf/mdmrs/center/com.yonyou.iuapmdm.centerService/queryListMdByIds
+
+## 请求方式
+
+```
+POST
+```
+
+## 请求参数
+
+1、POST请求参数
+{
+    "systemCode":"远程系统编码",
+    "gdCode":"主数据定义编码",
+    "codes":[id（数组格式）]
+}
+
+2、header请求参数，
+header里面需要两个参数,用于认证合法性:
+mdmtoken:远程系统的令牌,这个值是远程系统节点，系统对应的认证令牌；
+tenantid租户id (默认写：tenant)；
+
+## 返回参数
+
+返回结果
+{
+    "data":"返回的主数据(json)",
+    "success":"MDM与第三方系统交互成功与否",
+    "message":"结果描述信息"
+}
+
+##主数据查询服务-queryDynaListMdByIds
+
+数据查询数据服务 for 主数据建模II 生成的主数据：
+
+```
+主数据查询服务-queryDynaListMdByIds
+```
+
+## 接口说明
+
+数据写入数据服务 for 主数据建模II 生成的主数据。根据id列表查询相应远程系统的主数据详细信息。
+
+
+## 接口URI
+
+1.http://ip:port/iuapmdm/cxf/mdmrs/center/com.yonyou.iuapmdm.centerService/queryDynaListMdByIds
+
+## 请求方式
+
+```
+POST
+```
+
+## 请求参数
+
+1、POST请求参数
+{
+    "systemCode":"远程系统编码",
+    "gdCode":"主数据定义编码",
+    "codes":[id（数组格式）]
+}
+
+2、header请求参数，
+header里面需要两个参数,用于认证合法性:
+mdmtoken:远程系统的令牌,这个值是远程系统节点，系统对应的认证令牌；
+tenantid租户id (默认写：tenant)；
+
+## 返回参数
+
+返回结果
+{
+    "data":"返回的主数据(json)",
+    "success":"MDM与第三方系统交互成功与否",
+    "message":"结果描述信息"
+}
+
+## 主数据查询服务-queryListMdByMdmCodes
+
+数据写入数据服务 for 主数据建模I 生成的主数据：
+
+```
+主数据查询服务-queryListMdByMdmCodes
+```
+
+## 接口说明
+
+数据写入数据服务 for 主数据建模I 生成的主数据。根据MDMCODE列表查询远程系统相应的主数据详细信息。
+
+## 接口URI
+
+1.http://ip:port/iuapmdm/cxf/mdmrs/center/com.yonyou.iuapmdm.centerService/queryListMdByMdmCodes
+
+## 请求方式
+
+```
+POST
+```
+
+## 请求参数
+1、POST请求参数：
+{
+    "systemCode":"远程系统编码",
+    "gdCode":"主数据编码",
+    "codes":[主数据编码（数组格式]
+}
+
+json数组格式：
+[{"id":"bin1001","code":"c1001","name":"n1001"},{"id":"bin1002","code":"c1002","name":"n1002"}]
+具体属性根据配置修改。
+
+2、header请求参数：
+header里面需要两个参数,用于认证合法性:
+mdmtoken:远程系统的令牌,这个值是远程系统节点，系统对应的认证令牌；
+tenantid租户id (默认写：tenant)；
+
+## 返回参数
+
+返回结果
+{
+    "data":"返回的主数据(json)",
+    "success":"MDM与第三方系统交互成功与否",
+    "message":"结果描述信息"
+}
+
+
+## 主数据查询服务-queryDynaListMdByMdmCodes
+
+数据写入数据服务 for 主数据建模II 查询的主数据：
+
+```
+主数据写入服务II-insertDynaMd
+```
+
+## 接口说明
+
+数据写入数据服务 for 主数据建模II 生成的主数据。根据MDMCODE列表查询远程系统相应的主数据详细信息。
+
+
+## 接口URI
+
+1.http://ip:port/iuapmdm/cxf/mdmrs/center/com.yonyou.iuapmdm.centerService/queryDynaListMdByMdmCodes
+
+## 请求方式
+
+```
+POST
+```
+
+## 请求参数
+
+1、POST请求参数
+{
+    "systemCode":"远程系统编码",
+    "gdCode":"新的物料编码",
+    "codes":[主数据编码（数组格式）]
+}
+
+2、header请求参数，
+header里面需要两个参数,用于认证合法性:
+mdmtoken:远程系统的令牌,这个值是远程系统节点，系统对应的认证令牌；
+tenantid租户id (默认写：tenant)；
+
+## 返回参数
+
+返回结果
+{
+    "data":"返回的主数据(json)",
+    "success":"MDM与第三方系统交互成功与否",
+    "message":"结果描述信息"
+}
+
+--------------------
+--------------------
+## 分发服务规范
+
+## 接口说明
+
+分发数据到远程系统时，主数据主动调用远程系统的REST服务，完成主数据到远程系统的数据同步。
+远程系统服务实现的标准如下：
+
+
+## 接口URI
+
+发布的服务访问地址，配置到“远程系统”节点中分发服务中。
+
+## 请求方式
+
+```
+POST
+```
+
+## 请求参数
+
+请求参数
+ @XmlRootElement(name="distributePostDataVO")
+{
+    "systemCode":"远程系统编码",
+    "mdType":"主数据定义编码或新的物料编码",
+    "action":"动作，distribute",
+    "masterData":"主数据（json数组格式）",
+}
+
+
+## 返回参数
+
+@XmlRootElement(name="distributeRetVO")
+{
+    //数组对象@XmlRootElement(name="mdMapingVO")
+    "mdMappings":[{"mdmCode":"mdmcode", "entityCode":"实体编码", "busiDataId":"远程id", "errorMsg":"错误信息", "success":"成功标志，布尔型"}], 
+    "success":"成功标志，布尔型",
+    "message":"返回信息"
+}
+
+--------------------
