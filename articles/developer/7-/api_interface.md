@@ -1,115 +1,175 @@
 # API接口文档规范
 
-API接口分为以下几部分组成。每一部分必须详细讲解描述。
-
 ## 接口名称
 
-首先向用户说明API接口名称。接口名称一般为动宾结构。 必须把动作和对象描述清楚。 便于用户能够迅速理解。
-例如在云打印API中的接口名称：
-
 ```
-保存业务对象
+部署接口
 ```
 
 ## 接口说明
 
-用文字在接口说明部分中，详细讲解接口的作用。在什么场景中会使用该接口。
-例如：
-
 ```
-保存业务对象
+通过一些参数实现部署任务。
+调用此接口需要Access Key验证方式。
 ```
-
-这种和接口名称重复的说明是没有任何意义的。 必须说明保存什么对象， 具体的作用是什么。 必须详细说明。 如下：
-
 ```
-通过数据接口，开发者可以获取与公众平台官网统计模块类似但更灵活的数据，还可根据需要进行高级处理。
-在公众号登录授权机制的权限集划分中，用户分析数据接口属于用户管理权限。
+注意: 调用此接口需要Access Key验证方式。
 ```
 
-## 接口URI
+## 接口使用说明
 
-接口访问的URI
+* maven引入:
+<pre>
+&lt;groupId&gt;com.yonyou.cloud&lt;/groupId&gt;
+&lt;artifactId&gt;auth-sdk-client&lt;/artifactId&gt;
+&lt;version&gt;1.0.13-SNAPSHOT&lt;/version&gt;
+</pre>
 
-路径又称"终点"（endpoint），表示API的具体网址。
-在RESTful架构中，每个网址代表一种资源（resource），所以网址中不能有动词，只能有名词，而且所用的名词往往与数据库的表格名对应。一般来说，数据库中的表都是同种记录的"集合"（collection），所以API中的名词也应该使用复数。
-举例来说，有一个API提供动物园（zoo）的信息，还包括各种动物和雇员的信息，则它的路径应该设计成下面这样。
+<pre>
+&lt;groupId&gt;com.yonyou&lt;/groupId&gt;
+&lt;artifactId&gt;app.publish&lt;/artifactId&gt;
+&lt;version&gt;0.0.1-SNAPSHOT&lt;/version&gt;
+</pre>
+
+* **调用方式:**
+
+	1. 请求地址（请求方式POST）：developer.yonyoucloud.com/app-publish/api/v1/publish/deploy
+	2. 参数说明
+	<pre>
+	Cookie
+	主要信息：userId，u_providerid，userName
+	例如:u_providerid=xxxxx; userName=xxxxx;userId=xxxx; </pre>
+
+  
+	
+
+	 <pre>
+	请求BODY
+	{
+    "app_name": "fgsdfg",应用名称                            
+    "app_id": "b2e4ad18-217f-4a3b-a95c-d25c081a5a0e",应用id
+    "app_type": 1, 应用部署环境
+    "app_code": "sdfgsdfg", 应用编码
+    "cpus": 0.1, 设置cpu
+    "mem": 256,设置内存
+    "disk": 1024,设置磁盘
+    "instances": 1,设置实例
+    "res_pool_ids": [ 资源池id
+        1
+    ],
+    "publish_type": 0,
+    "cmd": null, 启动命令
+    "container": {  容器相关
+        "type": "DOCKER",
+        "volumes": [],
+        "docker": {
+            "image": "dockerhub.yonyoucloud.com/35568e76-1ef1-4d77-b5cf-8fb66d2c8002/sdfgsdfg:2017128101639", 镜像地址
+            "network": "BRIDGE",
+            "portMappings": [
+                {
+                    "containerPort": 8080, 端口号
+                    "hostPort": 0,           
+                    "servicePort": null,
+                    "protocol": "tcp",      协议
+                    "access_mode": "TCP", 访问方式
+                    "access_range": "OUTER" 访问范围（内部INNER、外部、不可访问ALL）
+                }
+            ],
+            "privileged": true,
+            "parameters": [],
+            "forcePullImage": true
+        }
+    },
+    "healthChecks": [  健康检查
+        {
+            "path": "/",
+            "protocol": "MESOS_TCP",
+            "portIndex": 0,
+            "gracePeriodSeconds": 50,
+            "intervalSeconds": 10,
+            "timeoutSeconds": 10,
+            "maxConsecutiveFailures": 10,
+            "ignoreHttp1xx": false
+        }
+    ],
+    "labels": {
+        "HAPROXY_GROUP": "isv-apps-group1"
+    },
+    "group_name": "", 分组名称
+    "portDefinitions": [
+        {
+            "port": 35000,
+            "protocol": "tcp",
+            "labels": {}
+        }
+    ],
+    "confProperties": null, 配置文件内容
+    "fake_id": 0, 对应空壳应用0,1,2,3
+    "parent_id": 0, 通过group_name获取
+    "is_fake": false  是否是微服务
+	}</pre>
+
+	<pre>
+	客户端调用
+	AuthSDKClient authSDKClient = new AuthSDKClient("accessKey", "accessSecret");
+	HttpPost request = HttpUtils.genPostRequest("URL", null, httpentity, null, null);
+	HttpResult result = authSDKClient.execute(request);</pre>
+		
+
+## 接口名称
 
 ```
-https://api.example.com/v1/products
-
-https://api.example.com/v1/users
-
-https://api.example.com/v1/employees
+持续集成创建接口
 ```
 
-## 请求方式
-
-对于资源的具体操作类型，由HTTP动词表示。
-常用的HTTP动词有下面四个（括号里是对应的SQL命令）。
+## 接口说明
 
 ```
-GET（SELECT）：从服务器取出资源（一项或多项）。
-POST（CREATE）：在服务器新建一个资源。
-PUT（UPDATE）：在服务器更新资源（客户端提供改变后的完整资源）。
-DELETE（DELETE）：从服务器删除资源。
+实现创建持续集成任务，参数不变情况下，在次请求为创建新版本。
 ```
 
-下面是一些例子。
-
 ```
-GET /product：列出所有商品
-POST /product：新建一个商品
-GET /product/ID：获取某个指定商品的信息
-PUT /product/ID：更新某个指定商品的信息
-DELETE /product/ID：删除某个商品
-GET /product/ID/purchase ：列出某个指定商品的所有投资者
-get /product/ID/purchase/ID：获取某个指定商品的指定投资者信息
+注意: 调用此接口需要使用Access Key方式。
 ```
 
-## 请求参数
+## 接口使用说明
 
-用列表的方式详细想用户说明请求参数。一个参数分4部分组成。
+* maven引入:
+<pre>
+&lt;groupId&gt;com.yonyou.cloud&lt;/groupId&gt;
+&lt;artifactId&gt;auth-sdk-client&lt;/artifactId&gt;
+&lt;version&gt;1.0.13-SNAPSHOT&lt;/version&gt;
+</pre>
 
-| 参数 | 参数类型 | 是否必须 | 说明 |
-| --- | :---: | --- | --- |
+* **调用方式:**
 
-
-例如：
-
-| 参数 | 参数类型 |是否必须| 说明 |
-| --- | --- | :--- | :--- |
-| access\_token | String | Y | 调用接口凭证 |
-| begin\_date | String | Y | 获取数据的起始日期，begin\_date和end\_date的差值需小于“最大时间跨度” |
-| end\_date | String | Y | 取数据的结束日期，end\_date允许设置的最大值为昨日 |
-
-## 返回参数
-
-只要api接口成功接到请求，就不能返回200以外的HTTP状态。
-为了保障前后端的数据交互的顺畅，建议规范数据的返回，并采用固定的数据格式进行封装。
-接口返回模板：
-
-例如：
-
-```
-{
-"list": [
-{
-"ref_date": "2014-12-07",
-"user_source": 0,
-"new_user": 0,
-"cancel_user": 0
-}
-]
-}
-```
-
-将返回的参数进行详细的说明：
-
-| 参数 | 参数说明 |
-| --- | :--- |
-| ref_date | 数据的日期|
-| user_source | 用户的渠道，数值代表的含义如下：0代表其他合计 1代表公众号搜索 17代表名片分享 30代表扫描二维码 43代表图文页右上角菜单 51代表支付后关注（在支付完成页） 57代表图文页内公众号名称 75代表公众号文章广告 78代表朋友圈广告| 
-| new_user | 新增的用户数量|
-| cancel_user | 取消关注的用户数量|
-| cancel_user | 取消关注的用户数量|
+	1. 请求地址（请求方式POST）：developer.yonyoucloud.com/api/v1/JenkinsUpload/appJenkinsUpload
+	2. 参数说明
+	3. <pre>{
+	      "warurl": "oss_url.war",//OSS地址
+	      "signflag": false,
+		  "iconDefault": true,//图片是否默认
+		  "ak": "accessKey",
+		  "as": "accessSecret",
+		  "username": "jenkinsname",
+		  "usertoken": "jenkinstoken",
+		  "publishApp": false,
+		  "descobj": {
+			 "appCode": "appcode",
+			 "appName": "appname",
+			 "appType": "j2ee",
+			 "appUploadId": "",
+			 "baseImage": "tomcat:9.0.0.M9-jdk8-alpine",//基础镜像
+			 "description": "",
+			 "emails": "test@yonyou.com",
+			 "env": 1,
+			 "imageName": "imagename",
+			 "is_root_path_access": true,//是否根目录访问
+			 "version": "v1.0"
+		  }
+		}
+</pre>
+	3. 客户端调用
+		<pre>AuthSDKClient authSDKClient = new AuthSDKClient("accessKey", "accessSecret");
+		HttpPost request = HttpUtils.genPostRequest("URL", null, httpentity, null, null);
+	    HttpResult result = authSDKClient.execute(request);</pre>
