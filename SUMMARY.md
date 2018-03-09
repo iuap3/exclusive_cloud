@@ -204,8 +204,6 @@
     * [使用说明](articles/mdm/6-/instructions.md)
     * [代码示例](articles/mdm/6-/codes.md)
   * [API参考](articles/mdm/7-/)
-    * [新增接口](articles/mdm/7-/new_interface.md)
-    * [调整、覆盖接口](articles/mdm/7-/adjust_interface.md)
     * [API接口](articles/mdm/7-/api_interface.md)
   * [常见问题](articles/mdm/8-/)
     * [用户场景](articles/mdm/8-/user_scenarios.md)
