@@ -1,4 +1,4 @@
-##1.配置流程
+## 1.配置流程
 在整个专属云应用环境搭建过程中，大体配置流程如下：
 
 - 准备启动环境所需要的中间件，包括数据库、Tomcat、Redis、Zookeeper、JDK、FastDFS、Rabbitmq等；
@@ -9,31 +9,31 @@
 - 进行license授权；
 - 启动应用服务(tomcat)
 - 登录使用。
-##2.环境配置要求
-###2.1服务器端要求
+## 2.环境配置要求
+### 2.1服务器端要求
 ![](https://i.imgur.com/pHjchut.jpg)
 
 
 服务器端应用规模硬件配置推荐（仅限私有部署）
 ![](https://i.imgur.com/TQskwrj.jpg)
  
-###2.2客户端配置要求
+### 2.2客户端配置要求
 客户端硬件配置要求
 ![](https://i.imgur.com/J5fMgC1.jpg)
 
 客户端软件配置要求
 ![](https://i.imgur.com/VFzTnSG.jpg)
-###2.3网络相关要求
+### 2.3网络相关要求
 &ensp;&ensp;&ensp;&ensp;用户通过防火墙访问应用平台服务器时，需要注意在防火墙上开放相应端口。用户可以使用单机应用或集群模式灵活配置环境，需要保证相关端口不被其他应用占用，在设置防火墙端口策略时需要注意开放上述端口。 
 
    
 在数据库服务器和应用服务器上不要安装或启用 DHCP、DNS、PROXY、WINS 和防火墙等服务。以Windows 系统作应用服务器的用户请将防火墙功能停止，保证数据库服务器和应用服务器，应用服务器和应用服务器间高速网络通信，强烈推荐应用服务器、数据库服务器、web 服务器间使用千兆网络进行连接，不建议安装或设置跨网关或跨防火墙通信。
 
 &ensp;&ensp;&ensp;&ensp;应用服务器的网卡正确设置很重要。通常情况下，用户使用的是 tomcat 中间件，都要保证网卡驱动、物理连线、地址、网关、路由等被正确配置，如果环境中有网卡被启用而未连接物理网线，可能会影响应用平台 3.1 系统网络操作性能，在此建议禁用不使用的网卡。
-##3安装配置向导
-###3.1安装操作系统
+## 3安装配置向导
+### 3.1安装操作系统
 以Cent OS为例。
-###3.2安装JDK
+### 3.2安装JDK
 1． Oracle官网下载jdk linux安装包，这里以jdk-7u71-linux-x64.tar.gz为例
 2． 解压安装包
 tar zxvf jdk-7u71-linux-x64.tar.gz
@@ -59,7 +59,7 @@ source /etc/profile
 7．测试是否安装成功
 输入 java -version 然后会显示jdk的版本信息等
 
-###3.3安装数据库
+### 3.3安装数据库
 以mysql-5.6.33-linux-glibc2.5-x86_64.tar.gz为例
 
 1．解压
@@ -147,7 +147,7 @@ lower_case_table_names参数详解：
 lower_case_table_names=0
 其中0：区分大小写，1：不区分大小写
 
-###3.4安装Redis
+### 3.4安装Redis
 1. 先到Redis官网(redis.io)下载redis安装包(以2.8.19为例)
 2. 将其下载到/lamp目录下
 3. 解压并进入其目录
@@ -173,7 +173,7 @@ lower_case_table_names=0
 　　加入
 　　/usr/local/redis/bin/redis-server /usr/local/redis/etc/redis-conf
 
-###3.5安装Zookeeper
+### 3.5安装Zookeeper
 1．创建 /usr/local /zookeeper 文件夹：
     mkdir -p /usr/local /zookeeper
  
@@ -310,7 +310,7 @@ Using config: /usr/local/zookeeper/zookeeper-3.4.10/bin/../conf/zoo.cfg
     
 Starting zookeeper ... STARTED
 
-###3.6安装Rabbitmq
+### 3.6安装Rabbitmq
 
 安装依赖文件：
 
@@ -427,18 +427,18 @@ http://www.rabbitmq.com/releases/rabbitmq-server/v3.6.5/rabbitmq-server-generic-
 &ensp;&ensp;访问:http://server-name:15672
 &ensp;&ensp;用户密码:admin/admin
 
-###3.7安装FastDFS
+### 3.7安装FastDFS
 参照《FastDFS安装配置手册.docx》
-##4.启动所有的中间件
+## 4.启动所有的中间件
 启动数据库，Redis,  Zookeeper,  Rabbitmq, FastDFS等服务。
-##5.数据库脚本初始化以及执行顺序
+## 5.数据库脚本初始化以及执行顺序
 ![](https://i.imgur.com/bi50XXf.jpg) 
 
 1. 先执行ddl文件夹下的脚本。
 1. 再执行dml文件夹下的脚本。
 1. 最后再执行test文件夹下的脚本。
 
-##6.授权说明（这里示例的licenseserver是采用了单独部署的方式）
+## 6.授权说明（这里示例的licenseserver是采用了单独部署的方式）
 解压 iuap-licenseserver 到 tomcat 的 webapps 下, 配置\webapps\iuap-licenseserver\WEB-INF\classes\application.properties 文件如下:
 ![](https://i.imgur.com/JdoXNWW.jpg)
 修改redis和ZK的连接配置信息。另外，可以修改 tomcat的端口，保证端口没被占用即可。
@@ -456,7 +456,7 @@ http://www.rabbitmq.com/releases/rabbitmq-server/v3.6.5/rabbitmq-server-generic-
 在 license 管理系统主界面中，点击“导入授权”按钮，上传 license.resp 文件，即可导入授权许可。
 ![](https://i.imgur.com/QSBwi3V.jpg)
 
-##7.核心工程配置
+## 7.核心工程配置
 上面章节提到这里的示例是licenseserver授权服务和核心的业务工程服务分开部署，授权服务上面已经介绍，这里主要说明核心工程的启动配置。核心工程如下图所示：
 
 ![](https://i.imgur.com/QSg5R0P.jpg)
@@ -481,8 +481,8 @@ http://www.rabbitmq.com/releases/rabbitmq-server/v3.6.5/rabbitmq-server-generic-
 - uui：iuap应用平台的前端依赖代码；
 - wbalone：提供iuap应用平台服务；
 
-###7.1各个项目具体配置如下
-####7.1.1wbalone项目配置
+### 7.1各个项目具体配置如下
+#### 7.1.1wbalone项目配置
 在webapps\wbalone\WEB-INF\classes下面打开application.properties文件修改数据库连接信息、redis连接信息、zookeeper连接信息以及加签文件信息（依据实际情况配置），如下图。
 ![](https://i.imgur.com/4ApMAgU.jpg) 
 配置数据库，主要修改数据库 ip、端口、数据库名、用户名和密码。
@@ -503,9 +503,9 @@ http://www.rabbitmq.com/releases/rabbitmq-server/v3.6.5/rabbitmq-server-generic-
 打开logback.xml文件配置日志路径。
  ![](https://i.imgur.com/HvByxFl.jpg)
 
-####7.1.2其它项目配置
+#### 7.1.2其它项目配置
 其它项目的配置类似。注意，有的服务的DB配置在jdbc.properties文件中。
-##8.启动应用服务
+## 8.启动应用服务
 查看文件 apache-tomcat-8.5.20\conf\server.xml 里的 8005,8080 端口，如果这两个端口已被占用，可修改为其他端口。
  ![](https://i.imgur.com/twGuZHx.jpg)
 通过执行./apache-tomcat-8.5.20/bin/startup.sh 启动;
@@ -520,7 +520,7 @@ http://www.rabbitmq.com/releases/rabbitmq-server/v3.6.5/rabbitmq-server-generic-
 
 或者通过 kill 命令杀掉 tomcat 的进程。 (kill -9 进程号)
 
-##9.登录
+## 9.登录
 在浏览器中输入：http://xxx.xxx.xxx.xxx:8080/wbalone，用户名/密码：admin/123456a
 
 登录页
