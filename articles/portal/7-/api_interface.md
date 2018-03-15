@@ -1,115 +1,605 @@
-# API接口文档规范
 
-API接口分为以下几部分组成。每一部分必须详细讲解描述。
+## API文档:集成第三方系统
 
-## 接口名称
+### API接口
 
-首先向用户说明API接口名称。接口名称一般为动宾结构。 必须把动作和对象描述清楚。 便于用户能够迅速理解。
-例如在云打印API中的接口名称：
+### 企业门户集成第三方系统
 
-```
-保存业务对象
-```
+#### 描述
 
-## 接口说明
+企业门户集成第三方系统，包括保存，删除，更新，查询集成第三方系统具体信息和请求参数等
 
-用文字在接口说明部分中，详细讲解接口的作用。在什么场景中会使用该接口。
-例如：
+#### 请求方法
 
-```
-保存业务对象
-```
+integration/system/save
 
-这种和接口名称重复的说明是没有任何意义的。 必须说明保存什么对象， 具体的作用是什么。 必须详细说明。 如下：
+#### 请求方式
 
-```
-通过数据接口，开发者可以获取与公众平台官网统计模块类似但更灵活的数据，还可根据需要进行高级处理。
-在公众号登录授权机制的权限集划分中，用户分析数据接口属于用户管理权限。
-```
+post
 
-## 接口URI
-
-接口访问的URI
-
-路径又称"终点"（endpoint），表示API的具体网址。
-在RESTful架构中，每个网址代表一种资源（resource），所以网址中不能有动词，只能有名词，而且所用的名词往往与数据库的表格名对应。一般来说，数据库中的表都是同种记录的"集合"（collection），所以API中的名词也应该使用复数。
-举例来说，有一个API提供动物园（zoo）的信息，还包括各种动物和雇员的信息，则它的路径应该设计成下面这样。
-
-```
-https://api.example.com/v1/products
-
-https://api.example.com/v1/users
-
-https://api.example.com/v1/employees
-```
-
-## 请求方式
-
-对于资源的具体操作类型，由HTTP动词表示。
-常用的HTTP动词有下面四个（括号里是对应的SQL命令）。
-
-```
-GET（SELECT）：从服务器取出资源（一项或多项）。
-POST（CREATE）：在服务器新建一个资源。
-PUT（UPDATE）：在服务器更新资源（客户端提供改变后的完整资源）。
-DELETE（DELETE）：从服务器删除资源。
-```
-
-下面是一些例子。
-
-```
-GET /product：列出所有商品
-POST /product：新建一个商品
-GET /product/ID：获取某个指定商品的信息
-PUT /product/ID：更新某个指定商品的信息
-DELETE /product/ID：删除某个商品
-GET /product/ID/purchase ：列出某个指定商品的所有投资者
-get /product/ID/purchase/ID：获取某个指定商品的指定投资者信息
-```
-
-## 请求参数
-
-用列表的方式详细想用户说明请求参数。一个参数分4部分组成。
-
-| 参数 | 参数类型 | 是否必须 | 说明 |
-| --- | :---: | --- | --- |
+#### 请求参数说明
 
 
-例如：
 
-| 参数 | 参数类型 |是否必须| 说明 |
-| --- | --- | :--- | :--- |
-| access\_token | String | Y | 调用接口凭证 |
-| begin\_date | String | Y | 获取数据的起始日期，begin\_date和end\_date的差值需小于“最大时间跨度” |
-| end\_date | String | Y | 取数据的结束日期，end\_date允许设置的最大值为昨日 |
+<table>
 
-## 返回参数
+   <tr>
+      <td>参数字段   </td>
+      <td>必选   </td>
+      <td>类型    </td>
+      <td>长度限制  </td>
+      <td>说明  </td>
+   </tr>
 
-只要api接口成功接到请求，就不能返回200以外的HTTP状态。
-为了保障前后端的数据交互的顺畅，建议规范数据的返回，并采用固定的数据格式进行封装。
-接口返回模板：
+   <tr>
+      <td>name   </td>
+      <td>true  </td>
+      <td>String   </td>
+      <td>100   </td>
+      <td>系统名称</td>
+   </tr>
 
-例如：
+   <tr>
+      <td>i18n  </td>
+      <td>false  </td>
+      <td>String </td>
+      <td>50  </td>
+      <td>-</td>
+   </tr>
+ 
+   <tr>
+      <td>code  </td>
+      <td>true  </td>
+      <td>String  </td>
+	  <td>  50   </td>
+      <td>系统编码</td>
+   </tr>
 
-```
-{
-"list": [
-{
-"ref_date": "2014-12-07",
-"user_source": 0,
-"new_user": 0,
-"cancel_user": 0
-}
-]
-}
-```
+   <tr>
+      <td>setting </td>  
+       <td>true   </td>
+       <td>Json </td>
+       <td>-    </td>
+      <td> 第三方系统设置信息，具体见下表</td>
+   </tr>
+  
+   <tr>
+      <td>tag  </td>
+       <td>true </td>
+       <td>String </td>
+       <td>50   </td>
+      <td> 版本戳</td>
+   </tr>
+</table>
 
-将返回的参数进行详细的说明：
 
-| 参数 | 参数说明 |
-| --- | :--- |
-| ref_date | 数据的日期|
-| user_source | 用户的渠道，数值代表的含义如下：0代表其他合计 1代表公众号搜索 17代表名片分享 30代表扫描二维码 43代表图文页右上角菜单 51代表支付后关注（在支付完成页） 57代表图文页内公众号名称 75代表公众号文章广告 78代表朋友圈广告| 
-| new_user | 新增的用户数量|
-| cancel_user | 取消关注的用户数量|
-| cancel_user | 取消关注的用户数量|
+
+
+
+setting内容格式
+
+
+<table>
+   <tr>
+      <td>参数字段 </td>
+      <td>必选  </td>
+      <td>类型   </td>
+      <td>长度限制 </td>  
+      <td>说明  </td>
+   </tr>
+  
+   <tr>
+      <td>code   </td>
+     <td> true  </td>
+      <td>String  </td>
+      <td>50    </td>
+      <td>系统编码</td>
+   </tr>
+  
+   <tr>
+      <td>name  </td>
+        <td>true  </td>
+        <td>String  </td>
+        <td>100  </td>
+       <td> 系统名称</td>
+   </tr>
+
+   <tr>
+      <td>gateway </td>
+        <td>false  </td>
+        <td>String  </td>
+        <td>-   </td>
+        <td>网关</td>
+   </tr>
+
+   <tr>
+      <td>underController   </td>
+      <td> boolean</td>
+      <td> -  </td>
+      <td> -  </td>
+      <td> 需要授权</td>
+   </tr>
+ 
+   <tr>
+      <td>userAssociate </td>
+      <td> false </td>
+      <td> boolean</td>
+      <td> -  </td>
+      <td>用户自行关联</td>
+   </tr>
+   
+   <tr>
+      <td>supportfw </td>
+      <td>false  </td>
+      <td>- </td>
+     <td>- </td>
+	<td> 支持轻量化</td>
+   </tr>
+ 
+   <tr>
+      <td>model</td>   
+      <td>true </td>
+      <td>String </td>
+      <td>50 </td>
+     <td> 是否信任模式</td>
+   </tr>
+ 
+   <tr>
+      <td>secretkey </td>
+     <td> true  </td>
+      <td>String  </td>
+      <td>50  </td>
+      <td>密钥</td>
+   </tr>
+
+   <tr>
+      <td>verify  </td>
+      <td>true</td>
+      <td>Json  </td>
+      <td>-  </td>
+      <td>见下表    </td>
+   </tr>
+  
+   <tr>
+      <td>ipmapping </td>
+      <td>true </td>
+      <td>Json</td>
+      <td>-   </td>
+      <td>见下表   </td>
+   </tr>
+   
+   <tr>
+      <td>extendAttributes </td>
+      <td>false </td>
+      <td>Json </td>
+      <td>-  </td>
+      <td>扩展选项</td>
+   </tr>
+
+   <tr>
+      <td>tag</td>
+      <td>false </td>
+      <td>String</td>
+      <td>50   </td>
+      <td>标签</td>
+   </tr>
+</table>
+
+
+
+verify 内容格式
+
+
+<table>
+   <tr>
+      <td>参数字段  </td>
+       <td>必选  </td>
+       <td>类型   </td>
+       <td>长度限制</td>
+      <td> 说明 </td>
+   </tr>
+
+   <tr>
+      <td>interfaceURL  </td>
+      <td> false </td>
+      <td> String</td>
+     <td>  -   </td>
+      <td> 验证界面URL</td>
+   </tr>
+
+   <tr>
+      <td>verifyURL</td> 
+      <td> false</td>
+      <td> String </td>
+     <td>  -  </td>
+     <td>  验证URL</td>
+   </tr>
+
+   <tr>
+      <td>authorURL</td>
+      <td> false</td>
+      <td> String</td>
+      <td> -   </td>
+      <td> 认证URL</td>
+   </tr>
+
+   <tr>
+      <td>verifyItem </td>
+      <td> false</td>
+       <td>Json </td>
+      <td> -   </td>
+      <td> 验证参数和值</td>
+   </tr>
+
+   <tr>
+      <td>resultValidator</td>
+      <td> false </td>
+       <td>Json </td>
+       <td>-</td> 
+      <td> -</td>
+   </tr>
+</table>
+
+
+ipmapping 内容格式 
+
+<table>
+   <tr>
+      <td>参数字段</td>   
+        <td>必选 </td>
+        <td>类型   </td>
+        <td>长度限制</td>
+        <td>说明 </td>
+   </tr>
+  
+   <tr>
+      <td>enableMapping </td>
+        <td>true </td>
+        <td>boolean </td>
+       <td> -   </td>
+        <td>是否IP映射</td>
+   </tr>
+
+   <tr>
+      <td>ipMapping</td> 
+        <td>false </td>
+        <td>Json  </td>
+        <td>-</td>   
+        <td>-</td>
+   </tr>
+ 
+</table>
+
+
+返回参数说明 
+
+
+<table>
+   <tr>
+      <td>参数字段 </td>  
+      <td>必选  </td>
+      <td>类型  </td>
+      <td>长度限制 </td>
+      <td>说明 </td>
+   </tr>
+
+   <tr>
+      <td>status </td>
+     <td> true   </td>
+      <td>String </td>
+    <td>  1  </td>
+    <td>  成功与失败状态</td>
+   </tr>
+   <tr>
+      <td>message</td>
+      <td>false </td>
+      <td>String</td>
+     <td> -  </td>
+      <td>返回具体信息</td>
+   </tr>
+
+   <tr>
+      <td>data </td>
+      <td>false  </td>
+      <td>String </td>
+      <td>-  </td>
+      <td>返回具体数据</td>
+   </tr>
+</table>
+
+
+### 根据系统编码删除第三方系统集成信息
+
+#### 描述
+
+删除第三方系统集成信息
+
+#### 请求方法
+
+/integration/system/delete/{code}
+
+#### 请求方式
+
+GET
+
+#### 请求参数说明
+
+<table>
+   <tr>
+      <td>参数字段 </td>  
+      <td>必选  </td>
+      <td>类型  </td>
+      <td>长度限制 </td>
+      <td>说明 </td>
+   </tr>
+    <tr>
+      <td>{code}</td>  
+      <td>true  </td>
+      <td>String  </td>
+      <td>50 </td>
+      <td>系统编码</td>
+   </tr>
+</table>
+
+
+#### 返回参数说明 
+
+<table>
+   <tr>
+      <td>参数字段 </td>  
+      <td>必选  </td>
+      <td>类型  </td>
+      <td>长度限制 </td>
+      <td>说明 </td>
+   </tr>
+
+   <tr>
+      <td>status </td>
+     <td> true   </td>
+      <td>String </td>
+    <td>  1  </td>
+    <td>  成功与失败状态</td>
+   </tr>
+   <tr>
+      <td>message</td>
+      <td>false </td>
+      <td>String</td>
+     <td> -  </td>
+      <td>返回具体信息</td>
+   </tr>
+
+   <tr>
+      <td>data </td>
+      <td>false  </td>
+      <td>String </td>
+      <td>-  </td>
+      <td>返回具体数据</td>
+   </tr>
+</table>
+
+
+
+### 查询第三方系统集成信息
+
+#### 描述
+
+查询第三方系统集成信息
+
+#### 请求方法
+
+/integration/system/query
+
+#### 请求方式
+
+POST
+
+#### 请求参数说明
+
+<table>
+   <tr>
+      <td>参数字段 </td>
+	 <td>必选 </td>
+	 <td>类型  </td>
+	 <td>长度限制  </td>
+	<td> 说明 </td>
+   </tr>
+   
+   <tr>
+      <td>pageIndex</td>   
+      <td>true </td>
+      <td>int </td>
+      <td>-    </td>
+      <td>页数 </td>
+   </tr>
+   
+   <tr>
+      <td>pageSize</td> 
+      <td>true </td>
+      <td>int  </td>
+      <td>- </td>
+      <td>每页条数</td>
+   </tr>
+   
+   <tr>
+      <td>key   </td>
+     <td> false  </td>
+     <td> String  </td>
+     <td>- </td>
+     <td> 查询关键字</td>
+   </tr>
+</table>
+
+
+#### 返回参数说明
+
+<table>
+   <tr>
+      <td>参数字段</td>
+      <td>必选  </td>
+      <td>类型 </td>
+      <td>长度限制</td>
+     <td> 说明 </td>
+   </tr>
+
+   <tr>
+      <td>status</td>  
+     <td> true </td>
+      <td>int </td>
+      <td>-   </td>
+      <td>返回状态</td>
+   </tr>
+
+   <tr>
+      <td>message</td>
+     <td> false</td>
+     <td> String </td> 
+    <td>  - </td>
+     <td>返回信息</td>
+   </tr>
+
+   <tr>
+      <td>data  </td>
+      <td>false  </td>
+     <td> Json  </td>
+      <td>-    </td>
+      <td>返回数据 </td>
+   </tr>
+</table>
+
+data具体内容格式说明 
+
+<table>
+      <tr>
+      <td>参数字段   </td>
+      <td>必选   </td>
+      <td>类型    </td>
+      <td>长度限制  </td>
+      <td>说明  </td>
+   </tr>
+
+   <tr>
+      <td>content </td>
+      <td>false</td>
+  <td>String </td>
+  <td>-   </td>
+  <td>具体内容</td>
+   </tr>
+   
+   <tr>
+      <td>last  </td>
+     <td> true  </td>
+     <td> boolean  </td>
+     <td>-  </td>
+    <td>-</td>
+   </tr>
+  
+   <tr>
+      <td>totalElements  </td>
+     <td> int </td>
+      <td>-  </td>
+       <td>-   </td>
+    <td>  总共元素</td>
+   </tr>
+   
+   <tr>
+      <td>totalPages</td>
+      <td>int</td>
+      <td>- </td>
+       <td>-   </td>
+      <td>总页数 </td>
+   </tr>
+  
+   <tr>
+      <td>size </td>
+     <td> int </td>
+    <td> -   </td>
+     <td>-   </td>
+     <td> 每页大小  </td>
+   </tr>
+  
+   <tr>
+      <td>number </td>
+     <td> int</td>
+      <td>-   </td>
+       <td>-   </td>
+     <td> 第几页 </td>
+   </tr>
+  
+   <tr>
+      <td>numberOfElements </td>
+     <td> int </td>
+     <td>-   </td>
+      <td>-   </td>
+     <td> 元素位置</td>
+   </tr>
+   
+   <tr>
+      <td>sort </td>
+      <td>Json</td>
+      <td>-   </td>
+       <td>-   </td>
+      <td>类别 </td>
+   </tr>
+   
+   <tr>
+      <td>first </td>
+      <td>boolean</td> 
+      <td>- </td>  
+       <td>-   </td>
+      <td>-</td>
+   </tr>
+</table>
+
+
+sort 具体内容格式说明
+
+<table>
+   <tr>
+      <td>参数字段   </td>
+      <td>必选   </td>
+      <td>类型    </td>
+      <td>长度限制  </td>
+      <td>说明  </td>
+   </tr>
+
+   <tr>
+      <td>direction </td>
+     <td> true</td>
+      <td>String </td>
+     <td> -    </td>
+      <td>排序方式</td>
+   </tr>
+
+   <tr>
+      <td>property </td>
+      <td>true </td>
+      <td>String </td>
+     <td> - </td>
+     <td> -</td>
+   </tr>
+
+   <tr>
+      <td>ignoreCase</td>
+      <td>true </td>
+     <td> boolean</td>  
+     <td> - </td>
+     <td> 忽略大小写</td>
+   </tr>
+ 
+   <tr>
+      <td>nullHandling  </td>
+     <td> true   </td>
+     <td> String</td>
+     <td> -  </td>
+     <td> - </td>
+   </tr>
+
+   <tr>
+      <td>ascending</td>
+  <td>true  </td>
+ <td> boolean</td>
+ <td> - </td> 
+  <td>- </td>
+   </tr>
+
+</table>
