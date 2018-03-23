@@ -6,9 +6,12 @@
 
 点击【主数据】，选择主数据节点，进入发布的主数据界面。
 
-![](/articles/mdm/5-/images/image76.png)
+![](/articles/mdm/5-/images/image77.png)
+ 
+<p align="center">图：主数据</p>
 
-<p align="center">图：主数据</p> 
+
+ 
 
 ➢ 新增
 
@@ -42,10 +45,10 @@
 
 点击【主数据】，选择物料主数据节点，进入发布的物料主数据界面。
 
-![](/articles/mdm/5-/images/image77.png)
-
-<p align="center">图：物料主数据</p>
+![](/articles/mdm/5-/images/image78.png)
  
+<p align="center">图：物料主数据</p>
+
 
 
 ➢ 新增
@@ -54,30 +57,34 @@
 
 如果点击〖暂存〗，可以在〖审批任务〗中提交。
 
-![](/articles/mdm/5-/images/image78.png)
-
+![](/articles/mdm/5-/images/image79.png)
+ 
 <p align="center">图：新增</p> 
-
 
 ➢ 修改
 
 单击〖修改〗按钮，在弹出的窗口修改内容，点击〖确定〗。
 
+
 ➢ 删除
 
 选择物料主数据，单击〖删除〗按钮，确认删除。
+
 
 ➢ 下载
 
 在物料主数据列表选择数据，单击〖下载〗，可将当前物料主数据信息以Excel形式下载到本地。
 
+
 ➢ 审批任务
 
 查看正在审批中的任务。
 
+
 ➢ 审批历史
 
 查看已审批通过的主数据的审批历史。
+
 
 ➢ 高级查询
 
