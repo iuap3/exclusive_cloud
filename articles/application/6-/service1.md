@@ -8,7 +8,8 @@
 
 ###2.1实现方式
 这里讲述的是一种实现方式。关于用户、角色和功能的关系描述如下图所示：
-![](/articles/application\6-\images/urf.png)
+
+![](https://i.imgur.com/G9ptlWf.png)
 
 用户：登录到系统的用户，往往真实的对应到一个人员，一个人员可以有多个用户。</br>
 角色：往往指的是一种职能或者职责的集合，一个用户可以拥有多个角色。</br>
@@ -19,8 +20,7 @@
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&rsaquo; 如果有更细粒度的功能划分，比如打开页面后，只能看到某些按钮【资源】，那么可以使用“按钮权限”的功能开发。</br>
 所以我们需要对用户、角色、功能、按钮等进行创建（请参考功能按钮权限快速入门），并建立他们之间的关系。业务上要求增加用户、角色、功能、按钮节点，通过可视化界面建立好关系后，提供根据用户查询角色，每个角色对应不同功能以及按钮的API，提供给登录认证功能使用。
 
-![](/articles/application\6-\images/yjgx.png)
-
+![](https://i.imgur.com/gp1GY98.png)
 
 ###2.2 功能权限控制
 
@@ -138,7 +138,7 @@
 </pre>
 window.initButton()函数中进行了对buttonShowGroup事件的创建，此处应用平台的按钮权限过滤功能帮我们完成了按钮权限的过滤，需要注意的是：buttonShowGroup['按钮编码']，引号中的内容必须与下图右侧的按钮权限编码完全一致，权限过滤才能生效。
 
-![](/articles/application\6-\images/ansq2.png)
+![](https://i.imgur.com/gYZhk2h.png)
 
 </br>
 ###2.4 网页拦截开发步骤
