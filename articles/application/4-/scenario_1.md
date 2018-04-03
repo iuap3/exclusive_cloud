@@ -1,5 +1,7 @@
-#币种_单表单据向导开发
-##业务场景
+# 币种_单表单据向导开发
+
+## 业务场景
+
 iUAP平台是面向企业互联网应用的企业互联网运营平台。本指南以一个后台管理中的-列表类型页面为例，演示如何开发标准节点的操作步骤。</br>
 1、需要安装iUAP-STUDIO开发工具（可以参考iuap后台环境搭建、Iuap前端环境搭建视频）</br>
 2、创建数据库表，向导生成节点</br>
@@ -7,11 +9,16 @@ iUAP平台是面向企业互联网应用的企业互联网运营平台。本指�
 
 ![](https://i.imgur.com/lbkY11j.jpg) 
  
-##一、step by step做节点开发
-###1、环境准备</br>
-####1.1、开发环境准备</br>
+## 一、step by step做节点开发
+
+### 1、环境准备</br>
+
+#### 1.1、开发环境准备</br>
+
 新建项目以及创建数据库等过程，请参考《环境搭建》文档。默认已创建train项目。</br>
-####1.2、Mybatis持久化配置</br>
+
+#### 1.2、Mybatis持久化配置</br>
+
 找到持久化配置文件</br>
 ![](https://i.imgur.com/H56uATj.jpg)
 
@@ -19,7 +26,9 @@ iUAP平台是面向企业互联网应用的企业互联网运营平台。本指�
  ![](https://i.imgur.com/qbMxW9E.jpg)
 mapper接口类位置，增加我们目前生成的mapper包位置
  ![](https://i.imgur.com/poVaVtD.jpg)
-###2、建表</br>
+
+### 2、建表</br>
+
 CREATE TABLE `train_currtype` (</br>
   `creator` varchar(36) DEFAULT NULL,</br>
   `name` varchar(50) NOT NULL,</br>
@@ -32,7 +41,8 @@ CREATE TABLE `train_currtype` (</br>
   PRIMARY KEY (`pk_currtype`)</br>
 )
 
-###3、向导生成节点</br>
+### 3、向导生成节点</br>
+
 此处文档介绍的是使用iuap向导生成mybatis持久化的代码，也可以选择mybatis第三方插件的方式生成。</br>
 1、项目点击右键“iuap tools->快速代码生成”
 ![](https://i.imgur.com/bxuYXEX.jpg)
@@ -58,10 +68,12 @@ mybatis xml文件</br>
 与接口类同名的xml文件train_currtype.xml</br>
  ![](https://i.imgur.com/8guolWL.jpg)
 
-##二、代码解析
+## 二、代码解析
+
 ![](https://i.imgur.com/UbEJy5T.jpg)
  
-###1、代码结构</br>
+### 1、代码结构</br>
+
 ![](https://i.imgur.com/X9vHNeU.jpg) 
 
 Train_currtype.java:  实体</br>
@@ -71,20 +83,24 @@ Train_currtypeController.java  web层Controller</br>
  ![](https://i.imgur.com/0GxN1Pn.jpg)
 
 train_currtype.xml映射文件</br>
-###2、Mybatis介绍</br>
+
+### 2、Mybatis介绍</br>
+
 MyBatis是支持普通SQL查询，存储过程和高级映射的优秀持久层框架。
 MyBatis消除了几乎所有的JDBC代码和参数的手工设置以及结果集的检索。MyBatis使用简单的XML或注解用于配置和原始映射，将接口和Java的POJOs（Plan Old Java Objects，普通的Java对象）映射成数据库中的记录.
 
 Mybatis运行过程
 ![](https://i.imgur.com/BMYQfhZ.jpg) 
 
-###3、后台代码解析</br>
+### 3、后台代码解析</br>
+
 后端代码分为几层：实体、DAO、Service、Controller，下面的中描述了手工编写后台代码时的开发步骤，此处因为向导开发，已经生成完毕。
 
 ![](https://i.imgur.com/Gn54zv6.jpg)
  
 
-####3.1、配置
+#### 3.1、配置
+
 iuap平台使用iuap-mybatis作为MyBatis持久化的支持并提供了统一的Spring扫描注解和分页插件来支持分页的实现。
 iuap-persistence同时依赖了基础的Spring Data JPA和Mybatis，如果项目上明确只使用Mybatis，则不需要引入iuap-persistence组件，直接依赖iuap-mybatis组件即可，注意要和iuap其他组件的版本保持一致。
 
@@ -97,7 +113,8 @@ iuap-mybatis提供了统一的Spring扫描注解和分页插件。通过@MyBatis
 在maven中配置
  
 
-####3.2、实体</br>
+#### 3.2、实体</br>
+
 Train_currtype.java单表实体
 package com.yonyou.iuap.appdemo.entity;
 
@@ -201,7 +218,8 @@ public class Train_currtype {
 }
 @JsonIgnoreProperties</br>
 此注解是类注解，作用是json序列化时将java bean中的一些属性忽略掉，序列化和反序列化都受影响。</br>
-####3.3、后台代码功能及常见注解</br>
+#### 3.3、后台代码功能及常见注解</br>
+
 Controller
 Controller层代码Train_CurrtypeController.java类</br>
 > package com.yonyou.iuap.appdemo.web;
@@ -724,7 +742,8 @@ iuap-mybatis组件会加载插件处理分页参数，并封装结果集返回</
  
 - separator：循环内容之间以什么分隔
 
-####3.6、删除
+#### 3.6、删除
+
 1)	Train_currtypeControlle.del</br>
 传入的参数为被删除的币种实体数组，同时调用后台删除</br>
  ![](https://i.imgur.com/saSj1pn.jpg)
@@ -741,8 +760,10 @@ iuap-mybatis组件会加载插件处理分页参数，并封装结果集返回</
 4）映射文件xml</br>
 ![](https://i.imgur.com/66SVUHn.jpg) 
 
-###4、前台代码解析
-####4.1、前端页面架构
+### 4、前台代码解析
+
+#### 4.1、前端页面架构
+
 ![](https://i.imgur.com/tDnUFIH.jpg) 
 
 Router——前端路由框架</br>
@@ -764,7 +785,9 @@ UI模型——处理UI和数据模型之间的数据通信</br>
 
 在平台中,实际只有index.html这一个单页面，在这个单页面中，加载了必须的CSS和JavaScript。然后有一个内容区，在点击菜单时，改变地址hash，我们用hash的变化从而推动界面相应的功能变化并在内容区中渲染出来。</br>
 那如何根据hash变化调用所需的js方法呢？来让前端路由吧！
-####4.3、前端路由
+
+#### 4.3、前端路由
+
 前端路由主要是用在单页面应用中，解决单页面应用里，地址变化，整体页面并不需要重新渲染，只重新渲染局内容。
 平台中采用director.js开源框架做为默认的路由框架。基本用法如下：
 
@@ -779,7 +802,9 @@ UI模型——处理UI和数据模型之间的数据通信</br>
 
 当浏览器地址变为：http://localhost#/ currtype时,会触发上面监听的function，找到对应的币种节点。</br>
 在平台前端主页面中，使用了router的相关方法来监听地址变化。同时使用requirejs来做动态加载。从而实现的整个单页面应用的运转。
-####4.4、AMD模块化规范
+
+#### 4.4、AMD模块化规范
+
 AMD是"异步模块定义”。它采用异步方式加载模块，模块的加载不影响它后面语句的运行。所有依赖这个模块的语句，都定义在一个回调函数中，等到加载完成之后，这个回调函数才会运行。</br>
 AMD采用require()语句加载模块，但是不同于CommonJS，它要求两个参数：</br>
 1	require([module], callback);</br>
@@ -789,7 +814,8 @@ AMD采用require()语句加载模块，但是不同于CommonJS，它要求两个
 3	});</br>
 math.add()与math模块加载不是同步的，加载完math模块，运用math的add方法，这样浏览器不会发生假死现象。所以很显然，AMD比较适合浏览器环境。</br>
 目前，require.js是主要是实现了AMD规范的javascript库。平台中也是使用的require.js做为AMD模块化规范。可参见：http://www.requirejs.cn/ 学习requirejs的用法。
-####4.5、Currtype.html解析
+
+#### 4.5、Currtype.html解析
  
 ![](https://i.imgur.com/QZfPAWf.jpg)
 
@@ -799,12 +825,14 @@ math.add()与math模块加载不是同步的，加载完math模块，运用math�
  
 
  
-####4.6、meta.js
+#### 4.6、meta.js
+
 向导生成数据模型，字段默认类型为String
 
 ![](https://i.imgur.com/ppVjDZC.jpg)
  
-####4.7、Currtype.js解析
+#### 4.7、Currtype.js解析
+
 使用requirejs的方式引用，前三个分别是：对应的html、数据模型js、对用的css。
 
 ![](https://i.imgur.com/fkgYtHW.jpg) 
@@ -822,8 +850,10 @@ math.add()与math模块加载不是同步的，加载完math模块，运用math�
 
 ![](https://i.imgur.com/s8fRkjf.jpg)
  
-###5项目配置解析
-####5.1、Maven配置
+### 5项目配置解析
+
+#### 5.1、Maven配置
+
 iUAP开发工具使用Maven作为软件项目管理工具。使用Maven构建工程、管理各服务间的jar包依赖。同时配置本地仓库统一管理外部依赖包和内部依赖包。</br>
 配置maven需要以下几个步骤：</br>
 1、确认私服地址。</br>
@@ -882,7 +912,9 @@ Repository: 存储组件的仓库
  ![](https://i.imgur.com/jvSqVVO.jpg)
 
 pluginRepositories：存储plugin插件的仓库，方法类似
-####5.2、Spring集成
+
+#### 5.2、Spring集成
+
 iuap 平台集成了Spring框架进行组件的配置和管理，以及Spring MVC作为后端MVC框架，更方便业务开发者进行开发使用。</br>
 ![](https://i.imgur.com/pZayfc3.jpg) 
 
@@ -890,7 +922,8 @@ iuap 平台集成了Spring框架进行组件的配置和管理，以及Spring MV
 
 ![](https://i.imgur.com/nytnJZO.jpg)
  
-####5.3 SpringMVC
+#### 5.3 SpringMVC
+
 Spring MVC是当前最优秀的MVC框架，自从Spring 2.5版本发布后，由于支持注解配置，易用性有了大幅度的提高。Spring 3.0更加完善，实现了对Struts 2的超越。现在越来越多的开发团队选择了Spring MVC。</br>
 配置解析</br>
 1.Dispatcherservlet</br>
@@ -921,8 +954,11 @@ Spring MVC是当前最优秀的MVC框架，自从Spring 2.5版本发布后，由
 　　注解到方法上，出现异常时会执行该方法</br>
 　　@ControllerAdvice</br>
 　　使一个Contoller成为全局的异常处理类，类中用@ExceptionHandler方法注解的方法可以处理所有Controller发生的异常</br>
-##三、功能开发
-##1、保存校验
+
+## 三、功能开发
+
+## 1、保存校验
+
 保存时增加校验，编码、名称不能为空，编码名称唯一
 
 校验类：</br>
