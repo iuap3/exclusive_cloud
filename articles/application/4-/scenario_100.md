@@ -1,17 +1,23 @@
  
 
-#主子表节点案例开发
+# 主子表节点案例开发
 
 业务场景</br>
+
 iUAP平台是面向企业互联网应用的企业互联网运营平台。本指南以一个后台管理中的-列表类型页面为例，演示如何开发标准节点的操作步骤。</br>
 1、需要安装iUAP-STUDIO开发工具（可以参考iuap后台环境搭建、Iuap前端环境搭建视频）</br>
 2、建立实体模型，进行实体的设计</br>
 3、其次先完成后台功能的开发，包括查询、新增保存、修改、删除操作。</br>
 4、前端开发。</br>
-##1.	注册节点
-###1.1.	环境准备
+
+## 1.	注册节点
+
+### 1.1.	环境准备
+
 新建项目以及数据库配置过程，请参考《环境搭建》文档。
-###1.2、示例代码注册
+
+### 1.2、示例代码注册
+
 主子表示例代码
 提供主子表busidemo示例代码，包括前后台代码，映射文件等。</br>
 后台代码位置
@@ -51,14 +57,17 @@ iUAP平台是面向企业互联网应用的企业互联网运营平台。本指�
 切换到编辑态</br>
  ![](/articles/application/4-/images/04/image14.png)
  
-##2	代码分析（结合实际业务）
+## 2	代码分析（结合实际业务）
+
 实际业务需求： </br>
 常规编辑功能：</br>
 - 字段非空校验；</br>
 - 新增默认值，设置字段为不可编辑</br>
 - 节点有冻结和解冻功能</br>
 - 常规参照的开发</br>
-###2.1	示例代码结构
+- 
+### 2.1	示例代码结构
+
 1.	后台代码
 
  ![](/articles/application/4-/images/04/image15.png) 
@@ -84,20 +93,23 @@ Css样式文件、html页面展示，js页面控制，meta.js模型文件</br>
  
 ![](/articles/application/4-/images/04/image17.png)
 
-###2.2 Mybatis介绍
+### 2.2 Mybatis介绍
+
 MyBatis是支持普通SQL查询，存储过程和高级映射的优秀持久层框架。</br>
 MyBatis消除了几乎所有的JDBC代码和参数的手工设置以及结果集的检索。MyBatis使用简单的XML或注解用于配置和原始映射，将接口和Java的POJOs（Plan Old Java Objects，普通的Java对象）映射成数据库中的记录.</br>
 
 Mybatis运行过程</br>
 ![](/articles/application/4-/images/04/image18.png) 
 
-###2.3 后台代码解析（常见注解、保存校验、动作逻辑）
+### 2.3 后台代码解析（常见注解、保存校验、动作逻辑）
+
 后端代码分为几层：实体、DAO、Service、Controller，下面的中描述了手工编写后台代码时的开发步骤，此处因为向导开发，已经生成完毕。
 
 ![](/articles/application/4-/images/04/image19.png) 
  
 
-####2.3.1 配置解析
+#### 2.3.1 配置解析
+
 **SpringMVC框架**</br>
 iuap 平台集成了Spring框架进行组件的配置和管理，以及Spring MVC作为后端MVC框架，更方便业务开发者进行开发使用。</br>
 ![](/articles/application/4-/images/04/image20.png)  
@@ -126,7 +138,8 @@ mapper接口类位置，增加我们目前生成的mapper包位置
 
  ![](/articles/application/4-/images/04/image25.png) 
 
-####2.3.2 实体
+#### 2.3.2 实体
+
 主子表类型的实体有两张表：主表和子表</br>
 1)	主表对应实体：Busidemo类</br>
  ![](/articles/application/4-/images/04/image26.png) 
@@ -146,7 +159,9 @@ id_busidemo_sub为主实体中对应的子实体List
  ![](/articles/application/4-/images/04/image29.png)
 
 子表特殊的地方在于增加了针对主表的外键字段fk_busidemo_sub</br>
-####2.3.3 后台代码通用功能
+
+#### 2.3.3 后台代码通用功能
+
 **Controller** </br>
 主表BusidemoController.java类</br>
  ![](/articles/application/4-/images/04/image30.png) 
@@ -196,7 +211,9 @@ Busidemo_subMapper.xml为子表中的持久化sql语句
 ![](/articles/application/4-/images/04/image39.png) 
  
 在Mapper上需要通过@MyBatisRepository的注解向Spring容器标示出当前类为DAO
-####2.3.4 查询分页功能
+
+#### 2.3.4 查询分页功能
+
 打开节点时，加载默认数据，调用分页方法查询数据</br>
 Controller层</br>
 分页方法参数：pageRequest分页参数/searchParams查询条件</br>
@@ -216,7 +233,8 @@ SQL映射文件BusidemoMapper.xml</br>
 其中分页查询方法使用了配置文件做参数和返回值翻译处理</br>
 ![](/articles/application/4-/images/04/image44.png)  
 
-####2.3.5 加载子表方法【为选中行、切换分页信息提供】
+#### 2.3.5 加载子表方法【为选中行、切换分页信息提供】
+
 子表Controller代码</br>
 com.yonyou.iuap.appdemo.web.Busidemo_subController
 地址映射为”/busidemo/list”</br>
@@ -231,7 +249,8 @@ Dao持久层</br>
 SQL映射文件Busidemo_subMapper.xml</br>
 ![](/articles/application/4-/images/04/image48.png)  
 
-####2.3.6 新增保存【修改保存】
+#### 2.3.6 新增保存【修改保存】
+
 Web层：主表Controller</br>
 新增和修改方法，提供给前台的调用地址不同</br>
 
@@ -253,7 +272,8 @@ Service层代码</br>
 Busidemo_subMapper.xml</br>
 ![](/articles/application/4-/images/04/image55.png) 
  
-####2.3.7 批量删除功能
+#### 2.3.7 批量删除功能
+
 com.yonyou.iuap.appdemo.web.BusidemoController</br>
 前台传入的参数为主表数据；调用Service的删除实体方法，注意主子表都需要删除</br>
  ![](/articles/application/4-/images/04/image56.png) 
@@ -268,7 +288,8 @@ Service层，删除时需要批量删除主表和子表信息；</br>
 子表映射SQL</br>
 ![](/articles/application/4-/images/04/image59.png) 
 
-####2.3.8 子表删除【删除行功能】
+#### 2.3.8 子表删除【删除行功能】
+
 Busidemo_subController.java</br>
 参数，传入需要删除的子表VO，调用子表的service的删除方法</br>
  ![](/articles/application/4-/images/04/image60.png) 
@@ -282,7 +303,8 @@ Busidemo_subMapper.java</br>
 Busidemo_subMapper.xml</br>
  ![](/articles/application/4-/images/04/image63.png) 
 
-####2.3.9 前后端参数、返回值传递
+#### 2.3.9 前后端参数、返回值传递
+
 前端框架与服务端没有耦合，中间通过JSON数据格式进行数据传递。可采用正常的ajax请求。如果要发送数据模型中的相关数据，需要把数据模型中的数据转成JSON发请到服务端。</br>
 前后端地址传递</br>
  ![](/articles/application/4-/images/04/image64.png)  
@@ -290,7 +312,8 @@ Busidemo_subMapper.xml</br>
 1.	传递单条数据，返回单条数据【新增保存修改保存】；</br>
 2.	传递多条，返回为void【删除】;</br>
 
-####2.3.10 SpringMVC异常处理
+#### 2.3.10 SpringMVC异常处理
+
 对SpringMVC 异常处理的封装，处理了iweb异常WebRuntimeException,校验异常ValidException和异常错误码支持SysPromptException。</br>
 对于ajax请求或者http header中包含Accept:application/json 的请求，会返回json数据； </br>
 对于其他请求，会跳转到springmvc视图下的error/500页面。</br>
@@ -305,7 +328,8 @@ spring-mvc.xml配置如下：</br>
 spring配置文件中声明如下</br>
  ![](/articles/application/4-/images/04/image68.png) 
 
-####2.3.11 主键处理
+#### 2.3.11 主键处理
+
 比如：在我们的示例中使用了UUI的主键策略，所以可以使用下面的API生成</br>
  ![](/articles/application/4-/images/04/image69.png)
  
@@ -313,8 +337,10 @@ spring配置文件中声明如下</br>
 IDGenerator【项目demo中应用了这种方式】</br>
  ![](/articles/application/4-/images/04/image70.png) 
 
-###2.4 前台代码解析
-####2.4.1 meta数据模型
+### 2.4 前台代码解析
+
+#### 2.4.1 meta数据模型
+
 meta.js数据模型定义</br>
 metaDt为主表数据模型</br>
 
@@ -325,7 +351,8 @@ metabusidemo_sub为子表数据模型</br>
 在页面控制中，主子表busidemo定义了四个数据模型，分别是列表界面的主表数据模型和子表数据模型、卡片页面的主表数据模型和子表数据模型</br>
  ![](/articles/application/4-/images/04/image73.png) 
 
-####2.4.2 html解析 
+#### 2.4.2 html解析 
+
 列表显示panel区域按钮，用于返回应用中心
  
 ![](/articles/application/4-/images/04/image74.png) 
@@ -352,7 +379,8 @@ metabusidemo_sub为子表数据模型</br>
 卡片界面子表grid表格，绑定的数据模型和字段，对子表操作的增加和删除按钮</br>
  ![](/articles/application/4-/images/04/image81.png)
 
-####2.4.3 js解析
+#### 2.4.3 js解析
+
 通过require的方式引入依赖的资源，其中uiReferComp,refer为参照实现资源</br>
   ![](/articles/application/4-/images/04/image82.png)
 分页查询</br>
@@ -389,8 +417,11 @@ delRow选择行校验</br>
 删行（子表删除）</br>
 对选择行的校验，将数据传递到后台，再将数据从相应数据模型中移除</br>
    ![](/articles/application/4-/images/04/image93.png)
-##3、功能开发
-###3.1、前台界面编辑控制、默认值
+
+## 3、功能开发
+
+### 3.1、前台界面编辑控制、默认值
+
 需求：
 
 - 主表单据状态、创建人、创建时间、最后修改人、最后修改日期不能编辑
@@ -433,7 +464,8 @@ delRow选择行校验</br>
 **5.	字段精度设置，在meta.js中数据模型上配置属性**</br>
   ![](/articles/application/4-/images/04/image101.png) 
 
-###3.2、前台编辑监听
+### 3.2、前台编辑监听
+
 业务需求：
 
 1.	子表中存在数量、价格、金额字段，计算公式：数量*无税单价=价税合计；
@@ -469,7 +501,8 @@ KPI字段编辑控制，控制是否可编辑</br>
 如果选择了“结束日期”，则“开始日期”控制如下
    ![](/articles/application/4-/images/04/image110.png) 
 
-###3.4、按钮开发
+### 3.4、按钮开发
+
 单据增加冻结、解冻按钮及对应前后台对应功能</br>
 **前台改造**</br>
 html中按钮绑定事件</br>
