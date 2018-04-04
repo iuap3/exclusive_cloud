@@ -150,9 +150,9 @@ windows 配置 JAVA_HOME
 脚本地址：在安装盘中找到wbalone与iuapmdm两个war包
 
 - 在wbalone.war中：WEB-INF\classes\sql\oracle_实施专用目录下执行脚本,先执行ddl.sql再执行dml.sql。  
-![](/articles/mdm/3-/images/0.jpg)
+![](/articles/mdm/3-/images/0.png)
 - 在iuapmdm.war中：WEB-INF\sql\oracle目录下执行脚本。  
-![](/articles/mdm/3-/images/01.jpg)
+![](/articles/mdm/3-/images/01.png)
 
 ##### 6.核心工程配置
 
