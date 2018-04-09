@@ -9,7 +9,10 @@
 - 进行license授权；
 - 登录使用。
 
-
+### 安装须知
+- 在修改配置文件时，应当填写服务真实的IP地址，否则将导致许多服务无法访问；
+- 在获取加签认证文件authfile.txt时，请从应用平台处获取加签文件；
+ 
 ### 环境配置要求
 ##### 1.服务器端要求
 
@@ -96,7 +99,7 @@ systemctl stop redis
 
 通过执行 tomcat/bin/startup.bat 启动 licenseServer 服务器。
 
-访问 http://ip地址:8088/iuap-licenseserver，用户名：admin,初始密码：admin（可自行修改）。
+访问 http://ip地址:端口号/iuap-licenseserver，用户名：admin,初始密码：admin（可自行修改）。
 
 ![](/articles/mdm/3-/images/5.jpg)
 
@@ -144,15 +147,22 @@ windows 配置 JAVA_HOME
 
 ##### 5.数据库脚本初始化以及执行顺序
 
-脚本地址：解压 eiap.zip，iUAP_eiap\DB\data\mysql
+脚本地址：在安装盘中找到wbalone与iuapmdm两个war包
 
-Wbalone--->Matedata—> Uitemplate_web--> Mdbiz-->Iuap_bmp-->Iuap_eiap_example-->Bpm-->Basedoc-->iuapmdm
+- 在wbalone.war中：WEB-INF\classes\sql\oracle_实施专用目录下执行脚本,先执行ddl.sql再执行dml.sql。  
+![](/articles/mdm/3-/images/0.png)
+- 在iuapmdm.war中：WEB-INF\sql\oracle目录下执行脚本。  
+![](/articles/mdm/3-/images/01.png)
 
 ##### 6.核心工程配置
 
 &ensp;&ensp;&ensp;&ensp;上面章节提到这里的示例是licenseserver授权服务和核心的业务工程服务分开部署，授权服务上面已经介绍，这里主要说明核心工程的启动配置。核心工程如下图所示：
 
 ![](/articles/mdm/3-/images/11.png)
+
+将上图的war包进行解压，并且将解压后文件名中的版本号去掉，如下图所示。
+
+![](/articles/mdm/3-/images/11-1.png)
 
 每个war包的主要功能介绍如下：
 
@@ -162,7 +172,10 @@ Wbalone--->Matedata—> Uitemplate_web--> Mdbiz-->Iuap_bmp-->Iuap_eiap_example--
 4. uui：iuap应用平台的前端依赖代码；
 5. iuapmdm：提供主数据的核心服务；
 6. uitemplate:提供参照依赖服务；
-7. 其他：其他的war包是提供关于企业流程管理bpm的服务，其中example war包是关于流程的一个示例。
+7. iuap-eiap-bpm-service：应用平台对接BPM服务的适配器；
+8. ubpm-web-rest：提供BPM对外的API服务；
+9. ubpm-webserver-process-center：BPM流程设计器。
+ 
 
 各个项目具体配置如下：
 
