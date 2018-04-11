@@ -1,0 +1,10 @@
+﻿<dependency>
+	<groupId>com.yonyou.iuap</groupId>
+	<artifactId>iuap-mdpersistence</artifactId>
+	<version>3.0.0-RELEASE</version>
+</dependency>
+<dependency>
+	<groupId>com.yonyou.iuap</groupId>
+	<artifactId>iuap-mdspi</artifactId>
+	<version>3.0.0-RELEASE</version>
+</dependency>	
