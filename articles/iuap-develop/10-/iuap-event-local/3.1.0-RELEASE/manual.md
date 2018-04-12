@@ -192,7 +192,7 @@ INSERT INTO pub_eventlistener (id, event_type_id, name, namei18n, implclassname,
 BusinessEvent event = new BusinessEvent("USER","ADD_BEFORE",System.currentTimeMillis()/*事件要发送的内容，格式是字符型*/);
 		EventDispatcher.fireEvent(event);
 </pre>
-###（4）监听类实现IBussinessListener
+### (4) 监听类实现IBussinessListener
 
 ```
     public class LocalEventPluginImpl implements IBussinessListener{
