@@ -124,7 +124,7 @@ idtype为需要使用的ID生成类型，目前包括UUID、redis自增、snowfl
 
 其中的strategy为id的生成策略，请参考Stragegy的枚举值，和idtype基本保持一致。
 
-###snowflake方式###
+### snowflake方式 ###
 
 **使用snowflake的方式，需要保证workerid一致**
 
