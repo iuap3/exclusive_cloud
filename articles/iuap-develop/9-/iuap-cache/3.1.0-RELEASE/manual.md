@@ -1,19 +1,19 @@
-#分布式缓存组件概述#
+# 分布式缓存组件概述
 
-## 业务需求 ##
+## 业务需求 
 
 为了提高业务应用的性能，避免对数据库资源的频繁访问，应用中常常引入缓存技术，将需要访问的资源或初次调用后的结果缓存起来，针对后续的相同访问直接返回缓存结果，以支持应用的高并发。
 
 业务缓存的实现方式可以是将数据放置在JVM的堆内存中，也可以将数据放置在第三方中间件中,如MemCached、Redis。其中JVM内存缓存有两个弊端：一是大小受到JVM堆内存的限制，会引起频繁GC；二是集群部署时候，web应用间存在多份缓存，无法共享。第三方缓存中间件解决了JVM内存的这两个问题，但在操作中间件的缓存时，需要建立统一的连接并维护连接池，同时为了不绑定在某个特定的中间件上，还需要对多种中间件进行适配，这些都需要平台提供标准组件来进行处理。
 
 
-## 解决方案 ##
+## 解决方案 
 
 Redis针对数据结构、持久化、过期策略、分布式集群、数据备份和灾难恢复等方面相对缓存中间件更有优势。iuap平台采用Redis作为缓存的中间件，并针对Redis提供统一的连接以及基本Java API封装，更利于方便业务开发简便快速的实现对业务数据的缓存操作，提高系统的运行效率。
 
 iuap缓存组件还实现了对连接池的管理，并支持Redis以主从方式或者分片方式进行部署。分布式的架构保证了缓存服务的高可用性，在主从模式下支持主节点宕机后的自动切换，业务服务无感知。
 
-## 功能说明 ##
+## 功能说明 
 1.	支持对缓存的读写操作以及过期时间设置；
 2.	支持复杂类型数据的操作，如HashMap，Set，List；
 3.	支持Redis主从和分片集群的不同配置；
@@ -22,9 +22,9 @@ iuap缓存组件还实现了对连接池的管理，并支持Redis以主从方�
 6.	支持阿里云Redis数据库适配。
 
 
-# 整体设计 #
+# 整体设计 
 
-## 依赖环境 ##
+## 依赖环境 
 
 组件采用Maven进行编译和打包发布，依赖Jedis的2.6.0版本和iuap平台的一些基础组件如iuap-log，其对外提供的依赖方式如下：
 
@@ -36,7 +36,7 @@ iuap缓存组件还实现了对连接池的管理，并支持Redis以主从方�
 
 ${iuap.modules.version} 为平台在maven私服上发布的组件的version。
 
-## 部署结构 ##
+## 部署结构 
 
 Redis本身支持多种语言的客户端来连接，iuap-cache组件利用java语言通过Jedis客户端进行连接，建立连接池并支持哨兵方式的url。
 
@@ -44,13 +44,13 @@ Redis中间件通常是配合哨兵进行集群部署，一主多从的部署结
 
 <img src="/articles/iuap-develop/9-/iuap-cache/3.1.0-RELEASE/images/redis_sentinel.png"/>
 
-# 使用说明 #
+# 使用说明 
 
-## 组件包说明 ##
+## 组件包说明 
 
 iuap-cache组件利用jedis客户端，在springside提供的对jedis的封装的基础上，提供使用简易url的方式创建连接池、兼容直连和哨兵方式连接，模板类支持Redis的分片。
 
-## 组件配置 ##
+## 组件配置 
 
 **1:在属性文件中，配置redis的连接url，根据业务不同的需要，可以配置成单机方式、集群方式、分片方式等**
 
@@ -111,12 +111,12 @@ ${iuap.modules.version}为在pom.xml中定义的引用iuap-cache的版本。
 
 **5:更多API操作和配置方式，请参考缓存对应的示例工程(DevTool/examples/example\_iuap\_cache)**
 
-## 工程样例 ##
+## 工程样例 
 
 开发工具包DevTool中携带了对分布式缓存组件的示例工程，位置位于DevTool/examples/example_iuap_cache下，在iuap Studio中导入已有的Maven工程，可以将示例工程导入到工作区。示例工程中有较为完整的对iuap-cache组件的使用示例代码。
 <img src="/articles/iuap-develop/9-/iuap-cache/3.1.0-RELEASE/images/cache_example.jpg"/>
 
-## 开发步骤 ##
+## 开发步骤 
 
 - 参考上述配置项，配置属性文件中的redis连接串，引入缓存对应的spring配置文件applicationContext-cache.xml，如果是web应用，修改web.xml如下：
 
@@ -149,7 +149,7 @@ ${iuap.modules.version}为在pom.xml中定义的引用iuap-cache的版本。
 	    }
 
 
-## 常用接口 ##
+## 常用接口 
 
 - CacheManager
 
@@ -237,6 +237,7 @@ ${iuap.modules.version}为在pom.xml中定义的引用iuap-cache的版本。
 
 
 ## redis cluster方式使用
+
 redis官方在redis3.0以后的版本提供了 redis-cluster的方式
 
 组件采用Maven进行编译和打包发布，依赖Jedis的2.9.0版本.
