@@ -45,7 +45,7 @@ iuap-oid组件支持多种ID生成方式，如UUID、Redis自增、snowflake，U
 
 ## 配置方式 ##
 
-###配置maven依赖###
+### 配置maven依赖 ###
 	<dependency>
 		<groupId>com.yonyou.iuap</groupId>
 		<artifactId>iuap-oid</artifactId>
@@ -54,7 +54,7 @@ iuap-oid组件支持多种ID生成方式，如UUID、Redis自增、snowflake，U
 
 ${iuap.modules.version} 为在pom.xml中定义的需要引入组件的version。
 
-###配置属性文件###
+### 配置属性文件 ###
 
 **在属性配置文件中，加入oid的使用类型配置**
 
@@ -66,7 +66,7 @@ ${iuap.modules.version} 为在pom.xml中定义的需要引入组件的version。
 
 idtype为需要使用的ID生成类型，目前包括UUID、redis自增、snowflake、uapoid几种类型
 
-###redis自增主键###
+### redis自增主键 ###
 **使用redis自增主键时候，需要配置redis对应的文件，请参考cache组件**
 
 	<bean id="redisPool" class="com.yonyou.iuap.cache.redis.RedisPoolFactory"
@@ -88,7 +88,7 @@ idtype为需要使用的ID生成类型，目前包括UUID、redis自增、snowfl
 	#可以设置特殊模块自增起始值
 	IUAP_PRIMARY_MYMODULE_START_VALUE=10000
 
-###UAPOID方式###
+### UAPOID方式 ###
 **使用uapoid类型时候，连接数据库，并初始化数据表，stepSize可根据项目指定，为每次取到本地JVM中自增ID的范围**
 
  	<bean id="jdbcTemplate" class="org.springframework.jdbc.core.JdbcTemplate">
@@ -136,7 +136,7 @@ idtype为需要使用的ID生成类型，目前包括UUID、redis自增、snowfl
     }
 注意，此场景适用在同一台机器或同一个docker容器中启动单个Tomcat或Java应用，否则可能无法保证workerid不唯一。
 
-###custom方式###
+### custom方式 ###
 
 组件支持以扩展的方式生成自定义的主键，需要自行实现IOidProvider，配置方式如下：
 
@@ -145,7 +145,7 @@ idtype为需要使用的ID生成类型，目前包括UUID、redis自增、snowfl
 
 **更多API操作和配置方式，请参考对应的示例工程(DevTool/examples/example\_iuap\_oid)**
 
-##API接口##
+## API接口 ##
 
 - IDGenerator
 
