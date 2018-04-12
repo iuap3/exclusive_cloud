@@ -1,4 +1,4 @@
-#本地事件通知组件概述#
+# 本地事件通知组件概述 #
 
 ## 组件简介
 
@@ -29,7 +29,7 @@
 ```
 ${iuap.modules.version} 为平台在maven私服上发布的组件的version。
 
-##数据库表
+## 数据库表
 
 目前未提供界面需要通过数据库注册的方式。
 
@@ -173,12 +173,12 @@ ${iuap.modules.version} 为平台在maven私服上发布的组件的version。
 
 假定一个事件用户新增前事件：
 
-#####(1)	新增处理插件
+### (1)	新增处理插件
 需要实现IBussinessListener，如图所示，新增一个处理插件：
 com.yonyou.iuap.event.local.test.LocalEventPluginImpl；
 
  
-#####(2)	注册监听
+### (2)	注册监听
 注册事件类型
 <pre>
 INSERT INTO pub_eventtype (id, sourceid, sourcename, sourcenamei18n, eventtypecode, eventtypename, eventtypenamei18n, note, last_time, version) VALUES ('1', 'USER', '用户', 'user_code', 'ADD_BEFORE', '新增前', 'add_before_code', null, null, 1);
@@ -187,12 +187,12 @@ INSERT INTO pub_eventtype (id, sourceid, sourcename, sourcenamei18n, eventtypeco
 <pre>
 INSERT INTO pub_eventlistener (id, event_type_id, name, namei18n, implclassname, note, operindex, enabled, last_time, version) VALUES ('1', '1', '测试', 'test_code', 'com.yonyou.iuap.event.local.test.LocalEventPluginImpl', null, 1, 'Y', null, 1);
 </pre>
-#####(3)	事件触发
+### (3)	事件触发
 <pre>
 BusinessEvent event = new BusinessEvent("USER","ADD_BEFORE",System.currentTimeMillis()/*事件要发送的内容，格式是字符型*/);
 		EventDispatcher.fireEvent(event);
 </pre>
-#####（4）监听类实现IBussinessListener
+###（4）监听类实现IBussinessListener
 
 ```
     public class LocalEventPluginImpl implements IBussinessListener{
