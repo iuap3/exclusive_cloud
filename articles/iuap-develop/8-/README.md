@@ -109,6 +109,6 @@ router.init();
 
 在平台前端主页面中，使用了router的相关方法来监听地址变化。同时使用requirejs来做动态加载。从而实现的整个单页面应用的运转。
 
-##总结
+## 总结
 
 以上概述了一个前端工程构建的基本流程，从单页面编写、后端数据交互交互、到多页面的关联。平时开发者还可以积累一些项目脚手架，来提高开发效率。[iuap design](http://design.yyuap.com/)提供了一些脚手架例如[cloud-starter-kit](https://github.com/iuap-design/cloud-starter-kit).开发者以此为参考，快速构建项目。
