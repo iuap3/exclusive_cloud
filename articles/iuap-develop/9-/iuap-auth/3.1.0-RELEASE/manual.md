@@ -1,15 +1,15 @@
 # 认证组件概述
 
-## 业务需求 ##
+## 业务需求 
 业务系统以Web应用的方式向外提供服务的同时，都需要对用户的请求信息进行验证，确保用户登录和操作的合法性，同时又要避免每次操作都要求用户输入密码，影响用户的体验，所以需要对登录用户的会话信息进行有效的管理和维护。传统的通过HttpSession进行用户信息的存储有诸多弊端，例如在系统集群的时候，需要设置Session粘滞或者Session复制，在服务器宕机时，保存在服务器上面的会话信息都会丢失，相关联用户都需要重新登录。
 
 这就要求提供一种解决方案，提供基础的用户认证登录限制，并统一的管理Session信息，使得Session信息的存储与Web应用服务器无关。
 
-## 解决方案##
+## 解决方案
 
 iuap认证组件通过配置的方式对指定路径的服务资源进行拦截和认证，具体认证可以根据不同的Token生成方式进行。利用分布式缓存组件Redis来存储管理Session信息，从而实现了会话无状态的统一集中，并且与Shiro框架实现集成，将Shiro和Web应用组装，配合分布式缓存，共同实现了Web服务的无状态，更便于服务的水平扩展。
 
-## 功能说明##
+## 功能说明
 1.	使用分布式缓存统一管理用户会话；
 2.	支持Cookie和Http header的方式验证用户信息；
 3.	支持自定义Token生成参数；
@@ -18,9 +18,9 @@ iuap认证组件通过配置的方式对指定路径的服务资源进行拦截�
 6.	支持与门户与第三方登录进行集成。
 
 
-# 整体设计 #
+# 整体设计 
 
-## 依赖环境 ##
+## 依赖环境 
 
 组件采用Maven进行编译和打包发布，依赖Apache的shiro框架,引入了shiro.shiro-spring的1.2.3版本和iuap平台的一些基础组件如iuap-log和iuap-cache，其对外提供的依赖方式如下：
 
@@ -32,7 +32,7 @@ iuap认证组件通过配置的方式对指定路径的服务资源进行拦截�
 
 ${iuap.modules.version} 为平台在maven私服上发布的组件的version。
 
-## 功能结构 ##
+## 功能结构 
 
 <img src="/articles/iuap-develop/9-/iuap-auth/3.1.0-RELEASE/images/shiro_auth.jpg"/>
 
@@ -46,7 +46,7 @@ ${iuap.modules.version} 为平台在maven私服上发布的组件的version。
  
 另外两个相关的概念是之前提到的Subject及Realm，分别是主体及验证主体的数据源。
 
-## 流程说明 ##
+## 流程说明 
 
 - 1、首先调用Subject.login(token)进行登录，其会自动委托给Security Manager，调用之前必须通过SecurityUtils. setSecurityManager()设置；
 - 2、SecurityManager负责真正的身份验证逻辑；它会委托给Authenticator进行身份验证；
@@ -54,16 +54,16 @@ ${iuap.modules.version} 为平台在maven私服上发布的组件的version。
 - 4、Authenticator可能会委托给相应的AuthenticationStrategy进行多Realm身份验证，默认ModularRealmAuthenticator会调用AuthenticationStrategy进行多Realm身份验证；
 - 5、Authenticator会把相应的token传入Realm，从Realm获取身份验证信息，如果没有返回/抛出异常表示身份验证失败了。此处可以配置多个Realm，将按照相应的顺序及策略进行访问。
 
-# 使用说明 #
+# 使用说明 
 
-## 组件包说明 ##
+## 组件包说明 
 iuap-auth组件利用shiro的上述登录认证的步骤，构造了token并进行了认证动作，并提供SessionManager管理类，将传统方式的一些Session信息存储在了分布式缓存Redis中，方便后续的访问。
 
 iuap-auth组件依赖分布式缓存Redis，所以部署时候，需要先安装部署Redis，使用步骤可以参考iuap-cache组件的说明文档。
 
 本组件只提供基础的认证登录过程，shiro中涉及到的权限相关集成，请参考应用组件库中的权限组件相关手册。
 
-## 组件配置##
+## 组件配置
 
 **1:在属性文件中，配置session所需要的redis的连接url、sessionTimeout等信息**
 
@@ -113,14 +113,14 @@ ${iuap.modules.version} 为平台在maven私服上发布的组件的version,需�
 	
 参考SessionManager中的API。
 
-## 工程样例 ##
+## 工程样例 
 
 
 <img src="/articles/iuap-develop/9-/iuap-auth/3.1.0-RELEASE/images/auth_example.jpg"/>
 
 开发工具包DevTool中携带了对认证组件的示例工程，位置位于DevTool/examples/example\_iuap\_auth下，在iuap Studio中导入已有的Maven工程，可以将示例工程导入到工作区。示例工程中有较为完整的对iuap-auth组件的使用示例代码。
 
-## 开发步骤 ##
+## 开发步骤 
 
 - 配置示例工程中的redis.session.url为正确的redis地址，redis可以采用DevTool中bin目录下的redis，例如示例工程下的application.properties
 
@@ -383,7 +383,7 @@ ${iuap.modules.version} 为平台在maven私服上发布的组件的version,需�
 		}
 
 
-## 常用接口 ##
+## 常用接口 
 
 - ITokenProcessor
 
