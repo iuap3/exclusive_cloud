@@ -6,7 +6,7 @@
 ## 解决方案 ##
 iuap工具包组件主要封装了一些常用的工具类，如属性文件的读取，Http请求调用和上下文传递等，供业务人员开发功能时调用，并对这些工具类进行调优，提高性能。
 
-##功能说明##
+## 功能说明 ##
 1.	支持对属性文件的读取；
 2.	支持对Http请求调用的封装、自定义头；
 3.	支持Http上下文信息的传递；
@@ -14,9 +14,9 @@ iuap工具包组件主要封装了一些常用的工具类，如属性文件的�
 5.	springMVC Get请求参数转换
 6.	springMVC 统一异常处理
 
-#使用说明#
+# 使用说明 #
 
-##Maven依赖##
+## Maven依赖 ##
 
 **工程的pom.xml中，增加对iuap-utils的依赖,如果其它组件已经依赖uitls，可省略此步骤**
 
@@ -29,7 +29,7 @@ iuap工具包组件主要封装了一些常用的工具类，如属性文件的�
 
 iuap.modules.version为在pom.xml中定义的需要引用的组件的版本。
 
-##属性文件读取的使用##
+## 属性文件读取的使用 ##
 
 	//配置属性文件application.properties,此文件可以放置在classpath中，也可放置在制定的磁盘目录/etc/iuap下
 	public static String getPropertyByKey(String key);
