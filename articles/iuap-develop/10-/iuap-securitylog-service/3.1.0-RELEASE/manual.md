@@ -49,7 +49,7 @@ ${iuap.modules.version} 为平台在maven私服上发布的组件的version。
 服务端部署，部署一个war包
 
 ## 组件配置 ##
-** 1. 数据库信息配置（securitylog-application.properties）：**
+**1. 数据库信息配置（securitylog-application.properties）**：
 
 下面几项必须配置
 ```
@@ -67,12 +67,12 @@ ${iuap.modules.version} 为平台在maven私服上发布的组件的version。
 ** 注意，war包中不提供数据库驱动，需要手工将驱动放到war的WEB-INF/lib目录下 **
 
 
-** 2. 配置文件参考：参考war包中的springDispatcherServlet-servlet.xml和securitylog-applicationContext.xml **
+**2. 配置文件参考：参考war包中的springDispatcherServlet-servlet.xml和securitylog-applicationContext.xml**
 
 参考war包中的springDispatcherServlet-servlet.xml和securitylog-applicationContext.xml
 
 
-** 3. 对于异步调用的方式，需要的配置文件。**
+**3. 对于异步调用的方式，需要的配置文件。**
 
 配置文件参考war包中的springDispatcherServlet-servlet.xml和securitylog-applicationContext.xml和securitylog-applicationContext-mq-consumer.xml
 
@@ -86,6 +86,6 @@ MQ服务器配置securitylogMQConfig.properties，需要放在classpath目录下
     mq.password=admin
 ```
 
-** 4. 执行数据库脚本 **
+**4. 执行数据库脚本**
 
 依次执行examples项目下sql目录中的dll.sql、index.sql、dml.sql建立数据库并初始化数据。
