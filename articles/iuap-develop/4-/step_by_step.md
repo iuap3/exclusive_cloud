@@ -1,4 +1,4 @@
-#快速代码生成step by step
+# 快速代码生成step by step
 ---
 ## 1. 开发工具配置
 
