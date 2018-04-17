@@ -1,0 +1,3 @@
+﻿#Mybatis持久化组件
+
+iuap使用iuap-mybatis作为MyBatis持久化的支持。iuap-mybatis提供了统一的Spring扫描注解和分页插件。

@@ -1,0 +1,1 @@
+﻿本组件主要是对Spring data JPA和iuap-persistence组件中的JPA部分做扩展，扩展了查询条件、数据库方言识别、和事务的添加范围等功能。如果使用默认的Spring data JPA设置没有扩展的需求，可以不依赖此组件。
