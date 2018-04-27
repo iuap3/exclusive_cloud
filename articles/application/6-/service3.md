@@ -14,7 +14,7 @@
 ![](/articles/application/6-/images/03/image2.png)
  
 选择后，点击确定后，在界面中点击“分配”功能，可以给对应角色分配有权的“组织”</br>
- ![](/articles/application/6--/images/05/image3.png)
+ ![](/articles/application/6--/images/03/image3.png)
 
 点击“分配”后，可以选择分配的组织</br>
 ![](/articles/application/6-/images/03/image3.png) 
@@ -23,7 +23,7 @@
 ![](/articles/application/6-/images/03/image4.png) 
 
 配置完成后，当以业务角色1的用户sale1登陆后，在节点上打开功能点，加载数据时，按照数据权限过滤，仅能查看有权限档案数据。</br>
- ![](/articles/application/6--/images/05/image5.png)
+ ![](/articles/application/6--/images/03/image5.png)
 
 编辑时，点击参照时，按照权限过滤</br>
 ![](/articles/application/6-/images/03/image6.png)
@@ -47,16 +47,16 @@
   ![](/articles/application/6--/images/05/image8.png)
 
 文件内配置权限验证服务的地址，如下图中配置了工作台地址</br>
- ![](/articles/application/6--/images/05/image9.png)
+ ![](/articles/application/6--/images/03/image9.png)
  
 #### 1.3.2	 资源注册
 
 1.	参照注册ref_refinfo
  </br>
- ![](/articles/application/6--/images/05/image10.png)
+ ![](/articles/application/6--/images/03/image10.png)
 
 2.	ieop_dpprofile_reg 权限资源注册表，在表中可以参考已有资源，注册案例中的币种资源，如下图所示。</br>
-  ![](/articles/application/6--/images/08/image11.png)
+  ![](/articles/application/6--/images/03/image11.png)
 
 resourcetypecode：为用户分配权限后，实现代码的时候要依据此字段来查询权限。</br>
 dataconverturl：负责将币种转成应用平台可接受的格式以供应用平台展现数据。在代码部分会有详细介绍。
@@ -66,7 +66,7 @@ dataconverturl：负责将币种转成应用平台可接受的格式以供应用
 ##### 1.3.3.1	数据转换url的实现
 
 在数据权限设置界面，需要根据存储的资源ID数据获取详细页面数据。所以需要业务组提供查询方法，根据资源ID加载业务数据。如下图所示，需要提供下图中红框部分的配置展示数据。
-  ![](/articles/application/6--/images/05/image12.png) 
+  ![](/articles/application/6--/images/03/image12.png) 
 
 在com.yonyou.iuap.appdemo.web.Train_currtypeController类中增加数据权限服务，条件中传入需要查询的ID，结果集中返回data数据
 	/**
@@ -543,12 +543,14 @@ com.yonyou.uap.ieop.security.entity.DataPermission.getResourceId()
 
 1.	给角色分配数据权限资源
  
-  ![](/articles/application/6--/images/05/image14.png) 
+  ![](/articles/application/6--/images/03/image14.png) 
 
 2.	打开业务节点时，仅能加载出有权限的业务数据
  
-  ![](/articles/application/6--/images/05/image15.png)
+  ![](/articles/application/6--/images/03/image15.png)
  
 3.	新增时，点击币种参照，仅能查询出已分配的权限资源。
  
-  ![](/articles/application/6--/images/05/image16.png) 
+  ![](/articles/application/6--/images/03/image16.png) 
+
+ 
