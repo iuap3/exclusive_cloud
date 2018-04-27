@@ -542,15 +542,16 @@ com.yonyou.uap.ieop.security.entity.DataPermission.getResourceId()
 ### 1.4	应用效果
 
 1.	给角色分配数据权限资源
+
+   ![](/articles/application/6-/images/03/image14.png)
  
-  ![](/articles/application/6--/images/03/image14.png) 
 
 2.	打开业务节点时，仅能加载出有权限的业务数据
  
-  ![](/articles/application/6--/images/03/image15.png)
+  ![](/articles/application/6-/images/03/image15.png)
  
 3.	新增时，点击币种参照，仅能查询出已分配的权限资源。
  
-  ![](/articles/application/6--/images/03/image16.png) 
+  ![](/articles/application/6-/images/03/image16.png) 
 
  
