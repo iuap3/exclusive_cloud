@@ -11,24 +11,24 @@
 ### 1.2	 数据权限应用
 数据权限</br>
 以系统管理员admin进入系统，管理中心下，找到数据权限节点。选择需要控制的“数据权限”业务角色，点击分配功能，可以选择可以进行数据权限控制的档案。此处以“组织”档案为例。</br>
-![](/articles/application/6-/images/05/image2.png)
+![](/articles/application/6-/images/03/image2.png)
  
 选择后，点击确定后，在界面中点击“分配”功能，可以给对应角色分配有权的“组织”</br>
  ![](/articles/application/6--/images/05/image3.png)
 
 点击“分配”后，可以选择分配的组织</br>
-![](/articles/application/6-/images/05/image3.png) 
+![](/articles/application/6-/images/03/image3.png) 
 
 点击确定后，分配完成</br>
-![](/articles/application/6-/images/05/image4.png) 
+![](/articles/application/6-/images/03/image4.png) 
 
 配置完成后，当以业务角色1的用户sale1登陆后，在节点上打开功能点，加载数据时，按照数据权限过滤，仅能查看有权限档案数据。</br>
  ![](/articles/application/6--/images/05/image5.png)
 
 编辑时，点击参照时，按照权限过滤</br>
-![](/articles/application/6-/images/05/image6.png)
+![](/articles/application/6-/images/03/image6.png)
 
-![](/articles/application/6-/images/05/image7.png)
+![](/articles/application/6-/images/03/image7.png)
 
 
 ###1.3	 数据权限开发
