@@ -1,92 +1,119 @@
-## 场景六：消息中心
+# 编码规则开发案例
 
-### 业务需求
+**业务场景**</br>
+编码规则使用了应用组件iuap-billcode</br>
+组件功能：根据编码规则和一些必要信息，生成业务对象编码。组件需要的编码规则可以存储在文件中，甚至是手工构造，或者存储在数据库中。本组件提供了存储在数据库中一种实现，提供了基本的增加，删除，修改编码规则的服务方法，用户可以在此调用此服务，开发出自己的编码规则设计工具，也可以直接设计符合自己要求的编码规则数据库结构和服务，编码规则VO符合组件的模型即可（实现组件的规则接口）。</br>
+另外，组件提供了数据库行锁和zookeeper分布式锁的支持，以应对大并发的情况下可能出现的编码重复问题。</br>
+文档中案例业务需求：客户节点新增保存时获取定制的单据号。
 
-消息推送主要用户提升用户体验，避免用户刷新页面从服务器端拉取数据。例如邮件提醒，重要通知能即时推送给用户，提高用户体验。
+**开发方案**</br>
+编码规则的获取相对来讲是比较独立的业务，所以从业务上可以把它单独分包。同时使用dubbox提供分布式服务。这样如果在获取量非常大的情况下，可以给编码规则单独部署增加服务达到性能优化的途径，同时使用zookeeper分布式锁, 以应对大并发的情况下可能出现的编码重复问题。</br>
+总体方案为：编码规则组件+zookeeper【分布式锁】+Dubbox【分布式服务】</br>
+新版本中使用RestAPI方式调用并获取编码规则。
 
-### 功能说明
+## 1、环境准备
 
-iuap-message组件提供了向手机发送短信、发送电子邮件、向APP推送消息的功能。
+### 1.1、war包配置
 
-1.提供了向手机发送短信
+下面说明获取到iuap-saas-billcode-service.war后，需要修改的配置文件。培训现场环境已提供，不需要修改。直接跳转到1.2章节
+修改配置文件路径WEB-INF\classes
+1.	application.properties 配置zookeeper地址，如果为集群配置集群服务</br>
+ ![](/articles/application/6-/images/06/image2.png)
 
-2.提供了发送电子邮件
+2.	jdbc.properties</br>
+ ![](/articles/application/6-/images/06/image3.png)
 
-3.电子邮件支持抄送、密送
+3.	auth.properties 配置Redis服务地址，注意sysid配置为wbalone，和业务系统一致</br>
+ ![](/articles/application/6-/images/06/image4.png)
 
-4.电子邮件支持附件发送
+### 1.2、开发环境配置
 
-5.提供了向APP推送消息的功能
+配置application.properties文件，配置编码规则提供的服务地址</br>
+如案例中使用了本机的编码规则服务，则如下图配置</br>
+billcodeservice.base.url=http://127.0.0.1:8080/iuap-saas-billcode-service
 
-6.可扩展的消息发送方式；
+### 1.3、数据库脚本配置
 
-## 整体设计
+#### 1.3.1 注册编码对象
 
-### 依赖环境
+编码实体手工注册到数据库表pub_bcr_obj中</br>
+注册根节点、示例节点【主子表示例】</br>
+注意iscatalog要做赋值，否则页面加载不出数据来
 
-组件采用Maven进行编译和打包发布，其对外提供的依赖方式如下：
+ ![](/articles/application/6-/images/06/image5.png)
 
-<div class="lines"><div class="line alt1"><table><tbody><tr><td class="number"><code>1</code></td><td class="content"><code class="plain">&lt;dependency&gt;</code></td></tr></tbody></table></div><div class="line alt2"><table><tbody><tr><td class="number"><code>2</code></td><td class="content"><code class="spaces">&nbsp;&nbsp;</code><code class="plain">&lt;groupId&gt;com.yonyou.iuap&lt;/groupId&gt;</code></td></tr></tbody></table></div><div class="line alt1"><table><tbody><tr><td class="number"><code>3</code></td><td class="content"><code class="spaces">&nbsp;&nbsp;</code><code class="plain">&lt;artifactId&gt;iuap-message&lt;/artifactId&gt;</code></td></tr></tbody></table></div><div class="line alt2"><table><tbody><tr><td class="number"><code>4</code></td><td class="content"><code class="spaces">&nbsp;&nbsp;</code><code class="plain">&lt;version&gt;${iuap.modules.version}&lt;/version&gt;</code></td></tr></tbody></table></div><div class="line alt1"><table><tbody><tr><td class="number"><code>5</code></td><td class="content"><code class="plain">&lt;/dependency&gt;</code></td></tr></tbody></table></div></div>
+#### 1.3.2 注册编码规则定义
 
-${iuap.modules.version} 为平台在maven私服上发布的组件的version。
+在应用平台里已经提供了编码规则定义的节点：部署war包成功后，在管理中心-编码规则的节点就可以正常打开
 
+ ![](/articles/application/6-/images/06/image6.png)
 
-### 功能说明
+编码规则定义节点可以注册编码规则。在数据库里注册编码对象后，在编码规则定义节点左侧就会出现对象的树型结构
 
-iuap-message组件提供了向手机发送短信、发送电子邮件、向APP推送消息的功能。
-
-1.消息推送 
-
-在公司现有的消息推送平台的基础上，利用此平台的REST服务，将业务数据包装成符合要求的格式，发送到平台上，完成APP的推送。（用户的移动端也需要安装平台提供的SDK）
-
-2.发送短信 
-
-发送短信的功能是基于公司的短信推送平台，通过此平台的提供的REST服务，按照平台的要求，将数据封装提交到平台，完成短信发送任务。目前支持国内的移动、联通和电信三大网络。
-
-3.发送邮件 
-
-电子邮件服务，是基于JavaMail实现的邮件发送服务，使用JDK原生的javax.mail组件来完成发送邮件的服务。
-
-主要工作流程如下：
-
-1.验证登录权限Authenticator
-
-2.根据设置的Properties和Authenticator创建一个Session
-
-3.创建一个MimeMessage实例，设置这个message的收信人、主题、内容等
-
-4.发送邮件Transport.send(message);
-
-## 使用说明
-
-### 组件包说明
-
-iuap-message组件提供了向手机发送短信、发送电子邮件、向APP推送消息的功能。
-
-### 组件配置
-
-将配置文件message-senderInfo.xml(可在上文示例工程拿到)放到工程的classpath下，如果是maven工程，放在src/main/resources目录下即可
-
-### 工程样例
-
-消息推送组件提供有示例工程iuap-message-example，用户可从maven库上下载，示例工程中有较为完整的对iuap-message组件的使用示例代码。
-
-### 开发步骤
-
-可直接参考以下示例工程：
-
-1.添加配置文件：
-
-将配置文件message-senderInfo.xml(可在上文示例工程拿到)放到工程的classpath下，如果是maven工程，放在src/main/resources目录下即可
-
-2.调用消息服务的接口方法，发送消息:
-
-<pre>
-// 创建消息接收者
-MessageReceiver emailReceivers = new EmailReceiver("username1@domain.com,username2@domain.com");
-// 创建消息内容
-MessageContent emailContent = new EmailContent("我是标题1", "测试内容1");
-// 发送消息
-List<MessageResponse> responseList = new MessageSend(emailReceivers, emailContent).send(); </pre>
+ ![](/articles/application/6-/images/06/image7.png)
 
 
+选择刚才注册的主子表示例节点，点击新增，录入数据后保存
+注意这里的规则编码在后面代码部分会用到。
+我们按照DEMO+日期YYMMDD+数字流水号完成
+
+ ![](/articles/application/6-/images/06/image8.png)
+
+保存成功后如下图所示
+
+ ![](/articles/application/6-/images/06/image9.png)
+
+需要将编码规则设置为默认，操作如下图</br>
+ 
+ ![](/articles/application/6-/images/06/image10.png)
+
+完成后如下图所示</br>
+ 
+ ![](/articles/application/6-/images/06/image11.png)
+
+此时编码规则的注册就完成了</br>
+
+## 2、代码开发示例
+
+### 2.1 编码规则RestAPI
+
+官网API：组件提供的接口
+
+
+- 获取编码规则</br>
+服务API“/billcoderest/billcoderest”</br>
+参数字段	&ensp; &ensp; 必选	&ensp; 类型	&ensp; 长度	&ensp; &ensp; 说明</br>
+billObjCode	&ensp; True	&ensp; String	 &ensp; &ensp; &ensp; &ensp; 	编码规则对象的编码</br>
+pkAssign&ensp; &ensp; &ensp; 	False&ensp; 	String	 	&ensp; &ensp; &ensp; &ensp; 分配对象</br>
+billVo	&ensp; &ensp; &ensp; &ensp; &ensp; False	 Object	 &ensp; &ensp; &ensp; &ensp; 	实体对象</br>
+ 
+
+- 退号服务</br>
+服务URL：” /billcoderest /returnBillCode”</br>
+参数字段	 &ensp;&ensp; &ensp;  必选  &ensp;&ensp;	类型	 &ensp;&ensp; 长度&ensp;&ensp;	说明</br>
+billObjCode&ensp;&ensp;	True&ensp;&ensp;	String	 &ensp;&ensp;	&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;编码规则对象的编码</br>
+pkAssign&ensp;&ensp;&ensp;&ensp;	False	&ensp;&ensp;String	 &ensp;&ensp;&ensp;	&ensp;&ensp;&ensp;&ensp;分配对象</br>
+billVo	 &ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;  False	   &ensp; Object	 &ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;实体对象</br>
+billCode&ensp;&ensp;&ensp;&ensp;&ensp;	True	&ensp;&ensp;&ensp;String		&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;生成的编码</br>
+
+### 2.2 业务单据实现
+
+**获取单据号</br>**
+调用编码规则的RestAPI，调用服务获取到单据号后，保存即可。
+ 
+ ![](/articles/application/6-/images/06/image12.png)
+
+ ![](/articles/application/6-/images/06/image13.png)
+ 
+**单据号退号**</br>
+在删除方法里调用退号的RestAPI</br>
+参数还需要传入当前业务单据的编号</br>
+![](/articles/application/4-/images/16/image14.png) 
+
+退号方法</br>
+ ![](/articles/application/6-/images/06/image15.png)
+
+3、应用效果
+登录应用平台环境，打开“主子表示例点，新增保存后，生成单据号
+ 
+ ![](/articles/application/6-/images/06/image16.png)
