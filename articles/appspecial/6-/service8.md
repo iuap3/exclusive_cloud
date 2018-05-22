@@ -6,12 +6,12 @@
 
 ## 解决方案 ##
 
-iuap的文件组件提供了对文件资源的通用操作，使用分布式文件系统FastDFS高效存储海量文件，通过集群模式水平扩展容量和数据冗余存储，同时支持阿里云OSS对象存储服务，使用OSS直接上传文件可以节省带宽流量。在对不同的文件系统进行适配时，尽量保持接口参数相同，保证用户使用简便。
+iuap的附件上传服务提供了对文件资源的通用操作，使用分布式文件系统FastDFS高效存储海量文件，通过集群模式水平扩展容量和数据冗余存储，同时支持阿里云OSS对象存储服务，使用OSS直接上传文件可以节省带宽流量。在对不同的文件系统进行适配时，尽量保持接口参数相同，保证用户使用简便。
 
 ## 功能说明 ##
 
 1.	支持文件的上传、下载、删除操作；
-2.	同时支持FastDFS和阿里云OSS服务；
+2.	同时支持本地存储、FastDFS和阿里云OSS服务；
 3.	支持获取文件下载URL；
 4.	支持阿里云OSS的文件直传和回调；
 5.	支持阿里云OSS不同bucket权限的文件URL获取；
@@ -25,11 +25,9 @@ iuap的文件组件提供了对文件资源的通用操作，使用分布式文�
 
 	<dependency>
 	  <groupId>com.yonyou.iuap</groupId>
-	  <artifactId>iuap-file</artifactId>
-	  <version>${iuap.modules.version}</version>
+	  <artifactId>iuap-saas-file</artifactId>
+	  <version>3.1.1-SNAPSHOT</version>
 	</dependency>
-
-${iuap.modules.version} 为平台在maven私服上发布的组件的version。
 
 ## 功能结构 ##
 
@@ -43,17 +41,15 @@ ${iuap.modules.version} 为平台在maven私服上发布的组件的version。
 ## 配置 ##
 **文件组件目前适配了三种文件系统，本地文件存储、阿里云、FastDfs**
 
-文件组件支持三套文件系统，在使用不同的系统时接口保持统一，通过FileManager类下的静态方法，提供对文件上传下载删除的服务。
+文件服务支持三套文件系统，在使用不同的系统时接口保持统一，通过SaasFileManager类下的静态方法，提供对文件上传下载删除的服务。
 
 **1:工程中引入对iuap-file组件的依赖**
 
 	<dependency>
-		<groupId>com.yonyou.iuap</groupId>
-		<artifactId>iuap-file</artifactId>
-		<version>${iuap.modules.version}</version>
+	  <groupId>com.yonyou.iuap</groupId>
+	  <artifactId>iuap-saas-file</artifactId>
+	  <version>3.1.1-SNAPSHOT</version>
 	</dependency>
-
-${iuap.modules.version} 为在pom.xml中定义的需要引入组件的version。
 
 **2:在application.properties文件中配置工程所使用的文件存储系统**
 
@@ -103,7 +99,7 @@ ${iuap.modules.version} 为在pom.xml中定义的需要引入组件的version。
 
 **非直传**
 
-组件提供的API，操作阿里云oss，所有的api都通过FileManager类静态调用，例子：FileManager.uploadFile("yourbucket","test.txt",content)。
+组件提供的API，操作阿里云oss，所有的api都通过SaasFileManager类静态调用，例子：SaasFileManager.uploadFile("yourbucket","test.txt",content)。
     
 	//上传，参数（bucket名，文件名，上传文件字节数组），返回（上传文件的文件名）
     String uploadFile(String bucketName, String fileName,byte[] fileContent)
@@ -141,15 +137,15 @@ example测试类
 		//==================准备工作完毕=============================
 		
 		//阿里云上传
-		filename=FileManager.uploadFile("your bucket","test.txt",content);
+		filename=SaasFileManager.uploadFile("your bucket","test.txt",content);
 		//阿里云下载
-		byte[] downloadContent=FileManager.downLoadFile("your bucket",filename);
+		byte[] downloadContent=SaasFileManager.downLoadFile("your bucket",filename);
 		//获取文件url
-		String url = FileManager.getUrl("your bucket", filename, 60);
+		String url = SaasFileManager.getUrl("your bucket", filename, 60);
 		//获取图片url(将上传文件路径改为图片)
-		//String imgurl = FileManager.getImgUrl(Private, filename, 60);
+		//String imgurl = SaasFileManager.getImgUrl(Private, filename, 60);
 		//删除
-		boolean flag=FileManager.deleteFile("your bucket",filename);
+		boolean flag=SaasFileManager.deleteFile("your bucket",filename);
 		
 		System.out.println(filename);
 		System.out.println(url);
@@ -334,24 +330,24 @@ http://image-demo.img-cn-hangzhou.aliyuncs.com/example.jpg@100w
 
 组件提供API，操作FastDFS
 
-FastDfs API与使用oss系统时是相同的，所有的api都通过FileManager类静态调用，例子：FileManager.uploadFile("private","test.txt",content)。
+FastDfs API与使用oss系统时是相同的，所有的api都通过SaasFileManager类静态调用，例子：SaasFileManager.uploadFile(tenantid,"test.txt",content,"private")。
 
 在使用FastDfs模式时，bucketName参数代表文件在操作FastDFS系统存储的权限（private、read、full）该权限将存入FastDFS文件的metadata中，目前组件还没有对不同权限的文件进行访问限制处理，请等待以后的更新。FastDfs模式下，bucketName目前为三个固定值PRIVATE、READ、FULL，代表三种权限。
 
-	//上传，参数（bucket名，文件名，上传文件字节数组），返回（上传文件的文件名）
-    String uploadFile(String bucketName, String fileName,byte[] fileContent)
+	//上传，参数（租户ID,文件名，上传文件字节数组,bucket名），返回（上传文件的文件名）
+    String uploadFile(String tenantID, String fileName, byte[] fileContent, BucketPermission permission)
 	
- 	//下载，参数（bucket名，文件名），返回（下载文件的字节数组）
- 	byte[] downLoadFile(String bucketName,String fileName) ;
+ 	//下载，参数（租户ID,bucket名，文件名），返回（下载文件的字节数组）
+ 	byte[] downLoadFile(String tenantID, String fileName, BucketPermission permission) ;
 	
-	//删除，参数（bucket名，文件名），返回（删除是否成功标志）
-    boolean deleteFile(String bucketName,String fileName)
+	//删除，参数（租户ID,文件名,bucket名），返回（删除是否成功标志）
+    boolean deleteFile(String tenantID, String fileName, BucketPermission permission)
 
-    //获取文件url，参数（bucket名，文件名，过期时间），返回（上传文件的url）目前expired参数只支持阿里云oss私有bucket，其他系统可置为0
-	String getUrl(String bucketName, String fileName,int expired)
+    //获取文件url，参数（租户ID,文件名，过期时间），返回（上传文件的url）目前expired参数只支持阿里云oss私有bucket，其他系统可置为0
+	String getUrl(String tenantID, String fileName, int expired)
 	
-	//获取图片url，参数（bucket名，文件名，过期时间），返回（图片的url）与getUrl的区别是文件名可以使用类似example.jpg@100h_100w这种格式产生略缩图，）目前expired参数只支持阿里云oss私有bucket，其他系统可置为0
-	String getImgUrl(String bucketName,String fileName,int expired)
+	//获取图片url，参数（租户ID,文件名，过期时间），返回（图片的url）与getUrl的区别是文件名可以使用类似example.jpg@100h_100w这种格式产生略缩图，）目前expired参数只支持阿里云oss私有bucket，其他系统可置为0
+	String getImgUrl(String tenantID, String fileName, int expired)
 
 example测试类
     
@@ -370,15 +366,15 @@ example测试类
 		//==================准备工作完毕=============================
 		
 		//fastdfs上传
-		filename=FileManager.uploadFile(Private, "test.txt",content);
+		filename=SaasFileManager.uploadFile(tenant,content,"test.txt","private");
 		//fastdfs下载
-		byte[] downloadContent=FileManager.downLoadFile(Private,filename);
+		byte[] downloadContent=SaasFileManager.downLoadFile(tenant,"test.txt","private");
 		//获取文件url
-		String url = FileManager.getUrl(Private, filename, 0);
+		String url = SaasFileManager.getUrl(tenant, "test.txt", 0);
 		//获取图片url(将上传文件路径改为图片)
-		//String imgurl = FileManager.getImgUrl(Private, filename, 0);
+		//String imgurl = SaasFileManager.getImgUrl(tenant, "test.txt", 0);
 		//删除
-		boolean flag=FileManager.deleteFile(Private,filename);	
+		boolean flag=SaasFileManager.deleteFile(tenant,"test.txt","private");	
 		
 		
 		System.out.println(filename);
@@ -564,12 +560,12 @@ example.jpg@100h_100w
 组件提供的API，操作本地文件系统
 
 
-    //上传，参数（bucket名传null，文件名，上传文件字节数组），返回（上传文件的文件名）
-    filename=FileManager.uploadFile(null,"test.txt", content);
-	//下载，参数（bucket名传null，文件名），返回（下载文件的字节数组）
+    //上传，参数（租户ID，上传文件字节数组，文件名，bucket名），返回（上传文件的文件名）
+    filename=SaasFileManager.uploadFile(tenant,content,"test.txt","private");
+	//下载，参数（文件路径和文件名），返回（下载文件的字节数组）
     byte[] content =client.download("/etc/filetest/test.txt");
-    //删除，参数（bucket名传null，文件名），返回（删除是否成功标志）
-    boolean flag=FileManager.deleteFile(null,filename);
+    //删除，参数（租户ID，文件名，bucket名），返回（删除是否成功标志）
+    boolean flag=SaasFileManager.deleteFile(tenant,"test.txt","private");
 
 
 example测试类
@@ -589,9 +585,9 @@ example测试类
 		byte[] content =client.download("/etc/filetest/test.txt");
 		
 		//上传	
-		filename=FileManager.uploadFile(null,"test.txt", content);
+		filename=SaasFileManager.uploadFile(tenant,content,"test.txt","private");
 		//删除
-		boolean flag=FileManager.deleteFile(null,filename);
+		boolean flag=SaasFileManager.deleteFile(tenant,"test.txt","private");
 		
 		System.out.println(filename);
 		System.out.println("删除状态"+flag);
@@ -721,7 +717,7 @@ fdfs权限模块配置文件/etc/fdfs/fdfs_auth.conf，该文件决定了鉴权�
 ## 常用接口 ##
 **文件组件api接口介绍**
 
-组件接口类FileManager
+组件接口类SaasFileManager
 
 FastDfs模式下，bucketName为三个固定值PRIVATE、READ、FULL，代表三种权限。
 
@@ -736,9 +732,10 @@ FastDfs模式下，bucketName为三个固定值PRIVATE、READ、FULL，代表三
 	<tr>
 		<td>uploadFile</td>
 		<td>
-			1. String bucketName（bucket名）<br/>
+			1. String tenantID（租户ID）<br/>
 			2. String fileName（上传文件名）<br/>
 			3. byte[] fileContent（上传文件字节数组）<br/>
+			4. String bucketName（bucket名）<br/>
 		</td>
 		<td>String（上传后的文件名）</td>
 		<td>上传文件</td>
@@ -755,8 +752,9 @@ FastDfs模式下，bucketName为三个固定值PRIVATE、READ、FULL，代表三
 	<tr>
 		<td>deleteFile</td>
 		<td>
-			1. String bucketName（bucket名）<br/>
+			1. String String tenantID（租户ID）<br/>
 			2. String fileName（要删除的文件名）<br/>
+			3. String bucketName（bucket名）<br/>
 		</td>
 		<td>boolean（删除文件是否成功）</td>
 		<td>删除文件</td>
@@ -764,7 +762,7 @@ FastDfs模式下，bucketName为三个固定值PRIVATE、READ、FULL，代表三
 	<tr>
 		<td>getUrl</td>
 		<td>
-			1. String bucketName(bucket名)<br/>
+			1. String String tenantID（租户ID）<br/>
 			2.  String fileName（获取url的文件名<br/>
 			3.  int expired（单位 秒 ，连接过期时间,目前该参数只支持阿里云oss私有bucket)<br/>
 		</td>
@@ -774,7 +772,7 @@ FastDfs模式下，bucketName为三个固定值PRIVATE、READ、FULL，代表三
 	<tr>
 		<td>getImgUrl</td>
 		<td>
-			1. String bucketName(bucket名)<br/>
+			1. String String tenantID（租户ID）<br/>
 			2. String fileName（获取url的文件名）<br/>
 			3. int expired（单位 秒 ，连接过期时间,目前该参数只支持阿里云oss私有bucket）<br/>
 		</td>
