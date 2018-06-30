@@ -14,25 +14,25 @@ ZooKeeper 的目标就是封装好复杂易出错的关键服务，将简单易�
 
 2、点击左侧菜单 `中间件服务`，进入中间件服务管理界面。
 <div align=center>
-<img src="/articles/cloud/3-/images/middleware.png"/>
+<img src="/articles/developer/5-/images/middleware.png"/>
 </div>
 <p align="center">图 1</p>
 
 3、点击 Zookeeper 服务所在区域的 `创建一个` 按钮或者点击 `管理我的Zookeeper` 按钮，然后点击 `创建服务` 按钮，创建自己的 Zookeeper 服务。
 <div align=center>
-<img src="/articles/cloud/3-/images/zookeeper/zookeeper_1.png"/>
+<img src="/articles/developer/5-/images/zookeeper/zookeeper_1.png"/>
 </div>
 <p align="center">图 2</p>
 
 4、输入服务名称、描述，并选择合适的配置。
 <div align=center>
-<img src="/articles/cloud/3-/images/zookeeper/zookeeper_2.png"/>
+<img src="/articles/developer/5-/images/zookeeper/zookeeper_2.png"/>
 </div>
 <p align="center">图 3</p>
 
 点击 `创建服务` 按钮，创建 Zookeeper 服务。
 <div align=center>
-<img src="/articles/cloud/3-/images/zookeeper/zookeeper_3.png"/>
+<img src="/articles/developer/5-/images/zookeeper/zookeeper_3.png"/>
 </div>
 <p align="center">图 4</p>
 
@@ -40,6 +40,6 @@ ZooKeeper 的目标就是封装好复杂易出错的关键服务，将简单易�
 
 5、每个租户默认允许创建 3 个 Zookeeper 服务实例，系统会给出提醒信息。
 <div align=center>
-<img src="/articles/cloud/3-/images/zookeeper/zookeeper_4.png"/>
+<img src="/articles/developer/5-/images/zookeeper/zookeeper_4.png"/>
 </div>
 <p align="center">图 5</p>

@@ -28,7 +28,7 @@
 
 <div align=center>
 
-<img src="/articles/cloud/3-/images/respool_11.png"/>
+<img src="/articles/developer/5-/images/respool_11.png"/>
 
 </div>
 
@@ -38,7 +38,7 @@
 
 <div align=center>
 
-<img src="/articles/cloud/3-/images/respool_12.png"/>
+<img src="/articles/developer/5-/images/respool_12.png"/>
 
 </div>
 

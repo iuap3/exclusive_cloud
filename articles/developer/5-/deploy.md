@@ -4,7 +4,7 @@
 ## 镜像仓库入口
 从开发者中心菜单栏点击镜像仓库即可进入镜像仓库节点，进入后默认展示的是公有镜像仓库。如图1所示。
 <div align="center">
-<img src="/articles/cloud/3-/images/deploy/registryindex.png">
+<img src="/articles/developer/5-/images/deploy/registryindex.png">
 </div>
 <p align="center"> 图 1</p>
 
@@ -15,7 +15,7 @@
 如图2所示。
 
 <div align="center">
-<img src="/articles/cloud/3-/images/deploy/publicregistry.png">
+<img src="/articles/developer/5-/images/deploy/publicregistry.png">
 </div>
 <p align="center"> 图 2</p>
 
@@ -23,7 +23,7 @@
 如果开发者需要从用友云开发者中心中Pull镜像，则需要先找到镜像的类目，比如```nginx```,镜像信息页面会展示镜像的相关描述，包括最新版本Pull命令和镜像的概述。如图3所示。
 
 <div align="center">
-<img src="/articles/cloud/3-/images/deploy/nginxintro.png">
+<img src="/articles/developer/5-/images/deploy/nginxintro.png">
 </div>
 <p align="center"> 图 3</p>
 
@@ -42,7 +42,7 @@ Digest: sha256:41ad9967ea448d7c2b203c699b429abe1ed5af331cd92533900c6d77490e0268
 镜像版本列表如图4所示。
 
 <div align="center">
-<img src="/articles/cloud/3-/images/deploy/nginxtags.png">
+<img src="/articles/developer/5-/images/deploy/nginxtags.png">
 </div>
 <p align="center"> 图 4</p>
 
@@ -56,7 +56,7 @@ Digest: sha256:41ad9967ea448d7c2b203c699b429abe1ed5af331cd92533900c6d77490e0268
 如图5所示。
 
 <div align="center">
-<img src="/articles/cloud/3-/images/deploy/privateregistrycatalogs.jpg">
+<img src="/articles/developer/5-/images/deploy/privateregistrycatalogs.jpg">
 </div>
 <p align="center"> 图 5</p>
 
@@ -64,7 +64,7 @@ Digest: sha256:41ad9967ea448d7c2b203c699b429abe1ed5af331cd92533900c6d77490e0268
 如图6所示。
 
 <div align="center">
-<img src="/articles/cloud/3-/images/deploy/privateregistrytags.png">
+<img src="/articles/developer/5-/images/deploy/privateregistrytags.png">
 </div>
 <p align="center"> 图 6</p>
 
@@ -72,7 +72,7 @@ Digest: sha256:41ad9967ea448d7c2b203c699b429abe1ed5af331cd92533900c6d77490e0268
 如7图所示。
 
 <div align="center">
-<img src="/articles/cloud/3-/images/deploy/privateimagedeploy.png">
+<img src="/articles/developer/5-/images/deploy/privateimagedeploy.png">
 </div>
 <p align="center"> 图 7</p>
 
@@ -81,7 +81,7 @@ Digest: sha256:41ad9967ea448d7c2b203c699b429abe1ed5af331cd92533900c6d77490e0268
 如图8所示。
 
 <div align="center">
-<img src="/articles/cloud/3-/images/deploy/imagedeploy.png">
+<img src="/articles/developer/5-/images/deploy/imagedeploy.png">
 </div>
 <p align="center"> 图 8</p>
 
