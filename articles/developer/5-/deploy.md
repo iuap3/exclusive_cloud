@@ -4,7 +4,7 @@
 ## 镜像仓库入口
 从开发者中心菜单栏点击镜像仓库即可进入镜像仓库节点，进入后默认展示的是公有镜像仓库。如图1所示。
 <div align="center">
-<img src="images/deploy/registryindex.png">
+<img src="/articles/cloud/3-/images/deploy/registryindex.png">
 </div>
 <p align="center"> 图 1</p>
 
@@ -15,7 +15,7 @@
 如图2所示。
 
 <div align="center">
-<img src="images/deploy/publicregistry.png">
+<img src="/articles/cloud/3-/images/deploy/publicregistry.png">
 </div>
 <p align="center"> 图 2</p>
 
@@ -23,7 +23,7 @@
 如果开发者需要从用友云开发者中心中Pull镜像，则需要先找到镜像的类目，比如```nginx```,镜像信息页面会展示镜像的相关描述，包括最新版本Pull命令和镜像的概述。如图3所示。
 
 <div align="center">
-<img src="images/deploy/nginxintro.png">
+<img src="/articles/cloud/3-/images/deploy/nginxintro.png">
 </div>
 <p align="center"> 图 3</p>
 
@@ -42,11 +42,11 @@ Digest: sha256:41ad9967ea448d7c2b203c699b429abe1ed5af331cd92533900c6d77490e0268
 镜像版本列表如图4所示。
 
 <div align="center">
-<img src="images/deploy/nginxtags.png">
+<img src="/articles/cloud/3-/images/deploy/nginxtags.png">
 </div>
 <p align="center"> 图 4</p>
 
-镜像部署相关配置参见[应用部署](articles/developer/4-/scene2.md)。
+镜像部署相关配置参见[应用部署](/articles/cloud/2-/scene2.md)。
 
 ## 私有镜像仓库
 > 开发者中心的私有镜像仓库保存的是用户所属租户所上传的镜像，是开发者进行自有应用docker镜像管理的节点，在私有镜像仓库中开发者可以进行镜像的浏览、删除，并且可以从镜像仓库进行应用镜像的部署。
@@ -56,7 +56,7 @@ Digest: sha256:41ad9967ea448d7c2b203c699b429abe1ed5af331cd92533900c6d77490e0268
 如图5所示。
 
 <div align="center">
-<img src="images/deploy/privateregistrycatalogs.jpg">
+<img src="/articles/cloud/3-/images/deploy/privateregistrycatalogs.jpg">
 </div>
 <p align="center"> 图 5</p>
 
@@ -64,7 +64,7 @@ Digest: sha256:41ad9967ea448d7c2b203c699b429abe1ed5af331cd92533900c6d77490e0268
 如图6所示。
 
 <div align="center">
-<img src="images/deploy/privateregistrytags.png">
+<img src="/articles/cloud/3-/images/deploy/privateregistrytags.png">
 </div>
 <p align="center"> 图 6</p>
 
@@ -72,7 +72,7 @@ Digest: sha256:41ad9967ea448d7c2b203c699b429abe1ed5af331cd92533900c6d77490e0268
 如7图所示。
 
 <div align="center">
-<img src="images/deploy/privateimagedeploy.png">
+<img src="/articles/cloud/3-/images/deploy/privateimagedeploy.png">
 </div>
 <p align="center"> 图 7</p>
 
@@ -81,11 +81,11 @@ Digest: sha256:41ad9967ea448d7c2b203c699b429abe1ed5af331cd92533900c6d77490e0268
 如图8所示。
 
 <div align="center">
-<img src="images/deploy/imagedeploy.png">
+<img src="/articles/cloud/3-/images/deploy/imagedeploy.png">
 </div>
 <p align="center"> 图 8</p>
 
-镜像的部署配置可以参见[应用部署](articles/developer/4-/scene2.md)章节。
+镜像的部署配置可以参见[应用部署](/articles/cloud/2-/scene2.md)章节。
 
 ### 手动上传镜像至私有镜像仓库
 用友云开发者中心在私有镜像仓库为开发者提供了手动上传镜像功能，开发者可以通过Push脚本进行自有```docker```镜像的上传。
@@ -113,4 +113,4 @@ f12c15fc56f1: Layer already exists
 v1: digest: sha256:12d30ce421ad530494d588f87b2328ddc3cae666e77ea1ae5ac3a6661e52cde6 size: 948
 ```
 
-Tips: 租户ID可以联系开发者中心获取。
+Tips: 租户ID可以通过查看网页cookie中u_providerid的值，或联系开发者中心获取。

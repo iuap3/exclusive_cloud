@@ -10,49 +10,49 @@
 
 2、点击左侧菜单 `配置中心` 。
 <div align=center>
-<img src="images/config/config_1.png"/>
+<img src="/articles/cloud/3-/images/config/config_1.png"/>
 </div>
 <p align="center">图 1</p>
 
 选择 `配置管理`。
 <div align=center>
-<img src="images/config/config_2.png"/>
+<img src="/articles/cloud/3-/images/config/config_2.png"/>
 </div>
 <p align="center">图 2</p>
 
 3、选择待修改应用的名称。
 <div align=center>
-<img src="images/config/config_3.png"/>
+<img src="/articles/cloud/3-/images/config/config_3.png"/>
 </div>
 <p align="center">图 3</p>
 
 选择应用所在环境。
 <div align=center>
-<img src="images/config/config_4.png"/>
+<img src="/articles/cloud/3-/images/config/config_4.png"/>
 </div>
 <p align="center">图 4</p>
 
 选择待修改应用的版本。
 <div align=center>
-<img src="images/config/config_5.png"/>
+<img src="/articles/cloud/3-/images/config/config_5.png"/>
 </div>
 <p align="center">图 5</p>
 
 
 4、点击下图中红色方框区域。
 <div align=center>
-<img src="images/config/config_6.png"/>
+<img src="/articles/cloud/3-/images/config/config_6.png"/>
 </div>
 <p align="center">图 6</p>
 
 在弹出来的 `编辑配置文件` 对话框中，修改配置文件中的参数或参数值，点击 `保存` 按钮保存修改。
 <div align=center>
-<img src="images/config/config_7.png"/>
+<img src="/articles/cloud/3-/images/config/config_7.png"/>
 </div>
 <p align="center">图 7</p>
 
 配置文件修改成功。
 <div align=center>
-<img src="images/config/config_8.png"/>
+<img src="/articles/cloud/3-/images/config/config_8.png"/>
 </div>
 <p align="center">图 8</p>

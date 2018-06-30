@@ -8,7 +8,9 @@
 首先成功部署一个应用，如图1所示。
 
 <div align=center>
-<img src="images/log-app.png"/>
+
+<img src="/articles/cloud/3-/images/log-app.png"/>
+
 </div>
 
 <p align="center">图 1</p>
@@ -16,7 +18,9 @@
 单击【**日志**】页签，查看应用运行日志，如图2所示。
 
 <div align=center>
-<img src="images/log-detail.jpg"/>
+
+<img src="/articles/cloud/3-/images/log-detail.jpg"/>
+
 </div>
 
 <p align="center">图 2</p>
@@ -28,7 +32,9 @@
 输入【**搜索关键字**】，可以检索相关的日志信息，如图3所示。
 
 <div align=center>
-<img src="images/search.png"/>
+
+<img src="/articles/cloud/3-/images/search.png"/>
+
 </div>
 
 <p align="center">图 3</p>
@@ -36,7 +42,9 @@
 单击一条记录，可以看到这条日志的连续信息，如图4所示。
 
 <div align=center>
-<img src="images/search-detail.png"/>
+
+<img src="/articles/cloud/3-/images/search-detail.png"/>
+
 </div>
 
 <p align="center">图 4</p>
@@ -44,7 +52,9 @@
 单击【**历史**】按钮，查看日志的历史信息，如图5所示。
 
 <div align=center>
-<img src="images/log-history.png"/>
+
+<img src="/articles/cloud/3-/images/log-history.png"/>
+
 </div>
 
 <p align="center">图 5</p>
@@ -52,7 +62,9 @@
 如果需要查看某个容器的日志，请单击【**实例**】页签下的【**日志**】按钮，如图6所示。
 
 <div align=center>
-<img src="images/search-single.png"/>
+
+<img src="/articles/cloud/3-/images/search-single.png"/>
+
 </div>
 
 <p align="center">图 6</p>
@@ -60,7 +72,9 @@
 将会弹出单个容器的运行日志，如图7所示。
 
 <div align=center>
-<img src="images/log-single.png"/>
+
+<img src="/articles/cloud/3-/images/log-single.png"/>
+
 </div>
 
 <p align="center">图 7</p>

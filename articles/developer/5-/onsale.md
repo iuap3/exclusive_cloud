@@ -7,7 +7,7 @@
 1.点击左侧【应用管理】菜单，进入应用卡片列表页面，点击具体卡片，进入应用详情页，如图1所示。
 
 <div align=center>
-<img src="images/respool_9.png"/>
+<img src="/articles/cloud/3-/images/respool_9.png"/>
 </div>
 
 <p align="center">图 1</p>
@@ -15,7 +15,7 @@
 2.应用详情页上方工具栏点击【上架】按钮，页面跳转到云市场的产品发布向导页，用户可按照提示进行应用上架操作，如图2所示。
 
 <div align=center>
-<img src="images/respool_10.png"/>
+<img src="/articles/cloud/3-/images/respool_10.png"/>
 </div>
 
 <p align="center">图 2</p>
@@ -27,7 +27,7 @@
 > 3. 进入产品上架向导页后，若没有完成向导，云市场会保存编辑状态，下一次同样产品申请上架时，会接着上次发布状态继续编辑上架。
 
 <div align=center>
-<img src="images/respool_8.png"/>
+<img src="/articles/cloud/3-/images/respool_8.png"/>
 </div>
 
 <p align="center">图 3</p>

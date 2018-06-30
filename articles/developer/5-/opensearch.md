@@ -16,37 +16,37 @@
 
 第二步：点击"统一搜索-数据源管理"菜单,进入数据源管理界面。
 <div align=center>
-<img src="images/opensearch-menu.png"/>
+<img src="/articles/cloud/3-/images/opensearch-menu.png"/>
 </div>
 <p align="center">图 1</p>
 
 第三步：输入数据源名称，IP或主机名，端口，只读权限的用户名、密码，创建数据源。
 <div align=center>
-<img src="images/opensearch-addsource.png"/>
+<img src="/articles/cloud/3-/images/opensearch-addsource.png"/>
 </div>
 <p align="center">图 2</p>
 
 第四步：点击"统一搜索-单表模型管理"菜单,进入单表模型管理界面。
 <div align=center>
-<img src="images/opensearch-simplemodel.png"/>
+<img src="/articles/cloud/3-/images/opensearch-simplemodel.png"/>
 </div>
 <p align="center">图 3</p>
 
 第五步：点击"新增当前页数据关联"按钮，选择数据源，数据库，表，过滤条件，数据自动同步，同步周期，以及字段映射关系，创建数据模型以及同步周期。
 <div align=center>
-<img src="images/opensearch-addmodel.png"/>
+<img src="/articles/cloud/3-/images/opensearch-addmodel.png"/>
 </div>
 <p align="center">图 4</p>
 
 第六步：点击"统一搜索-数据检索"菜单,进入数据检索界面，可以根据类SQL语法查询数据。
 
 <div align=center>
-<img src="images/opensearch-datasearch.png"/>
+<img src="/articles/cloud/3-/images/opensearch-datasearch.png"/>
 </div>
 <p align="center">图 5</p>
 
 第七步：统一搜索-数据检索的类SQL语法查询数据帮助文档如下：
 
 <div align=left>
-<a href="opensearch-help.md" title="帮助文档">查看帮助文档</a>
+<a href="/articles/cloud/3-/opensearch-help.md" title="帮助文档">查看帮助文档</a>
 </div>

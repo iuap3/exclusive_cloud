@@ -11,3 +11,6 @@
 ## [使用和管理 Jenkins 服务](middleware/jenkins.md)
 
 ## [使用和管理负载均衡服务](middleware/load_balance.md)
+
+## [使用和管理灰度发布服务](middleware/grey.md)
+

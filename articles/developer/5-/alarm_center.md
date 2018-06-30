@@ -6,7 +6,7 @@
 
 <div align=center>
 
-<img src="images/alarm_center_1.png"/>
+<img src="/articles/cloud/3-/images/alarm_center_1.png"/>
 
 </div>
 
@@ -16,7 +16,7 @@
 
 <div align=center>
 
-<img src="images/alarm_center_manage_1.png"/>
+<img src="/articles/cloud/3-/images/alarm_center_manage_1.png"/>
 
 </div>
 
@@ -28,7 +28,7 @@
 
 <div align=center>
 
-<img src="images/alarm_center_manage_2.png"/>
+<img src="/articles/cloud/3-/images/alarm_center_manage_2.png"/>
 
 </div>
 
@@ -38,7 +38,7 @@
 
 <div align=center>
 
-<img src="images/alarm_center_manage_3.png"/>
+<img src="/articles/cloud/3-/images/alarm_center_manage_3.png"/>
 
 </div>
 
@@ -48,7 +48,7 @@
 
 <div align=center>
 
-<img src="images/alarm_center_manage_4.png"/>
+<img src="/articles/cloud/3-/images/alarm_center_manage_4.png"/>
 
 </div>
 
@@ -58,7 +58,7 @@
 
 <div align=center>
 
-<img src="images/alarm_center_manage_5.png"/>
+<img src="/articles/cloud/3-/images/alarm_center_manage_5.png"/>
 
 </div>
 
@@ -68,7 +68,7 @@
 
 <div align=center>
 
-<img src="images/alarm_center_3.png"/>
+<img src="/articles/cloud/3-/images/alarm_center_3.png"/>
 
 </div>
 

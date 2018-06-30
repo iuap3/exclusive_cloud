@@ -8,7 +8,7 @@
 
 <div align=center>
 
-<img src="images/terminal/how_to_add_environment_variables_1.png"/>
+<img src="/articles/cloud/4-/images/how_to_add_environment_variables_1.png"/>
 
 </div>
 
@@ -18,7 +18,7 @@
 
 <div align=center>
 
-<img src="images/terminal/how_to_add_environment_variables_2.png"/>
+<img src="/articles/cloud/4-/images/how_to_add_environment_variables_2.png"/>
 
 </div>
 
@@ -28,7 +28,7 @@
 
 <div align=center>
 
-<img src="images/respool_11.png"/>
+<img src="/articles/cloud/3-/images/respool_11.png"/>
 
 </div>
 
@@ -38,7 +38,7 @@
 
 <div align=center>
 
-<img src="images/respool_12.png"/>
+<img src="/articles/cloud/3-/images/respool_12.png"/>
 
 </div>
 

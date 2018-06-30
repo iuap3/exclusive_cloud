@@ -14,55 +14,55 @@ MySQL 是一种开放源代码的关系型数据库管理系统，使用最常�
 
 2、点击左侧菜单 `中间件服务` ，进入中间件服务管理界面。
 <div align=center>
-<img src="../images/middleware.png"/>
+<img src="/articles/cloud/3-/images/middleware.png"/>
 </div>
 <p align="center">图 1</p>
 
 3、点击 MySQL 服务所在区域的 `创建一个` 按钮或者点击 `管理我的MySQL` 按钮，然后点击 `创建服务` 按钮，创建自己的 MySQL 服务。
 <div align=center>
-<img src="../images/mysql/mysql_1.png"/>
+<img src="/articles/cloud/3-/images/mysql/mysql_1.png"/>
 </div>
 <p align="center">图 2</p>
 
 4、输入服务名称、服务描述，并选择合适的配置。
 <div align=center>
-<img src="../images/mysql/mysql_2.png"/>
+<img src="/articles/cloud/3-/images/mysql/mysql_2.png"/>
 </div>
 <p align="center">图 3</p>
 
 设置 MySQL 数据库密码，点击 `创建服务` 按钮，创建 MySQL 服务。
 <div align=center>
-<img src="../images/mysql/mysql_3.png"/>
+<img src="/articles/cloud/3-/images/mysql/mysql_3.png"/>
 </div>
 <p align="center">图 4</p>
 
 5、进入 MySQL 服务列表管理界面，可以看到服务的名称、状态、规格、剩余时间等，刚创建的服务为 `部署中` 状态。
 <div align=center>
-<img src="../images/mysql/mysql_4.png"/>
+<img src="/articles/cloud/3-/images/mysql/mysql_4.png"/>
 </div>
 <p align="center">图 5</p>
 
 稍等 1~2 分钟，点击 `刷新` 按钮刷新列表状态。
 <div align=center>
-<img src="../images/mysql/mysql_5.png"/>
+<img src="/articles/cloud/3-/images/mysql/mysql_5.png"/>
 </div>
 <p align="center">图 6</p>
 
 创建的服务更新为 `运行中` 状态，服务创建成功。
 <div align=center>
-<img src="../images/mysql/mysql_6.png"/>
+<img src="/articles/cloud/3-/images/mysql/mysql_6.png"/>
 </div>
 <p align="center">图 7</p>
 
 点击下图中 `+` 号处，查看 MySQL 服务的详细信息。
 <div align=center>
-<img src="../images/mysql/mysql_7.png"/>
+<img src="/articles/cloud/3-/images/mysql/mysql_7.png"/>
 </div>
 <p align="center">图 8</p>
 
 可以看到 MySQL 服务的详细信息，包括 MySQL 服务的外网管理界面地址、内网链接地址、端口号等，用户可以在开发者中心的网络内使用此连接地址作为应用的配置。
 <div align=center>
-<img src="../images/mysql/mysql_8.png"/>
+<img src="/articles/cloud/3-/images/mysql/mysql_8.png"/>
 </div>
 <p align="center">图 9</p>
 
@@ -70,18 +70,18 @@ MySQL 是一种开放源代码的关系型数据库管理系统，使用最常�
 
 6、点击 `管理地址` 对应链接。
 <div align=center>
-<img src="../images/mysql/mysql_9.png"/>
+<img src="/articles/cloud/3-/images/mysql/mysql_9.png"/>
 </div>
 <p align="center">图 10</p>
 
 7、进入 phpMyAdmin 登录界面，输入用户名和密码，点击 `执行` 按钮登录。
 <div align=center>
-<img src="../images/mysql/mysql_10.png"/>
+<img src="/articles/cloud/3-/images/mysql/mysql_10.png"/>
 </div>
 <p align="center">图 11</p>
 
 8、进入到 phpMyAdmin 数据库管理系统，用户可在此界面中管理自己应用的 MySQL 数据库，例如创建数据库和数据表，直接导入 sql 文件执行或将数据库导出为 sql 文件。。
 <div align=center>
-<img src="../images/mysql/mysql_11.png"/>
+<img src="/articles/cloud/3-/images/mysql/mysql_11.png"/>
 </div>
 <p align="center">图 12</p>
