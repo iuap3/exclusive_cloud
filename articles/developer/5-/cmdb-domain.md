@@ -10,25 +10,25 @@
 
 2、点击左侧菜单 `资源申请及审批` 。
 <div align=center>
-<img src="/articles/cloud/3-/images/domain001.png"/>
+<img src="images/domain001.png"/>
 </div>
 <p align="center">图 1</p>
 
 选择 `域名管理`。
 <div align=center>
-<img src="/articles/cloud/3-/images/domain002.png"/>
+<img src="images/domain002.png"/>
 </div>
 <p align="center">图 2</p>
 
 3、点击`申请域名`按钮进行域名申请。
 <div align=center>
-<img src="/articles/cloud/3-/images/domain003.png"/>
+<img src="images/domain003.png"/>
 </div>
 <p align="center">图 3</p>
 
 主要填写项示例及说明。
 <div align=center>
-<img src="/articles/cloud/3-/images/domain004.png"/>
+<img src="images/domain004.png"/>
 </div>
 <p align="center">图 4</p>
 
@@ -45,7 +45,7 @@
 
 4、我的域名申请历史查看。
 <div align=center>
-<img src="/articles/cloud/3-/images/domain005.png"/>
+<img src="images/domain005.png"/>
 </div>
 <p align="center">图 5</p>
 
