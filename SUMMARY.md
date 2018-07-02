@@ -39,7 +39,7 @@
     * [配置中心](articles/developer/5-/config.md)
     * [数据服务]()
     * [资源申请与审批](articles/developer/5-)
-      * [域名管理](articles/developer/5-/domain.md)
+      * [域名管理](articles/developer/5-/cmdb-domain.md)
       * [审批管理](articles/developer/5-/exam.md)
     * [权限管理](articles/developer/5-/access.md)
   * [开发指南](articles/developer/6-/)
