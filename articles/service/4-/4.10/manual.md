@@ -58,55 +58,54 @@
 会导致被调用方法隔离前后获取threadlocal不对
 ## 示例
 //业务接口
-```
-public interface ILogService<T, M> {
-	public T log(T s);
-	public M log(T s,M m);
-}
-```
+
+	public interface ILogService<T, M> {
+		public T log(T s);
+		public M log(T s,M m);
+	}
+
 //降级逻辑类，实现业务逻辑接口
-```
-public class Fallback implements ILogService<String, Integer>{
 
-	@Override
-	public String log(String s) {
-		return "error1";
+	public class Fallback implements ILogService<String, Integer>{
+	
+		@Override
+		public String log(String s) {
+			return "error1";
+		}
+	
+		@Override
+		public Integer log(String s, Integer m) {
+			return -m * 2;
+		}
 	}
 
-	@Override
-	public Integer log(String s, Integer m) {
-		return -m * 2;
-	}
-}
-```
 //业务实现类，模拟耗时操作
-```
-public class LogServiceImpl<T, M> implements ILogService<T, M> {
-       @Override
-	public T log(T s) {
-		return s;
-	}
-	@Override
-	public M log(T s, M m) {
-		return m;
+
+	public class LogServiceImpl<T, M> implements ILogService<T, M> {
+	       @Override
+		public T log(T s) {
+			return s;
+		}
+		@Override
+		public M log(T s, M m) {
+			return m;
+		}
+	
 	}
 
-}
-
-```
  //业务对象
- ```
- ILogService<Integer> logIntService = new LogServiceImpl<Integer>();
-//根据业务对象获取业务对象代理
-//降级逻辑，降级逻辑class与业务实现有相同的签名方案，当业务方法出现熔断时，会执行降级逻辑class的相同签名的方法
-ILogService<Integer> logIntServiceProxy = 
-				 CirCuitBreakerProxyFactory.<ILogService<Integer>>createCircuitBreakerProxy().createProxy(logIntService, Fallback.cass,
 
-//熔断器相关参数设置，递延式参数设置
-CCSetter.withGroup("groupKey1").andCommandKey("commandkey1").andThreadPoolKey("threadpoolkey1").andCircuitBreakerForceOpen(true));
+	 ILogService<Integer> logIntService = new LogServiceImpl<Integer>();
+	//根据业务对象获取业务对象代理
+	//降级逻辑，降级逻辑class与业务实现有相同的签名方案，当业务方法出现熔断时，会执行降级逻辑class的相同签名的方法
+	ILogService<Integer> logIntServiceProxy = 
+					 CirCuitBreakerProxyFactory.<ILogService<Integer>>createCircuitBreakerProxy().createProxy(logIntService, Fallback.cass,
+	
+	//熔断器相关参数设置，递延式参数设置
+	CCSetter.withGroup("groupKey1").andCommandKey("commandkey1").andThreadPoolKey("threadpoolkey1").andCircuitBreakerForceOpen(true));
+	
+	// 通过代理对象执行隔离逻辑，即 执行log方法时将被熔断器隔离执行
+	logIntServiceProxy.log("one");
 
-// 通过代理对象执行隔离逻辑，即 执行log方法时将被熔断器隔离执行
-logIntServiceProxy.log("one");
 
-```
 
