@@ -44,7 +44,7 @@ CCTransaction是一个没有事务协调器、没有事务中心概念，事务�
 ## CCTransaction事务使用
 
 * 引入相关jar包
-```
+
 		<dependency>
 			<groupId>com.yonyou.cloud.middleware</groupId>
 			<artifactId>eos-spring-support</artifactId>
@@ -61,97 +61,96 @@ CCTransaction是一个没有事务协调器、没有事务中心概念，事务�
 			<version>${mw.version}</version>
 			<type>pom</type>
 		</dependency>
-```
+
 
 * 编写业务接口，包括业务方法和补偿方法，通过分布式事务注解来实现
-```
- /**
-   * 订单服务
-   * @author Administrator
-   *
-   */
- @RemoteCall(AppConstant.APP_INFO_ORDERSERVICE)
- public interface IOrderService {
-	@ApiOperation(value="下旅游订单", response=TourOrder.class)
-	@CCTransactional(cancel="cancelOrder")
-	public abstract TourOrder order(TourOrder paramTourOrder);
-	  
-	@ApiOperation(value="取消旅游订单", response=TourOrder.class)
-	@Async
-	public abstract TourOrder cancelOrder(TourOrder paramTourOrder);
- }
-```
+
+		/**
+		* 订单服务
+		* @author Administrator
+		*
+		*/
+		@RemoteCall(AppConstant.APP_INFO_ORDERSERVICE)
+		public interface IOrderService {
+			@ApiOperation(value="下旅游订单", response=TourOrder.class)
+			@CCTransactional(cancel="cancelOrder")
+			public abstract TourOrder order(TourOrder paramTourOrder);
+			  
+			@ApiOperation(value="取消旅游订单", response=TourOrder.class)
+			@Async
+			public abstract TourOrder cancelOrder(TourOrder paramTourOrder);
+		}
+
 
 * 服务提供方实现业务接口
-```
-public class OrderService implements IOrderService {
-	private static final Logger logger = LoggerFactory
-			.getLogger(OrderService.class);
-	@Autowired
-	private JdbcTemplate jdbcTemplate;
-	@Autowired
-	private IMsPlaneService msPlaneService;
-	@Autowired
-	private IMsHotelService msHotelService;
 
-	@Transactional
-	public TourOrder order(TourOrder dto) {
-		this.jdbcTemplate
-				.update("insert into biz_tourorder (orderName,userId,userName,dest,status,tourOrderId)values (?,?,?,?,?,?)",
-						new Object[] { dto.getOrderName(), dto.getUserId(),
-								dto.getUserName(), dto.getDest(),
-								dto.getStatus(), dto.getTourOrderId() });
-		PlaneOrder planeOrder = new PlaneOrder();
-		planeOrder.setAirport("首都国际机场");
-		planeOrder.setArrive("上海虹桥机场");
-		planeOrder.setPlaneNo("CCAC5982");
-		planeOrder.setPlaneOrderId(UUID.randomUUID().toString());
-		planeOrder.setPrice(Double.valueOf(2903.0D));
-		planeOrder.setStart(new DateTime().toString());
-		planeOrder.setUserId(dto.getUserId());
-		planeOrder.setStatus("NORMAL");
-		this.msPlaneService.orderPlane(planeOrder);
-		HotelOrder hotelOrder = new HotelOrder();
-		hotelOrder.setStart(new DateTime().toString());
-		hotelOrder.setEnd(new DateTime().toString());
-		hotelOrder.setHotelName("锦江之星宾馆");
-		hotelOrder.setHotelOrderId(UUID.randomUUID().toString());
-		hotelOrder.setRoomNo("401");
-		hotelOrder.setStatus("NORMAL");
-		hotelOrder.setUserId(dto.getUserId());
-		hotelOrder.setUserName(dto.getUserName());
-		this.msHotelService.orderHotel(hotelOrder);
+		public class OrderService implements IOrderService {
+			private static final Logger logger = LoggerFactory
+					.getLogger(OrderService.class);
+			@Autowired
+			private JdbcTemplate jdbcTemplate;
+			@Autowired
+			private IMsPlaneService msPlaneService;
+			@Autowired
+			private IMsHotelService msHotelService;
+		
+			@Transactional
+			public TourOrder order(TourOrder dto) {
+				this.jdbcTemplate
+						.update("insert into biz_tourorder (orderName,userId,userName,dest,status,tourOrderId)values (?,?,?,?,?,?)",
+								new Object[] { dto.getOrderName(), dto.getUserId(),
+										dto.getUserName(), dto.getDest(),
+										dto.getStatus(), dto.getTourOrderId() });
+				PlaneOrder planeOrder = new PlaneOrder();
+				planeOrder.setAirport("首都国际机场");
+				planeOrder.setArrive("上海虹桥机场");
+				planeOrder.setPlaneNo("CCAC5982");
+				planeOrder.setPlaneOrderId(UUID.randomUUID().toString());
+				planeOrder.setPrice(Double.valueOf(2903.0D));
+				planeOrder.setStart(new DateTime().toString());
+				planeOrder.setUserId(dto.getUserId());
+				planeOrder.setStatus("NORMAL");
+				this.msPlaneService.orderPlane(planeOrder);
+				HotelOrder hotelOrder = new HotelOrder();
+				hotelOrder.setStart(new DateTime().toString());
+				hotelOrder.setEnd(new DateTime().toString());
+				hotelOrder.setHotelName("锦江之星宾馆");
+				hotelOrder.setHotelOrderId(UUID.randomUUID().toString());
+				hotelOrder.setRoomNo("401");
+				hotelOrder.setStatus("NORMAL");
+				hotelOrder.setUserId(dto.getUserId());
+				hotelOrder.setUserName(dto.getUserName());
+				this.msHotelService.orderHotel(hotelOrder);
+		
+				return dto;
+			}
+		
+			@Transactional
+			public TourOrder cancelOrder(TourOrder dto) {
+				this.jdbcTemplate.update(
+						"update biz_tourorder set status=?  where tourOrderId=?",
+						new Object[] { AppConstant.DELETED, dto.getTourOrderId() });
+				return dto;
+			}
 
-		return dto;
-	}
-
-	@Transactional
-	public TourOrder cancelOrder(TourOrder dto) {
-		this.jdbcTemplate.update(
-				"update biz_tourorder set status=?  where tourOrderId=?",
-				new Object[] { AppConstant.DELETED, dto.getTourOrderId() });
-		return dto;
-	}
-```
 
 * 服务型消费方调用业务业务接口
-```
-@Service("webApiService")
-public class WebApiService {
-	@Autowired
-	private IOrderService orderService;
-	@Autowired
-	private JdbcTemplate jdbcTemplate;
 
-	@Transactional
-	@CCTransactional(cancel = "cancel")
-	public void placeOrder(TourOrder dto) {
-		this.orderService.order(dto);
-		this.jdbcTemplate.update("insert into biz_send(content) values(?)",
-				new Object[] { dto.toString() });
-	}
-
-	public void cancel(TourOrder dto) {
-	}
-}
-```
+		@Service("webApiService")
+		public class WebApiService {
+			@Autowired
+			private IOrderService orderService;
+			@Autowired
+			private JdbcTemplate jdbcTemplate;
+		
+			@Transactional
+			@CCTransactional(cancel = "cancel")
+			public void placeOrder(TourOrder dto) {
+				this.orderService.order(dto);
+				this.jdbcTemplate.update("insert into biz_send(content) values(?)",
+						new Object[] { dto.toString() });
+			}
+		
+			public void cancel(TourOrder dto) {
+			}
+		}
