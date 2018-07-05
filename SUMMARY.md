@@ -54,7 +54,7 @@
   * [最佳实践](articles/developer/10-/)
     * [最佳实践](articles/developer/10-/practices.md)
 * [服务治理平台](articles/service/)
-  * 产品介绍(articles/service/1-/)
+  * [产品介绍](articles/service/1-/)
 	* [产品概述](articles/service/1-/1.1/introduction.md)
 	* [名词解释](articles/service/1-/1.2/manual.md)
 	* [版本说明](articles/service/1-/1.3/manual.md)
