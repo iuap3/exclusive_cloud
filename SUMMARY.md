@@ -32,7 +32,7 @@
       * [监控大盘](articles/developer/5-/monitor.md)
       * [变更大盘](articles/developer/5-/change.md)
       * [报警中心](articles/developer/5-/alarm_center.md)
-      * [产品中心](articles/developer/5-/product.md)
+      * [产品中心](articles/developer/5-/app_product.md)
     * [微服务](articles/service/)
     * [测试服务]()
     * [中间件服务](articles/developer/5-/middleware.md)
