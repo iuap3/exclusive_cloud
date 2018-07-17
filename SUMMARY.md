@@ -17,7 +17,7 @@
     * [卸载及常见问题](articles/developer/3-/unload.md)
   * [快速入门](articles/developer/4-/)
     * [用户场景一：如何快速创建一个应用](articles/developer/4-/scene1.md)
-    * [用户场景二：1分钟快速部署您的第一个容器](articles/developer/4-/scene2.md)
+    * [用户场景二：如何管理已部署的应用](articles/developer/4-/scene2.md)
     * [用户场景三： 云开发者中心快速入门](articles/developer/4-/rumen.md)
     * [用户场景四：用友云开发者中心使用 Docker](articles/developer/4-/center_docker.md)
   * [用户手册](articles/developer/5-/)

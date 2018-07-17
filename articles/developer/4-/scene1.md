@@ -1,7 +1,9 @@
 
-# 如何快速创建一个应用 
 
-第一步：点击左侧“持续集成”或者“应用管理”，左上角点击“创建新应用”的按钮。
+# 如何快速创建一个应用
+
+
+第一步：登录开发者中心后，点击左侧菜单中“持续集成”，点击左上角“创建流水线”按钮。
 
 <div align=center>
 
@@ -11,7 +13,7 @@
 
 <p align="center">图 1</p>
 
-第二步：按要求填写所有的文本框；选择对应的应用分类以及运行环境，并上传对应格式的应用包。
+第二步：按要求填写应用名称等信息，选择应用所在产品线；选择应用类型，上传对应格式的应用包，选择基础镜像以及运行环境等信息。
 
 
 <div align=center>
@@ -20,9 +22,7 @@
 
 </div>
 
-
 <p align="center">图 2</p>
-
 
 <div align=center>
 
@@ -32,8 +32,8 @@
 
 <p align="center">图 3</p>
 
+第三步：点击最下面的“创建应用”，此时流水线方式构建的应用已被创建并自动执行。等待日志框中出现“AssemblyLine success”字样，则表示应用构建并部署完成。
 
-第三步：点击最下面的“创建新应用”，可以查看当前日志，等待出现“Upload success”，镜像封装完成
 
 <div align=center>
 
@@ -43,8 +43,6 @@
 
 <p align="center">图 4</p>
 
-我们还可以点击“构建新版本”来更新应用程序,只需填写新的版本号并上传新应用即可，如下图所示。
-
 <div align=center>
 
 <img src="images/scene1_5.png"/>
@@ -52,3 +50,20 @@
 </div>
 
 <p align="center">图 5</p>
+应用部署完成后，点击“应用管理”按钮，即可跳转至应用对应的管理页面。
+
+<div align=center>
+
+<img src="images/scene1_6.png"/>
+
+</div>
+
+<p align="center">图 6</p>
+
+<div align=center>
+
+<img src="images/scene1_7.png"/>
+
+</div>
+
+<p align="center">图 7</p>
