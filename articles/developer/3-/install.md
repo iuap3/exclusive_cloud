@@ -1,5 +1,5 @@
 # 安装向导
-> 1.开发者中心, Kubernetes，Prometheus可按集群部署主机规划方案，在不同主机并行安装：<br/>
+> 1.开发者中心, Kubernetes，Prometheus可按集群部署主机规划方案，在不同主机并行安装；<br/>
 2.DNS需要docker环境支持，而DNS安装目前不包含docker安装过程，建议按推荐的主机规划，在开发者中心已经添加好的从节点上安装DNS服务；
   
 ## 3.1 开发者中心安装
@@ -38,8 +38,8 @@ cd developercenter_enterprise
  <p align="center">图3-3</p>
  
 5.配置kubernetes，prometheus，dns服务的IP地址，IP地址可按安装规划填写。
->1)如果不计划使用VIP类型资源池，不安装kubernetes，可以填任意IP替代，建议填入一个规划中空闲的IP，可以在未来要启用VIP资源池，安装kubernetes时，直接在此IP对应的主机安装kubernetes，便于升级系统功能。<br/>
-2)如果需要接入客户自建的DNS服务，则需要在此步骤填入客户自己的DNS服务IP
+>1)如果不计划使用VIP类型资源池，不安装kubernetes，可以填任意IP替代，建议填入一个规划中空闲的IP，可以在未来要启用VIP资源池，安装kubernetes时，直接在此IP对应的主机安装kubernetes，便于升级系统功能；<br/>
+2)如果需要接入客户自建的DNS服务，则需要在此步骤填入客户自己的DNS服务IP；
  <div align=center>
  <img src="/articles/developer/3-/images/3-4.png"/>
  </div>
@@ -63,15 +63,17 @@ cd developercenter_enterprise
  </div>
  <p align="center">图3-6</p>
  
-2.参考附录1组件启动批次列表，在启动组件时修改“独立部署模式”标识为是的组件约束条件，使其只能运行在开发者中心主节点上，修改方法如下：
+2.参考附录1组件启动批次列表，在启动组件时修改“独立部署模式”标识为是的组件约束条件，使其只能运行在开发者中心主节点上。
 
-1）登录运维平台，进入“发布管理”菜单，选择待修改应用，例如confcenter
+修改方法如下：
+
+1）登录运维平台，进入“发布管理”菜单，选择待修改应用，例如confcenter；
  <div align=center>
  <img src="/articles/developer/3-/images/3-7.png"/>
  </div>
  <p align="center">图3-7</p>
  
-2）修改下图中的“UNLIKE”为“LIKE” 后保存发布该应用即可。
+2）修改下图中的“UNLIKE”为“LIKE” 后保存发布该应用即可；
  <div align=center>
  <img src="/articles/developer/3-/images/3-8.png"/>
  </div>
@@ -93,7 +95,7 @@ cd developercenter_enterprise
  </div>
  <p align="center">图3-10</p>
  
-2）在udn申请授权，访问[http://udn.yyuap.com/license.php]，自行注册社区普通用户后登陆，选择uapv6，点击申请license，按要求填入信息，上传上一个步骤生成的硬件锁文件（上传文件需要浏览器支持flash插件，可以只输入必填项，但是务必正确填写可用的邮箱地址），点击申请后，邮箱会收到授权文件license.resp
+2）在udn申请授权，访问<label>http://udn.yyuap.com/license.php</label>，自行注册社区普通用户后登陆，选择uapv6，点击申请license，按要求填入信息，上传上一个步骤生成的硬件锁文件（上传文件需要浏览器支持flash插件，可以只输入必填项，但是务必正确填写可用的邮箱地址），点击申请后，邮箱会收到授权文件license.resp
  <div align=center>
  <img src="/articles/developer/3-/images/3-11.png"/>
  </div>
@@ -108,31 +110,31 @@ cd developercenter_enterprise
 #### 3.1.2.2 添加开发者中心从节点
 >注意：此时添加的主机仅用来完整启动开发者中心平台，不能再作为资源池添加的主机来运行业务应用，建议至少两个从节点。
 
-1）使用浏览器访问 <label>http://开发者中心主节点ip地址:8800</label>，登陆云运维平台后台，初始用户名：admin 密码：admin 。
+1）使用浏览器访问 <label>http://开发者中心主节点ip地址:8800</label>，登陆云运维平台后台，初始用户名：admin 密码：admin ;
  <div align=center>
  <img src="/articles/developer/3-/images/3-13.png"/>
  </div>
  <p align="center">图3-13</p>
  
-2）点击菜单中的【增加节点】按钮。
+2）点击菜单中的【增加节点】按钮;
  <div align=center>
  <img src="/articles/developer/3-/images/3-14.png"/>
  </div>
  <p align="center">图3-14</p>
  
-3）输入待添加节点机的ip地址、root用户密码以及节点前缀，点击【+】按钮。节点前缀即节点名称，其内容可自定义。云运维平台支持批量添加节点机，只需按照页面内提示按照格式填入文本框中即可，但需注意尽量避免多节点同时安装，主节点压力过大可能导致节点安装失败！
+3）输入待添加节点机的ip地址、root用户密码以及节点前缀，点击【+】按钮。节点前缀即节点名称，其内容可自定义。云运维平台支持批量添加节点机，只需按照页面内提示按照格式填入文本框中即可，但需注意尽量避免多节点同时安装，主节点压力过大可能导致节点安装失败;
  <div align=center>
  <img src="/articles/developer/3-/images/3-15.png"/>
  </div>
  <p align="center">图3-15</p>
  
-4）下拉页面，点击【安装】按钮开始节点安装。
+4）下拉页面，点击【安装】按钮开始节点安装;
  <div align=center>
  <img src="/articles/developer/3-/images/3-16.png"/>
  </div>
  <p align="center">图3-16</p>
  
-5）点击节点管理，可查看安装进度。节点机会自动进行安装docker、配置网络环境等操作。需手动刷新节点管理列表，更新安装进度，等待所有节点添加完成。
+5）点击节点管理，可查看安装进度。节点机会自动进行安装docker、配置网络环境等操作。需手动刷新节点管理列表，更新安装进度，等待所有节点添加完成;
  <div align=center>
  <img src="/articles/developer/3-/images/3-17.png"/>
  </div>
@@ -142,7 +144,7 @@ cd developercenter_enterprise
 
 所有节点安装完成后，点击菜单中的【发布管理】,即可开始启动开发者中心各模块。
 
-1）确认基础组件状态。在云运维平台中，各基础组件的状态已用颜色标识，如绿色表示该模块正常运行。点击该模块名称，可对其进行启动、关闭、重启等操作。
+1）确认基础组件状态。在云运维平台中，各基础组件的状态已用颜色标识，如绿色表示该模块正常运行。点击该模块名称，可对其进行启动、关闭、重启等操作;
  <div align=center>
  <img src="/articles/developer/3-/images/3-18.png"/>
  </div>
@@ -150,7 +152,7 @@ cd developercenter_enterprise
 
 2）发布开发者中心各组件
 
-开发者中心的各模块的部署有优先级区别，请参见《附录1：云运维平台-开发者中心各组件启动批次及说明》分批次发布开发者中心后台应用，某些发布系统中存在的模块，如不在附录1文档的发布批次中，不推荐发布。开发者中心可分为4批应用发布。请确保每一批次的应用部署成功后，再发布下一批次应用。当运行状态为running且设置的启动实例数与运行的实例数一致时，可以判定应用启动成功，如图3-19红框所示为启动成功状态。
+开发者中心的各模块的部署有优先级区别，请参见《附录1：云运维平台-开发者中心各组件启动批次及说明》分批次发布开发者中心后台应用，某些发布系统中存在的模块，如不在附录1文档的发布批次中，不推荐发布。开发者中心可分为4批应用发布。请确保每一批次的应用部署成功后，再发布下一批次应用。当运行状态为running且设置的启动实例数与运行的实例数一致时，可以判定应用启动成功，如图3-19红框所示为启动成功状态;
  <div align=center>
  <img src="/articles/developer/3-/images/3-19.png"/>
  </div>
@@ -260,7 +262,8 @@ mesos=开发者中心主节点ip
 
 ### 3.5.1 ycm-insight模块安装
 
-1）在安装ycm-insight服务前确认，zookeeper，elasticsearch，kafka，Redis（以上服务默认在开发者中心主节点）和dns基础服务已经部署运行，可通过在相应主机终端执行命令确认，看输出结果是否包含四种中间件，检查命令：
+1）在安装ycm-insight服务前确认，zookeeper，elasticsearch，kafka，Redis（以上服务默认在开发者中心主节点）和dns基础服务已经部署运行，可通过在相应主机终端执行命令确认，看输出结果是否包含四种中间件
+检查命令：
 ```
 docker ps | egrep -i \(kafka\|redis\|zookeeper\|elasticsearch\)
 ```
@@ -314,7 +317,7 @@ docker ps | egrep -i \(kafka\|redis\|zookeeper\|elasticsearch\)
  <p align="center">图3-36</p>
  
 ### 3.5.3 验证监控大盘功能
->监控大盘监控的基本单元为部署在开发者中心的应用，验证步骤请在开发者中心成功部署应用后再执行。
+>注意：监控大盘监控的基本单元为部署在开发者中心的应用，验证步骤请在开发者中心成功部署应用后再执行。
 	
 1）确认数据收集链路是否正常
 
@@ -326,7 +329,7 @@ docker ps | egrep -i \(kafka\|redis\|zookeeper\|elasticsearch\)
  
 2）确认数据查询链路是否正常
 
-待开发者中心正常启动后，登陆系统，在首页控制台页面下方和【Devops服务---监控大盘】功能下看到如下截图，即可认为数据查询链路功能正常，注意，首次查看大盘监控数据，可能由于所选应用没有访问数据，监控数据为0的状态，此时在坐标轴线应有蓝色值为0的标识点，否则查询数据应为异常状态。
+待开发者中心正常启动后，登陆系统，在首页控制台页面下方和【Devops服务】---【监控大盘】功能下看到如下截图，即可认为数据查询链路功能正常，注意，首次查看大盘监控数据，可能由于所选应用没有访问数据，监控数据为0的状态，此时在坐标轴线应有蓝色值为0的标识点，否则查询数据应为异常状态。
  <div align=center>
  <img src="/articles/developer/3-/images/3-38.png"/>
         </div>

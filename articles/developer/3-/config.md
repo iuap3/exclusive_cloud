@@ -4,7 +4,7 @@
 
 开发者中心为部署在平台的应用默认生成appid.*.app.yyuap.com格式的内网访问域名，如客户期望调整*.app.yyuap.com后缀为自定义后缀，例如*.private.dctest.com，需要完成以下配置步骤（注意：配置生效后原先发布的应用将无法访问，需要重新在平台发布生成新配置的域名后缀）：
 
-1）在开发者中心控制台（开发者中心主节点IP:8800）从【容器管理】--->【所有应用】dcee目录下，找到edna应用，如下图所示，选择日期最近的一次配置，修改domain.suffix环境变量值为：*.private.dctest.com，点击【确定】即可重启edna容器使配置生效，当再次在开发者中心部署应用后，将生成配置后缀的内网访问域名;
+1）在开发者中心控制台（开发者中心主节点IP:8800）从【容器管理】---【所有应用】dcee目录下，找到edna应用，如下图所示，选择日期最近的一次配置，修改domain.suffix环境变量值为：*.private.dctest.com，点击【确定】即可重启edna容器使配置生效，当再次在开发者中心部署应用后，将生成配置后缀的内网访问域名;
  <div align=center>
  <img src="/articles/developer/3-/images/5-1.png"/>
         </div>
@@ -52,7 +52,14 @@ auth_http.topic_path=http://developer.yonyoucloud.com/eos-mq-auth/auth/topic
 
 启动实例命令为：
 ```
-cat /etc/redhat-release
+docker run -d \
+--name rabbitmq_eos \
+-p 15672:15672 \
+-p 5672:5672 \
+-v /data/developercenter_enterprise/data_center/eos-mq:/var/lib/rabbitmq/data \
+-e RABBITMQ_NODENAME=rabbitmq_eos \
+-e RABBITMQ_AUTH_SERVER=开发者中心微服务治理平台eos-mq-auth服务地址 \
+开发者中心镜像仓库/yonyoucloud-middleware/eos-rabbitmq:async
 ```
 >专属云环境，需要将“开发者中心镜像仓库”替换成开发者中心主节点IP:5000；“开发者中心微服务治理平台eos-mq-auth服务地址”替换为开发者中心主节点IP。
 
@@ -94,8 +101,11 @@ cat /etc/redhat-release
 1）分别进入 开发者中心主节点安装目录/config_center/dcee/user和cas目录下，找到mail.properties文件，内容如图3-20所示；
 
 2）修改smtphost的值为邮件服务器的IP地址（不要写域名，容器内无法解析）；
+
 3）修改password值为发件邮箱密文形式密码，密文形式密码由友互通对明文密码经加密算法生成，在配置密码前请联系友互通索取密文形式密码；
+
 4）修改sender的值为发件邮箱地址，subject可自行定义，username的值为发件邮箱前缀；
+
 5）保存上述修改后，登录到运维平台控制台（开发者中心主节点ip:8800），【容器管理】---【所有应用】，在dcee目录下找到user和cas，分别重启应用（如图3-21）后即可使用邮件发送功能;
  <div align=center>
  <img src="/articles/developer/3-/images/5-7.png"/>
