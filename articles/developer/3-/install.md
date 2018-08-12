@@ -63,17 +63,17 @@ cd developercenter_enterprise
  </div>
  <p align="center">图3-6</p>
  
-2.参考附录1组件启动批次列表，在启动组件时修改“独立部署模式”标识为是的组件约束条件，使其只能运行在开发者中心主节点上。
+2.参考附录1组件启动批次列表，在启动组件时修改“独立部署模式”标识为是的组件约束条件，使其只能运行在开发者中心主节点上
 
 修改方法如下：
 
-1）登录运维平台，进入“发布管理”菜单，选择待修改应用，例如confcenter；
+1）登录运维平台，进入“发布管理”菜单，选择待修改应用，例如confcenter
  <div align=center>
  <img src="/articles/developer/3-/images/3-7.png"/>
  </div>
  <p align="center">图3-7</p>
  
-2）修改下图中的“UNLIKE”为“LIKE” 后保存发布该应用即可；
+2）修改下图中的“UNLIKE”为“LIKE” 后保存发布该应用即可
  <div align=center>
  <img src="/articles/developer/3-/images/3-8.png"/>
  </div>
@@ -325,7 +325,7 @@ docker ps | egrep -i \(kafka\|redis\|zookeeper\|elasticsearch\)
  <div align=center>
  <img src="/articles/developer/3-/images/3-37.png"/>
         </div>
- <p align="center">图3-37/p>
+ <p align="center">图3-37</p>
  
 2）确认数据查询链路是否正常
 
@@ -333,11 +333,11 @@ docker ps | egrep -i \(kafka\|redis\|zookeeper\|elasticsearch\)
  <div align=center>
  <img src="/articles/developer/3-/images/3-38.png"/>
         </div>
- <p align="center">图3-38/p>
+ <p align="center">图3-38</p>
  
 ## 附录1：云运维平台-开发者中心各组件启动批次及说明
 
- 批次/序号 | 组件名称 | 独立安装模式 | 简介
+ 批次/序号 | 组件名称 | 独立安装模式  | 简介
  ---|---|---|---
  第一批次（默认已启动） |||
  1 | cas | 否 |单点登录器
