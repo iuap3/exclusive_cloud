@@ -105,7 +105,7 @@ maven组件依赖对应的pom.xml中，依赖如下：
 	<dependency>
 		<groupId>com.yonyou.cloud.middleware</groupId>
 		<artifactId>iris-dubbo-support</artifactId>
-		<version>5.0.0-RELEASE</version>
+		<version>5.1.1-RELEASE</version>
 	</dependency>
 
 修改客户端工程的application.properties, 使用微服务治理平台方式适配后，内容如下：
@@ -143,11 +143,11 @@ maven组件依赖对应的pom.xml中，依赖如下：
 
 启动过程中，服务治理平台会扫描工程中的dubbo的配置文件，将相应的接口信息上报到服务治理平台后台，可以从统一管控界面中看到启动的实例和API声明信息。
 
-登录服务治理平台，进入应用管理界面，找到对应的微服务应用，显示实例信息如下：
+登录开发者中心，进入微服务下的服务管理界面，找到对应的微服务应用，显示实例信息如下：
 
 ![](image/dubbo-instance.png)
 
-切换到击API列表，可以查看工程中对应的远程接口和方法，如下图：
+切换到微服务页签，点击API列表，可以查看工程中对应的远程接口和方法，如下图：
 
 ![](image/apilist.png)
 
@@ -164,5 +164,3 @@ maven组件依赖对应的pom.xml中，依赖如下：
 	https://developer.yonyoucloud.com/download/microservice/ms-dubbox-demo.zip
 
 解压后，可以导入已有的maven工程到IDE，工程所需的依赖组件位于maven.yonyou.com的仓库中，请配置对应的依赖库。
-
-**注意：示例为线上版本的工程，对应专属云版本，需要按照本文档的其他章节的工程配置方式，修改registry等配置项。**

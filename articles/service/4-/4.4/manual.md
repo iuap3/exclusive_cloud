@@ -1,4 +1,4 @@
-# EOS异步一致性框架·开发指南
+# 异步调用
 
 ## 快速入门
 
@@ -15,7 +15,7 @@
 	<dependency>
 		<groupId>com.yonyou.cloud.middleware</groupId>
 		<artifactId>mwclient</artifactId>
-		<version>5.0.0-RELEASE</version>
+		<version>5.1.1-RELEASE</version>
 	</dependency>
 
 
@@ -31,19 +31,19 @@
 	<dependency>
 		<groupId>com.yonyou.cloud.middleware</groupId>
 		<artifactId>eos-spring-support</artifactId>
-		<version>5.0.0-RELEASE</version>
+		<version>5.1.1-RELEASE</version>
 	</dependency>
 	<dependency>
 		<groupId>com.yonyou.cloud.middleware</groupId>
 		<artifactId>mwclient</artifactId>
-		<version>5.0.0-RELEASE</version>
+		<version>5.1.1-RELEASE</version>
 	</dependency>
 	<dependency>
 		<groupId>com.yonyou.cloud</groupId>
 		<artifactId>auth-sdk-client</artifactId>
 		<version>1.0.15-SNAPSHOT</version>
 	</dependency>
-
+	
 
 #### 其他Maven依赖项:
 依赖的Jdbc数据源组件用户可根据实际情况替换为DBCP或其他,依赖的SpringJdbc和Context版本用户可自定义, 推荐4.3.x及以上:
@@ -83,7 +83,6 @@
 
 #### Spring文件典型配置:
 
-
 	<!-- EOS 所需 jdbc组件 -->
 	<bean id="jdbcTemplate" class="org.springframework.jdbc.core.JdbcTemplate">
 	        <property name="dataSource" ref="dataSource"></property>
@@ -111,7 +110,7 @@
 	</bean>
 
 
-#### EOS数据库建库脚本:
+#### EOS数据库建库脚本及数据结构，引用框架会自动建表，用户不必自己创建
 	
 	/*!40101 SET NAMES utf8 */;
 	
@@ -236,7 +235,8 @@
 	
 	DROP TABLE IF EXISTS `eos_mqsend_success`;
 	
-	CREATE TABLE `eos_mqsend_success` (
+	<!--此表采用了分表策略，默认创建好十天内的表，表名后缀为日期，数据中gitd字段前八位为年月日-->
+	CREATE TABLE `eos_mqsend_success_20181209` (
 	  `pk` bigint(20) NOT NULL AUTO_INCREMENT COMMENT 'DB主键(为性能提升)',
 	  `id` varchar(36) NOT NULL COMMENT '业务主键-UUID',
 	  `txid` varchar(36) DEFAULT NULL COMMENT '事务ID-UUID',
@@ -285,7 +285,7 @@
 - 客户端使用spring方式注入使用my-eos-api的EOSDemoAPI接口, 并在调用接口的方法上标注@Transactional的注解或使用声明式事务方式.
 - 服务端实现my-eos-api的EOSDemoAPI接口.
 - 访问开发者中心, 新建名称的客户端和服务端微服务(新建流程参见开发者中心使用文档,在此不再赘述)
-- 新建完成后配置服务端的RabbitMQ地址(客户端不用配置), 进入开发者中心的左侧菜单 >> 应用管理 >> "点击对应的环境的应用" >> 事务管理(标签页) >> 消息队列配置 >> EOS映射地址(输入框), 填写部署的RabbitMQ实例地址, 点击保存, 完成应用对应的MQ配置; RabbitMQ地址格式为以逗号分割的IP:Port, 搭建RabbitMQ的流程参见以下章节.
+- 新建完成后配置服务端的RabbitMQ地址(客户端不用配置), 进入开发者中心的左侧菜单 >> 微服务 >> 服务管理 >> 事务管理(标签页) >> 消息队列配置 >> EOS映射地址(输入框), 填写部署的RabbitMQ实例地址, 点击保存, 完成应用对应的MQ配置; RabbitMQ地址格式为以逗号分割的IP:Port, 如线上环境提供的公共RabbitMQ地址为: 			10.3.15.53:5672,10.3.15.54:5672.
 - 在application.properties配置文件中配置好accessKey,accessSecret,spring.application.name,spring.profiles.active等属性(配置参考微服务搭建文档/示例工程).
 - 根据以上数据库脚本建立数据库.
 - 启动应用, 调试成功后部署到开发者中心.
@@ -294,7 +294,7 @@
 
 ## 自建RabbitMQ:
 
-EOS依赖RabbitMQ组件, 需启用RabbitMQ的Http认证插件, 由用友云提供Http认证, 认证地址指向: **专属云的IP:Port, 如:172.20.23.232:8080**
+EOS依赖RabbitMQ组件, 需启用RabbitMQ的Http认证插件, 由用友云提供Http认证, 认证地址指向: **developer.yonyoucloud.com**
 
 ### 以镜像方式搭建:
 
@@ -307,11 +307,12 @@ EOS依赖RabbitMQ组件, 需启用RabbitMQ的Http认证插件, 由用友云提�
 
 * docker镜像名称为: 
 		
+		公司内网镜像名称: 10.3.15.191:5000/eos-auth-rabbitmq:v1
 		公有仓库镜像名称: dockerhub.yonyou.com/cloud/eos-rabbitmq:v1
 
 * 启动实例命令为(其中环境变量RABBITMQ\_AUTH\_SERVER为RabbitMQ的认证服务器地址):
 		
-		docker run -d --name rabbitmq_eos -p 15672:15672 -p 5672:5672 -e RABBITMQ_NODENAME=rabbitmq_eos -e RABBITMQ_AUTH_SERVER=172.20.23.232:8080 dockerhub.yonyou.com/cloud/eos-rabbitmq:v1
+		docker run -d --name rabbitmq_eos -p 15672:15672 -p 5672:5672 -e RABBITMQ_NODENAME=rabbitmq_eos -e RABBITMQ_AUTH_SERVER=developer.yonyoucloud.com dockerhub.yonyou.com/cloud/eos-rabbitmq:v1
 
 
 
@@ -321,7 +322,7 @@ EOS依赖RabbitMQ组件, 需启用RabbitMQ的Http认证插件, 由用友云提�
 
 		[rabbitmq_management,rabbitmq_auth_backend_http].
 
-- 配置认证地址, 以指向专属云环境的/etc/rabbitmq/rabbitmq.conf配置为例:
+- 配置认证地址, 以指向线上环境的/etc/rabbitmq/rabbitmq.conf配置为例:
 
 		loopback_users.guest = false
 		listeners.tcp.default = 5672
@@ -331,13 +332,13 @@ EOS依赖RabbitMQ组件, 需启用RabbitMQ的Http认证插件, 由用友云提�
 		
 		auth_backends.1 = http
 		
-		auth_http.user_path     = http://172.20.23.232:8080/eos-mq-auth/auth/user
+		auth_http.user_path     = http://developer.yonyoucloud.com/eos-mq-auth/auth/user
 		
-		auth_http.vhost_path    = http://172.20.23.232:8080/eos-mq-auth/auth/vhost
+		auth_http.vhost_path    = http://developer.yonyoucloud.com/eos-mq-auth/auth/vhost
 		
-		auth_http.resource_path = http://172.20.23.232:8080/eos-mq-auth/auth/resource
+		auth_http.resource_path = http://developer.yonyoucloud.com/eos-mq-auth/auth/resource
 		
-		auth_http.topic_path    = http://172.20.23.232:8080/eos-mq-auth/auth/topic
+		auth_http.topic_path    = http://developer.yonyoucloud.com/eos-mq-auth/auth/topic
 
 - 如需更改数据和日志文件目录, 更改/etc/rabbitmq/rabbitmq-env.conf内容以指向具体的目录(选配项):
 
@@ -350,7 +351,7 @@ EOS依赖RabbitMQ组件, 需启用RabbitMQ的Http认证插件, 由用友云提�
 **客户端在发送调用MQ失败或者服务端在接收处理MQ调用时失败, 会通过在EOSConfig的eosCenterUrl上报到对应的开发者中心, EOS控制台可以方便的查看和检索处理失败的MQ, 并根据实际情况作出重试或忽略操作.**
 
 
-- EOS控制台地址: 进入开发者中心的左侧菜单 >> 应用管理 >> "找到具体环境的应用" >> 事务管理(标签页)
+- EOS控制台地址: 进入开发者中心的左侧菜单 >> 微服务 >> 服务管理 >> 事务管理(标签页)
 - 检索: 根据页面上的对应字段进行检索查询.
 - 重试: 点击某一条消息进行重试, 重试命令会发送到客户端进行此业务消息的重试, 待客户端重试完成后会将重试结果上报到控制台.
 - 忽略: 点击某一条消息进行忽略, 忽略命令会发送到客户端, 客户端将将此业务消息标记为忽略状态.
@@ -442,8 +443,8 @@ EOS配置项有许多, 可根据实际业务情况稍加调整.
     </tr>
     <tr>
         <td>eosCenterUrl</td>
-        <td>√</td>
-        <td>EOS异常上报控制台地址, 按照以下优先级获取非空值: 用户配置的值 > 属性文件/系统属性/系统环境变量中的名称为"registry"的值:${registry}/eos-console/ > 线上地址: https://developer.yonyoucloud.com/eos-console/ ;此处私有云必须配置为对应的部署地址:如: http://172.20.23.232:8080/eos-console/ </td>
+        <td></td>
+        <td>EOS异常上报控制台地址, 按照以下优先级获取非空值: 用户配置的值 > 属性文件/系统属性/系统环境变量中的名称为"registry"的值:${registry}/eos-console/ > 线上地址:https://developer.yonyoucloud.com/eos-console/</td>
         <td></td>
     </tr>
     <tr>
@@ -452,7 +453,6 @@ EOS配置项有许多, 可根据实际业务情况稍加调整.
         <td>更换MQ后原MQ监听/发送<br>组件在销毁前的保留时长</td>
         <td>1000L * 60 * 60 * 24(ms)</td>
     </tr>
-
     <tr>
         <td>listenerThreadCount</td>
         <td></td>
@@ -461,8 +461,8 @@ EOS配置项有许多, 可根据实际业务情况稍加调整.
     </tr>
     <tr>
         <td>mqSendGroupConcurrentCount</td>
-        <td></td>
-        <td>发送MQ时的并发线程数, <br>对性能影响大;除非自定义发送器且对<br>多线程支持良好(无影响<br>性能锁), 否则不建议配置此项</td>
+        <td>除非自定义发送器且对<br>多线程支持良好(无影响<br>性能锁), 否则不建议配置此项</td>
+        <td>发送MQ时的并发线程数, <br>对性能影响大</td>
         <td>1</td>
     </tr>
     <tr>
@@ -602,12 +602,6 @@ EOS配置项有许多, 可根据实际业务情况稍加调整.
         <td></td>
         <td>即使框架检测到"不"需要发送MQ消息, 如果此值设置为true, 那么也会扫描DB发送MQ消息.</td>
         <td>false</td>
-    </tr>
-    <tr>
-        <td>batchMoveToBakCount</td>
-        <td></td>
-        <td>每次批量移动成功的消息到备份表的数量</td>
-        <td>5000</td>
     </tr>
     <tr>
         <td>senderClassName</td>
