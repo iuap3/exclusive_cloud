@@ -18,12 +18,12 @@
 	<dependency>
 	    <groupId>com.yonyou.cloud.middleware</groupId>
 	    <artifactId>mwclient</artifactId>
-	    <version>5.0.0-RELEASE</version>
+	    <version>5.1.1-RELEASE</version>
 		<type>pom</type>
 	</dependency>
 
 
- 2.注意：artifactId(影响访问路径)，finalName要与应名称尽量保持一致.
+ 2.注意：artifactId(影响访问路径)，finalName要与应用名称尽量保持一致.
 
 
 ### （2）属性文件配置 ###

@@ -1,5 +1,5 @@
 
-# 开发环境配置说明
+# 配置说明
 <br>
 
 ## Maven工程pom.xml引用配置:
@@ -7,7 +7,7 @@
 	<dependency>
 		<groupId>com.yonyou.cloud.middleware</groupId>
 		<artifactId>mwclient</artifactId>
-		<version>5.0.0-RELEASE</version>
+		<version>5.1.1-RELEASE</version>
 		<type>pom</type>
 	</dependency>
 
@@ -27,7 +27,10 @@
 	#开发调试时指定IP调用的配置(默认为false), 
 	client.usemock=false
 	# 启用mock调用时针对某个调用者的具体IP指定
-	appCode@providerId@profile=172.20.1.1
+	appCode@providerId@profile=172.20.1.1 
+	
+	#指定微服务注册地址
+	registry=172.20.17.4
 
 
 ## applicationContext.xml配置
@@ -65,4 +68,53 @@
 	</bean>
 
 
+### war包合并
+
+## 新建工程合并war包
+```xml
+        <dependency>
+            <groupId>com.yonyou.cloud.ms</groupId>
+            <artifactId>rpc-client</artifactId>
+            <version>5.1.1-RELEASE</version>
+            <type>war</type>
+        </dependency>
+        <dependency>
+            <groupId>com.yonyou.cloud.ms</groupId>
+            <artifactId>rpc-provider</artifactId>
+            <version>5.1.1-RELEASE</version>
+            <type>war</type>
+        </dependency>
+```
+
+## 添加配置文件覆盖war包中的配置文件
+
+```properties
+access.key=xxxxx
+access.secret=xxxxxxxxx
+
+spring.application.name=client-provider
+spring.profiles.active=online
+
+registry=http://172.20.52.128
+
+jdbc.driver=com.mysql.cj.jdbc.Driver
+jdbc.url=jdbc:mysql://xxx.xx.xx.xxx:3306/rpc-provider?useUnicode=true&characterEncoding=utf-8&allowMultiQueries=true
+jdbc.password=xxxx
+jdbc.username=xxxx
+```
+
+## 新增parent配置文件
+
+resources下新建META-INF文件夹用于存放parent文件
+创建${appCode}-${providerId}.parent文件，比如
+rpc-client-511-providerID.parent。
+providerId可以省略为***rpc-client-511.parent***内容为
+
+```
+	parent=client-provider
+```
+
+***注意:***  
+- 每个需要合并项目都需要建一个parent文件，放在与之有调用关系的服务下
+- 如果有bean冲突需要手动解决
 

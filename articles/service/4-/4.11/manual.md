@@ -8,14 +8,16 @@
 
 业务代码在调用RPC接口之前，可以设置业务编码，bizCode为业务的辨识属性值。
 
-	com.yonyou.cloud.yyeye.itf.Tracer.setBusiCode(bizCode)
+<pre>
+com.yonyou.cloud.yyeye.itf.Tracer.setBusiCode(bizCode)
+</pre>
 
 
 ## 二：根据业务关键字进行搜索 ##
 
 设置业务编码后，成功调用RPC服务，可以再调用链路中进行查询。
 
-导航:  应用管理 > 具体应用 > 对应环境 > API列表 > 调用设置业务编码的API > 链路 > 查询界面:
+导航: 服务治理 >微 服务 > 具体应用 > 对应环境 > 微服务(页签) > API列表 > 调用设置业务编码的API > 链路 > 查询界面:
 
 ![](./images/navi.png)
 

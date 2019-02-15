@@ -1,11 +1,10 @@
 # 动态调用配置
 
 ## 适用场景
-
-微服务RPC调用框架的接口，默认使用RemoteCall注解声明，如果不希望使用注解声明，可以使用动态调用的方式也可以进行服务的调用。
+没有对应的微服务接口类还需要调用微服务的情况下，可以通过动态调用方法调用微服务
 
 ## 微服务配置
-和普通微服务一样需要配置application.properties文件：
+和普通微服务一样需要配置application.properties文件
 
 	access.key=**************
 	access.secret==**************
@@ -15,6 +14,7 @@
 ## 动态调用工具类DynStub
 
 动态调用工具类将方法的参数类型和参数转化为json字符串进行调用，在没有相应的类型时能自行拼接目标类的字符串。
+
 
 	ExecuteResult resultexecute = DynStub.invokerExact(String serviceInterfaceName, String serviceUrl, String alias, String methodName, String[] parameterTypes, String[] arguments);
 
@@ -71,7 +71,7 @@
 		//参数类型名数组
 		String[] paramsTypes =new String[] {String.class.getName()}; 
 		//参数json串	
-		String[] params =new String[] {"test"};
+		String[] params =new String[] {"222"};
 		//微服务应用编码
 		String service_appcode = "rpc-provider@c87e2267-1001-4c70-bb2a-ab41f3b81aa3";
 		ExecuteResult result = DynStub.invokerExact("com.yonyou.cloud.ms.service.IStatisticsService",service_appcode, null, "getInt",paramsTypes,params);
