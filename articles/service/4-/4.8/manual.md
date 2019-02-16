@@ -115,11 +115,12 @@ maven组件依赖对应的pom.xml中，依赖如下：
 	
 	spring.application.name=ms-dubbo-client
 	spring.profiles.active=dev
+	registry=http://172.20.52.128#要注册的地址
 	
 	#dubbo适配
 	dubbo.business.group=ms-dubbo-server@providerid
 
-其中access.key、access.secret和providerid需要使用开发者的账号，到对应的开发者中心的环境中申请。c87e2267-1001-4c70-bb2a-ab41f3b81aa3为示例中预置的providerid。
+其中access.key、access.secret和providerid需要使用开发者的账号，到对应的开发者中心的环境中申请。
 
 修改服务端工程的属性配置文件，修改后内容如下：
 
@@ -129,7 +130,7 @@ maven组件依赖对应的pom.xml中，依赖如下：
 	spring.application.name=ms-dubbo-server
 	spring.profiles.active=dev
 	
-	dubbo.business.group=ms-dubbo-server@c87e2267-1001-4c70-bb2a-ab41f3b81aa3
+	dubbo.business.group=ms-dubbo-server@providerid
 
 至此，原dubbox工程到微服务治理平台工程的适配已经修改成功，可以使用jetty的方式或者打成war包的方式进行调用。
 
@@ -164,3 +165,4 @@ maven组件依赖对应的pom.xml中，依赖如下：
 	https://developer.yonyoucloud.com/download/microservice/ms-dubbox-demo.zip
 
 解压后，可以导入已有的maven工程到IDE，工程所需的依赖组件位于maven.yonyou.com的仓库中，请配置对应的依赖库。
+注：解压的工程application.properties中缺少一行:registry=http://xxx（需要注册到的地址）需要手动添加
