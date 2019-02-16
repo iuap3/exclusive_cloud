@@ -1,4 +1,4 @@
-# IUAP支持
+# IUAP上下文传递
 
 在用友IUAP平台的基础组件中，系统登录之后会在线程绑定变量中记录一些上下文信息，如用户ID、主题、语种、系统ID等，当此类应用在使用服务治理平台进行RPC远程方法调用的时候，希望将调用方的上下文的信息自动携带到服务提供方，方便服务提供方的业务编码时自动从上下文中取出相关信息。
 
@@ -13,7 +13,7 @@ IUAP开发平台的上下文存取需要依赖iuap-generic组件，同时需要�
 	<dependency>
 		<groupId>com.yonyou.cloud.middleware</groupId>
 		<artifactId>iris-iuap-support</artifactId>
-		<version>5.0.0-RELEASE</version>
+		<version>5.1.1-RELEASE</version>
 	</dependency>
 
 ## 上下文信息设置

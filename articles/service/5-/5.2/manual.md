@@ -13,9 +13,8 @@ rpc-provider属性文件配置application.properties示例：
 	spring.application.name=rpc-provider
 	spring.profiles.active=online
 
-	#registry对应的地址为安装的服务器地址
-	registry=http://172.20.28.31:8080
-
+	微服务注册地址:registry=http://172.20.17.4
+	
 rpc-server为SpringBoot方式的工程，其配置文件application.yml格式如下：
 
 	server:
@@ -32,8 +31,8 @@ rpc-server为SpringBoot方式的工程，其配置文件application.yml格式如
 	  key: 申请的AK
 	  secret: AK对应的秘钥值
 
-	registry： http://172.20.28.31:8080
-
+	registry: http://172.20.17.4
+	
 ## 工程运行
 
 使用mvn clean install命令构建ms-example工程，rpc-api工程会输出接口所在的jar包。

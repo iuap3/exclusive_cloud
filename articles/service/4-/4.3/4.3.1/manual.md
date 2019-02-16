@@ -1,13 +1,10 @@
-
-# 同步RPC接口开发
-
-## RPC接口声明
+#  RPC接口声明
 - 新建maven工程, 在pom.xml内引用maven依赖:
 
 		<dependency>
 			<groupId>com.yonyou.cloud.middleware</groupId>
 			<artifactId>mwclient</artifactId>
-			<version>5.0.0-RELEASE</version>
+			<version>5.1.1-RELEASE</version>
 			<type>pom</type>
 		</dependency>
 

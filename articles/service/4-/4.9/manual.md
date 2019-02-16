@@ -59,8 +59,6 @@ SpringBoot工程默认使用application.yml方式进行工程的配置，配置�
 	  key: 开发者在开发者中心申请的AccessKey
 	  secret: AccessKey对应的秘钥信息
 
-**注意：针对专属云版本，还需要增加registry配置项，对应安装环境的地址。**
-
 ### (2) 启动类配置 ###
 
 主启动类一般放置在工程的主package下，需要配置SpringBoot工程需要的相关注解，配置示例如下：
