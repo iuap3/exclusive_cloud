@@ -96,7 +96,7 @@ RPC的远程调用通过客户端的本地Service的方法进行触发，可以�
 **几个重要的时间段**
 
 - 注册到服务注册中心:
-	- 实例心跳上报时间间隔: 30秒; 第一次心跳在30秒后(参见:[HeartbeatThread](com.netflix.discovery.DiscoveryClient.initScheduledTasks() "HeartbeatThread") 和 [TimedSupervisorTask](com.netflix.discovery.TimedSupervisorTask.TimedSupervisorTask ("TimedSupervisorTask"))
+	- 实例心跳上报时间间隔: 30秒; 第一次心跳在30秒后(参见:==DiscoveryClient==和 ==TimedSupervisorTask==）
 	
 - 实例状态刷新
 	- 45秒如果服务注册中心未接收到心跳, 将会计划移除此实例.
@@ -106,7 +106,7 @@ RPC的远程调用通过客户端的本地Service的方法进行触发，可以�
 
 - 注销
 	- 在正常关闭容器(有执行shutdown操作而不是直接kill进程)的情况下, 客户端示例会向服务注册中心发送注销请求.
-	- 服务器移除实例参见:[EvictionTask](com.netflix.eureka.registry.AbstractInstanceRegistry.EvictionTask "EvictionTask")
+	- 服务器移除实例参见:==EvictionTask==
 
 - 客户端注册/注销的时间延迟
 	- 客户端注册/注销反应到所有的实例一般需要两分钟.
