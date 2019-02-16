@@ -107,10 +107,16 @@
     * [基础架构](articles/application/1-/structure.md)
   * [版本更新](articles/application/2-/)
     * [版本历程](articles/application/2-/version_update.md)
-  * [安装与配置\(环境说明)](articles/application/3-/)
+  * [应用平台安装与配置\(环境说明)](articles/application/3-/)
     * [安装指南](articles/application/3-/process.md)
+      * 单机部署
+      * 集群部署
+      * 分布式部署
+      * 容器化部署
+      * 在开发者中心上部署
     * [升级指南](articles/application/3-/process.md)    
-    * [配置详解](articles/application/3-/process.md)  
+    * [配置详解](articles/application/3-/process.md)
+         * [application.properties详解](articles/application/3-/process.md)
   * [快速上手](articles/application/11-/)
     * [管理员快速上手指南](articles/application/3-/process.md)
        * [流程创建示例](articles/application/3-/process.md)
