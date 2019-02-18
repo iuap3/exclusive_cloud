@@ -1,6 +1,6 @@
-## 参照组件开发示例
+# 参照组件开发示例
 
-4.1数据库表
+## 数据库表
 
 表名：REF\_REFINFO
 
@@ -15,7 +15,7 @@
 | PRODUCTTYPE | 产品类型 | VARCHAR2(300) |
 | TENANTID | 租户id | VARCHAR2(300) |
 
-4.2后端开发流程
+## 后端开发流程
 
 1. 配置环境  
 组件采用Maven进行编译和打包发布，其对外提供的依赖方式如下  
@@ -29,7 +29,7 @@
 
 3. 在数据库的REF\_REFINFO表中进行注册。
 
-4.2.1单表型参照
+### 单表型参照
 
 a.继承：com.yonyou.iuap.ref.sdk.refmodel.model.AbstractTreeGridRefModel
 
@@ -72,7 +72,7 @@ getRefModelInfo方法要来设置数据头和数据体，blobRefTree方法用来
 
 
 
-4.2.2树型参照
+### 树型参照
 
  a.继承：com.yonyou.iuap.ref.sdk.refmodel.model.AbstractTreeGridRefModel
 
@@ -103,7 +103,7 @@ blobRefTree方法用来获取参照树。
 
 
 
-4.2.3树表型参照
+### 树表型参照
 
  a.继承：com.yonyou.iuap.ref.sdk.refmodel.model.AbstractTreeGridRefModel
 
@@ -150,7 +150,7 @@ getRefModelInfo方法要来设置数据头，blobRefTree方法用来获取参照
 ![](/articles/application/6-/images/reference/20.png)
 
 
-4.2.4通用型参照
+### 通用型参照
 
  a.继承：com.yonyou.iuap.ref.sdk.refmodel.model.AbstractCommonRefModel
 
@@ -182,7 +182,7 @@ getCommonRefData方法用来获取参照数据。
 ![](/articles/application/6-/images/reference/23.png)
 
 
-4.3前端开发流程
+## 前端开发流程
 
 1. 加载:  
 a.利用es模块加载的方式引入参照组件,引入 createModal 方法;  
