@@ -177,6 +177,7 @@
           * [安全日志同步SDK](articles/iuap-develop/10-/iuap-securitylog-local-sdk/3.1.0-RELEASE/manual.md)
           * [安全日志异步SDK](articles/iuap-develop/10-/iuap-securitylog-rest-sdk/3.1.0-RELEASE/manual.md)
           * [安全日志服务](articles/iuap-develop/10-/iuap-securitylog-service/3.1.0-RELEASE/manual.md)
+	  * [参照](articles/iuap-develop/10-/iuap-reference/3.5.5-RELEASE/manual.md)
     * [应用平台操作手册](articles/application/5-/)    
       * [管理中心概述](articles/application/5-/summary.md)
       * [门户配置](articles/application/5-/config.md)
