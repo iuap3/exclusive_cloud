@@ -5,7 +5,7 @@
 
 参照组件是IUAP对外提供的一套UI组件，基于React开发，它提供固定的几种界面样式，用户可以按照规定的形式提供参数，即可实现完整的交互逻辑。  
 
-* [](articles/iuap-develop/10-/iuap-reference/3.5.5-RELEASE/images/1.png)
+![](/articles/iuap-develop/10-/iuap-reference/3.5.5-RELEASE/images/1.png)
 <center>图 1</center>
 
 使用参照的场景通常满足以下几个要求。第一，用户需要填写的数据不可以随意填写，且已经存在于数据库。第二，这些数据是一些常用和固定的数据，如组织、部门、人员、岗位等。第三，用户在选择数据时需要进行权限过滤，以防止用户越权选择自己无权管理的数据。
