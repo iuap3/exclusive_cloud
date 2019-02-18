@@ -210,6 +210,7 @@
   * [API参考](articles/application/7-/)
     * [SDK加签接口](articles/application/7-/)
     * [Restfull接口](articles/application/7-/)
+      * [](articles/application/7-/reference.md)
   * [常见问题](articles/application/8-/)
     * [功能操作](articles/application/8-/user_scenarios.md)
     * [异常排查](articles/application/8-/functions.md)
