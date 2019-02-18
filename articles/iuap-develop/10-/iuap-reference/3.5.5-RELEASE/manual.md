@@ -16,7 +16,7 @@
 2.1技术架构
 
 参照组件在服务端针对不同的参照类型提供了不同的调用接口，并且提供了抽象的参照事件控制类。客户端在创建参照事件控制类的时候可以选择继承抽象类，实现其中的方法，也可以直接根据参照类型直接创建同名的方法。参照组件支持mysql、oracle、sqlserver数据库。
-![](images/2.png)
+![](/articles/iuap-develop/10-/iuap-reference/3.5.5-RELEASE/images/2.png)
 <center>图 2</center>
 
 2.2实现原理
@@ -51,7 +51,7 @@
 在开发时，服务端出现一般有两种情况，一种是配置文件的问题，另一种是数据库数据的问题。
 
 1. 配置文件问题  
-![](images/3.png)  
+![](/articles/iuap-develop/10-/iuap-reference/3.5.5-RELEASE/images/3.png)  
 <center>图 3</center>  
 在开发的时候，在newref项目下的application.propertiesl文件里有数据库的配置，数据库配置不对会出问题。这个配置文件的重点在refctx这个参数，这个是参照上下文，用于请求客户端参照模块时，拼接url地址。如果ip地址不对，可能会请求到别的服务器的参照模块或者后台直接报404错误。
   
@@ -64,7 +64,7 @@
 1. 第一，要注意参照事件控制类里面的方法名，如果没有继承平台参照事件抽象类，参照事件控制类里面的方法名一定要写对，不然会请求不到。
 2. 第二，如果出现306权限异常，需要增加参照事件控制类的访问权限。参照客户端采用shiro框架的无状态认证进行权限校验，其中有一个过滤器StatelessAuthcFilter，当服务端请求客户端的时候，该过滤器会对用户信息进行拦截，如果未登录，则无法请求，出现306异常。如果登录后依然出现306异常，则应该是没有在applicationContext-shiro.xml文件中配置url的认证方式，配置如图：
 
-![](images/4.png)
+![](/articles/iuap-develop/10-/iuap-reference/3.5.5-RELEASE/images/4.png)
 <center>图 4</center>  
 2.5现有参照  
 2.5.1根据功能节点分类
@@ -139,24 +139,24 @@
 3.1通用型参照（单选多选）
 
 
-![](images/5.png)  
+![](/articles/iuap-develop/10-/iuap-reference/3.5.5-RELEASE/images/5.png)  
 <center>图 5</center>
 
 如图是一个通用型参照，用户可以通过【搜索框】查找自己想要的数据。勾选完要选择的数据点击确定即可。
 
 3.2单表型参照  
-![](images/6.png)
+![](/articles/iuap-develop/10-/iuap-reference/3.5.5-RELEASE/images/6.png)
 <center>图 6</center>
 
 如图是一个单表型参照。这个表由【数据头】和【数据体】两部分构成。表头就是编码，名称，手机号和邮箱；表体就是下面的数据。单表参照提供了查询功能，用户通过【搜索框】可以进行查询。下面有【分页】功能，便于用户浏览数据。点击击想要选择的数据，点确认即可。  
 
 3.3树型参照  
-![](images/7.png)
+![](/articles/iuap-develop/10-/iuap-reference/3.5.5-RELEASE/images/7.png)
 <center>图 7</center>
 
 如图是一个树形参照，参照的数据以树的形状展示出来，显示出数据之间的层级关系。用户可以通过【搜索框】来搜索数据。点击想要选择的数据，再点确认即可。  
 3.4树表型参照
-![](images/8.png)
+![](/articles/iuap-develop/10-/iuap-reference/3.5.5-RELEASE/images/8.png)
 <center>图 8</center>
 
 如图是一个树表型参照，左侧是一个树，右侧是一个单表。右侧表由【表头】和【表体】构成，并且有【分页】功能。用户可以使用【搜索框】进行数据的搜索。选择数据时，先点击左侧的树的节点，查询表的数据，然后在右侧的表中选择要选择的数据，点击确定即可。
@@ -170,7 +170,7 @@
 5.1.2实现方式
 
 1. 配置环境  
-![](images/24.png)
+![](/articles/iuap-develop/10-/iuap-reference/3.5.5-RELEASE/images/24.png)
 <center>图 24</center>
 
 2. 创建参照事件控制类,新建NewOrganizationRefController，创建blobRefTree方法。gblobRefTree方法对参照树的内容进行查询，当数据查询出来后，会调用DataPermissionCenter的filterRefData方法，filterRefData方法会根据前端传过来的参数来判断是否进行数据过滤。
@@ -179,7 +179,7 @@
 5.1.3内容和效果
 
 完成后的参照页面如下：
-![](images/25.png)
+![](/articles/iuap-develop/10-/iuap-reference/3.5.5-RELEASE/images/25.png)
 <center>图 25</center>
 从图上可以看到，组织参照页面显示了参照信息，组织参照树，有搜索功能。各个组织之间的层级关系一目了然。
 
@@ -195,14 +195,14 @@
 5.2.2实现方式
 
 1.配置环境  
-![](images/26.png)
+![](/articles/iuap-develop/10-/iuap-reference/3.5.5-RELEASE/images/26.png)
 <center>图 26</center>
 2.创建参照事件控制类,新建NewStaffRefController，创建getRefModelInfo和getCommonRefData方法，设置参照信息和查询参照数据。getRefModelInfo方法对参照的数据头进行设置。getCommonRefData方法对参照数据的内容进行查询，当数据查询出来后，会调用DataPermissionCenter的filterRefData方法，filterRefData方法会根据前端传过来的参数来判断是否进行数据过滤。
 
 3.在数据库里注册参照信息。
 
 5.2.3内容和效果  
-![](images/27.png)
+![](/articles/iuap-develop/10-/iuap-reference/3.5.5-RELEASE/images/27.png)
 <center>图 27</center>
 
 
