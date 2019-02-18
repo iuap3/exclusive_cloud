@@ -1,147 +1,2719 @@
-## **第一章** 基本概念
+# 附件系统服务组件概述
 
 
-在业务场景中会经常涉及到和文件的交互，需要对文件资源进行有效的管理。但传统的单机文件系统在互联网应用场景下往往效率不高、稳定性不佳、扩展困难，无法达到高并发、高性能的业务需求，所以需要有一种高效稳定的方式来提供文件资源管理。
 
-iuap的iuap-saas-filesystem-service服务适配了三种文件系统：阿里云的对象存储服务(OSS)，FastDFS和本地文件存储。
+## 业务需求 ##
 
-1. FastDFS(Fast Distributed File System)是一个开源的轻量级分布式文件系统，它对文件进行管理，功能包括：文件存储、文件同步、文件访问（文件上传、文件下载）等，解决了大容量存储和负载均衡的问题。特别适合以文件为载体的在线服务，如相册网站、视频网站等等。FastDFS可以高效存储海量文件，通过集群模式水平扩展容量和数据冗余存储。
-2. 阿里云对象存储服务（Object Storage Service，简称 OSS），是阿里云提供的海量、安全、低成本、高可靠的云存储服务。可以通过调用 API，在任何应用、任何时间、任何地点上传和下载数据，也可以通过 Web 控制台对数据进行简单的管理。OSS 适合存放任意类型的文件，适合各种网站、开发企业及开发者使用。使用OSS直接上传文件可以节省带宽流量。
-3. 本地文件系统则是直接将文件上传到应用服务器上，一般用于单机环境下开发测试使用，不推荐部署在生产环境和集群环境下。
 
-并且文件服务还提供了对文件资源的通用操作，在对不同的文件系统进行适配时，尽量保持接口参数相同，保证用户使用简便。
 
+提供业务系统与文件服务之间的管理功能，支持单据的上传多个附件的管理功能。
 
 
 
-## **第二章** 技术架构
 
-   2.1技术架构
-![](image/1.png)
 
-<center>图 1</center>
+## 功能说明 ##
 
-iuap文件服务对附件组件进行了一次包装，通过调用文件服务的接口，可以对文件进行上传、删除，下载，查询等一系列的操作。在对文件进行操作时，文件的相关信息会通过管理模块，被记录到数据库中。附件组件对应的文件系统有本地文件系统、FastDFS和阿里云OSS三种，实际操作时，附件组件会根据配置文件的选择相应的文件系统。通过整个文件系统的架构，加强了对文件的管理。
 
 
-  2.2实现原理
-![](image/2.png)
-<center>图 2</center>
+1.	独立的附件服务系统，支持基本的增、删、改、等等，可以和其他组件集成。
 
-1. 通过服务接口调用文件服务。
-2. 文件服务调用附件组件，对文件服务器上的文件进行处理。
-3. 附件服务器将相关数据返回给文件服务。
-4. 文件处理结果返回到文件服务，并返回文件在服务器上的相关信息。文件在服务器上的相关信息会和文件本身的信息一起存入到数据库中。
-5. 将相关数据返回给前端。
+2.	支持多种格式的附件上传
 
+3.	支持一次选择多个附件
 
-  2.3两种应用场景的原理
+4.	支持附件加密
 
-文件信息往往是与单据信息相关联的，所以文件上传时会有两种业务的场景。一种是先单据后文件；另一种是先文件后单据。
+5.	支持直传回调、支持回调自定义参数的扩展、支持oss和FastDFS、支持缩略图调节；
 
- 2.3.1先单据后文件
+6.	支持微服务的部署方式；
 
-   在先单据后文件的场景下，我们会先将单据的信息保存到数据库中，也就意味着单据的所有信息都已经生成，在上传文件时，我们只要将单据的相关信息跟随文件一起传给文件服务即可。
 
- 2.3.2先文件后单据
 
-   在先文件后单据的场景下我们会先将文件进行上传，这也就意味着文件上传时单据的信息还没有生成，此时，我们需要前端先生成相关的单据信息，使得文件可以上传，然后在单据进行保存               时，使得单据的相关信息和文件上传时使用的单据信息一致即可。
+# 整体设计 #
 
 
-2.4问题解决
 
-1.集群问题
+## 依赖环境 ##
 
-文件系统配有跨域请求过滤器，如果通过nginx配置集群，在使用文件系统时，请求文件服务的ip是nginx的服务器的ip，和文件服务所在的服务器ip不一致，会存在跨域请求的问题。解决方法是修改web.xml文件，将nginx代理服务器的ip和端口设置为可以信任，添加位置如图：
 
-![](image/3.png)
-<center>图 3</center>
 
+```
 
+<dependency>
 
+	  <groupId>com.yonyou.iuap</groupId>
 
-## **第三章** 功能介绍
+	  <artifactId>iuap-filesystem-service</artifactId>
 
-  3.1文件上传
+	  <version>${iuap.modules.version}</version>
 
-iuap的文件服务提供了文件上传功能。与直接通过附件组件上传文件不同，直接调用附件组件进行上传只能把文件传到文件服务器上，不会对文件的信息进行处理，这样就无法对上传的文件进行管理。而iuap文件服务提供的文件上传功能会对上传的文件信息进行处理，并将上传的文件的信息存到数据库中，通过文件在服务器上的id与文件进行关联。
+	  <type>war</type>
 
-3.2文件删除
+	</dependency>
 
-iuap的文件服务提供了文件删除功能。与直接通过附件组件删除文件不同，直接调用附件组件会把文件服务器上的文件直接删掉，而iuap文件服务会根据实际情况对文件进行删除处理。因为相同的文件不会重复上传到服务器上，所以在数据库中，可能存在着多条数据对应同一个文件的情况。这时，删除文件的时候只删除数据库中的数据，不删除文件服务器上的文件。当文件只对应一条数据的时候，文件和数据会被一起删除。
+```
 
-3.3文件下载
+${iuap.modules.version} 为平台在maven私服上发布的组件的version。
 
-iuap的文件服务提供文件下载功能，下载下来的文件有流和完整的文件两种形式。下载完整的文件是通过浏览器来完成的，就像Chrome下载文件那样。流形式的文件则是在后端获取文件数据时使用。
 
-3.4文件替换
 
-iuap的文件服务提供了文件替换功能，通过上传新的文件可以替换原有的文件。当原文件对应多条数据的时候，只删除相应的数据并上传新的文件。当原文件只对应一条数据的时候，会把数据和文件一起删除并上传新的文件。
+## 功能结构 ##
 
-3.5文件复制
 
-iuap的文件服务提供了文件复制功能，可以对源文件进行复制，并在数据库里新增一条数据。
 
-3.6获取文件url地址
+本组件依赖于文件组件，通过文件组件可适配不同的文件服务器，目前支持FastDFS，阿里的OSS服务。
 
-iuap的文件服务提供了文件url的功能，通过调用对应的接口，可以获得多个文件在服务器上的url。通过这些url可以直接查看文件的相关内容。
+本组件主要用于业务系统的附件管理功能，提供具体业务单据于单据下多个附件的分组管理功能。通过附件管理表建立业务单据与具体文件的关系，支持业务单据对文件的管理功能。同时屏蔽了不同文件服务器不同接口调用。
 
 
-## **第五章** 典型业务场景介绍
 
-  5.1文件上传
-   
- 5.1.1目标
+# 使用说明 #
 
-在新增单据和任务的时候往往会添加附件进行详细说明，或者在报销的时候会上传电子发票，又或者在编辑个人信息的时候回上传头像。文件服务就是完成对这些文件的上传的。
 
-5.1.2实现方式
 
-iuap的文件服务对附件组件进行了包装，在调用附件组件上传文件后会获得文件在服务器上的相关信息，如文件在服务器上的id、url地址等。然后根据前端传过来的参数确定文件本身的信息，比如这个文件从哪个模块传上来的，干什么用的。最后将文件在服务器上的信息和文件本身的信息一起存入数据库中。
+## 配置说明：
 
-5.1.3效果
 
-![](image/8.png)
-<center>图 8</center>
 
-![](image/9.png)
-<center>图 9</center>
+1.application.properties：阿里云、FastDFS 配置文件，具体可参考文件组件使用说明
 
-5.2文件下载
-   
- 5.2.1目标
 
-提供从文件服务器上下载相关文件的功能，并根据实际情况确定是下载流文件还是完整的文件。
 
-5.2.2实现方式
+```
 
-前端访问文件下载接口并提交要下载文件的相关参数，文件服务根据相关文件在文件服务器上的id从文件服务器上获取文件字节流并返回。如果下载的是完整文件，则会通过浏览器解析文件字节流进行下载。下载文件字节流一般用于后端调用或者用JavaSwing开发的程序。
+  #使用的存储类型，选项为FastDfs或AliOss
 
-5.2.3效果
+  storeType=FastDfs
 
-![](image/10.png)
-<center>图 10</center>
+	#----------------------------------------------------------------------------------------------
 
-![](image/11.png)
-<center>图 11</center>
+	#使用FastDfs文件系统时Fdfs系统的配置******
 
-5.3文件删除
-   
- 5.3.1目标
+	connect_timeout =
 
-删除用户上传的相关文件。
+	network_timeout =
 
-5.3.2实现方式
+	charset =
 
-点击删除按钮后会访问文件服务的文件删除接口并将要删除的文件的相关信息传过来。如果该文件关联了多条数据库中的数据，那么只删除数据库中的相关数据，不删除文件服务器上的文件。如果该文件只关联了一条数据，则会将数据库中的数据和文件服务器上的文件一起删除。
+	tracker_server =
 
-5.3.3效果
+	fdfsread_server =
 
-![](image/12.png)
-<center>图 12</center>
+	#----------------------------------------------------------------------------------------------
 
-删除成功后：
+	#aliyun 采用阿里的文件系统配置
 
-![](image/13.png)
-<center>图 13</center>
+	storeDir=
 
+	endpoint=
+
+	#accessKeyId 是阿里附件系统提供的账户信息
+
+	accessKeyId=
+
+	accessKeySecret=
+
+	#回调的服务器地址，使用直传的时候必须配置
+
+	callbackTarget=http://ip:端口
+
+  #回调方法:一般不用修改，开发人员扩展使用
+
+	callbackUrl=/file/rewrite
+
+	callbackBody=filename=${object}&bucket=${bucket}&size=${size}&groupname=${x:groupname}&filepath=${x:filepath}&permission=${x:permission}&modular=${x:modular}
+
+
+
+```
+
+
+
+2.iuapfile.properties：阿里云bucket信息配置文件，仅在使用AliOss作为文件服务时使用
+
+
+
+```
+
+    #私有bucket
+
+    defaultBucket=阿里文件存储的私有账户
+
+    #可读bucket==公有
+
+    defaultBucketRead=阿里文件存储的公有账户（read权限账户）
+
+```
+
+
+
+3.jdbc.properties：数据库配置文件
+
+
+
+```
+
+    #驱动
+
+    jdbc.driver=com.mysql.jdbc.Driver
+
+    #url地址
+
+	jdbc.url=jdbc:mysql://localhost:3306/ssm
+
+    #数据库用户
+
+	jdbc.username=mysql
+
+	#数据库密码
+
+	jdbc.password=mysql
+
+	#定义初始连接数
+
+	jdbc.initialSize=1
+
+	#定义最大连接数
+
+	jdbc.maxActive=20
+
+	#定义最大空闲
+
+	jdbc.maxIdle=20
+
+	#定义最小空闲
+
+	jdbc.minIdle=1
+
+	#定义最长等待时间
+
+	jdbc.maxWait=60000
+
+```
+
+
+
+** 注意，war包中不提供数据库驱动，需要手工将驱动放到war的WEB-INF/lib目录下 **
+
+
+
+4.执行数据库脚本
+
+
+
+依次执行examples项目下sql目录中的dll.sql、index.sql、dml.sql建立数据库并初始化数据。
+
+
+
+
+
+## 示例工程说明：
+
+
+
+**文件说明：**
+
+      index.jsp ---使用示例，包含说明信息。
+
+
+
+      ossupload.js ---直传的js文件
+
+      ajaxfileupload.js ---附件上传插件js,不支持跨域。跨域模式在index.jsp中存在例子
+
+      interface.file.js ---ajax访问方式 接口文件，里面是需要实现的方法
+
+      interface.file.impl.js ---是interface.file.js的实现，包括所有的基本js
+
+      【以上js文件使用的时候需要同时引用这4个js,顺序为ossupload.js、ajaxfileupload.js、interface.file.js、interface.file.impl.js】
+
+
+
+
+
+## 开发步骤 ##
+
+
+
+
+
+### 导入js文件
+
+
+
+```
+
+		<script type="text/javascript" src="<%=request.getContextPath()%>/resources/js/ossupload.js"></script>
+
+		<script type="text/javascript" src="<%=request.getContextPath()%>/resources/js/ajaxfileupload.js"></script>
+
+		<script type="text/javascript" src="<%=request.getContextPath()%>/resources/js/interface.file.js"></script>
+
+		<script type="text/javascript" src="<%=request.getContextPath()%>/resources/js/interface.file.impl.js"></script>
+
+```
+
+
+
+### web前端调用附件方法示例
+
+
+
+1.   基本方法：以上传附件举例
+
+
+
+```
+
+	function upload(){
+
+		 var par = {
+
+				 fileElementId: "uploadbatch_id",  
+
+				 filepath: "code",   
+
+				 groupname: "single",
+
+				 permission: "read",
+
+				 url: true,          
+
+				 thumbnail :  "500w",
+
+				 isencrypt: false,  
+			 }
+
+		 var f = new interface_file();
+
+		 f.filesystem_upload(par,callback);//callback是上面定义的回调函数	 }
+
+```
+
+
+
+2.  回调函数：处理过程，一遍业务编写，
+
+
+
+代码示例如下：
+
+
+
+```
+
+		/** * 回调函数--返回结果*/
+
+		 var callback = function(data){
+
+			 if(-1 == data.status){//后台校验信息状态
+
+				 var warn = "";
+
+				 for(var k in  data.message){
+
+					 data.message[k].ObjectName    //校验的对象名称
+
+					 data.message[k].Field         //校验的字段名称
+
+					 data.message[k].RejectedValue //校验的错误原因		 
+
+					 data.message[k].DefaultMessage; //校验的错误提示信息
+
+					 warn +=data.message[k].ObjectName+"对象的"+ data.message[k].Field+"属性不能为："+data.message[k].RejectedValue +"\n"; //自己拼的方式
+
+					 warn +=data.message[k].DefaultMessage +"\n"//后台的默认信息
+
+				 }
+
+				 alert(warn);
+
+			 }else if(1 == data.status){//上传成功状态
+
+         //业务代码
+
+			 }else if(0 == data.status){//上传失败状态
+
+         //业务代码
+
+			 }else{//error 或者加載js錯誤
+
+
+
+				  alert(data);
+
+			 }
+
+ 	};
+
+
+
+```
+
+
+
+
+
+### 登录用户的信息
+
+默认的用户传递方式时cookies中，指定usercode为用户的编码或主键，如果业务上使用其他的cookies值，请重写fileserver-spring-mvc.xml中的拦截器，
+
+
+
+```
+
+		<mvc:interceptors>  
+
+	      <!-- session超时 -->  
+
+	      <mvc:interceptor>  
+
+	        <mvc:mapping path="/*/*"/>  
+
+	        <bean class="com.yonyou.iuap.generic.adapter.CookiesInterceptor">
+
+	          <property name="exclude">  
+
+	            <list>  
+
+	              <!-- 如果请求中包含以下路径，则不进行拦截 -->  
+
+	              <value>/login</value>  
+
+	              <value>/js</value>  
+
+	              <value>/css</value>  
+
+	              <value>/image</value>  
+
+	              <value>/images</value>  
+
+	            </list>  
+
+	          </property>  
+
+	        </bean>  
+
+	      </mvc:interceptor>  
+
+	    </mvc:interceptors>
+
+```
+
+
+
+在拦截器中使用InvocationInfoProxyAdapter.setUserid(userid);设置用户编码或主键。
+
+
+
+### interface.file.js ###
+
+
+
+在web前端的代码中直接使用以下接口方法
+
+
+
+#### 附件上传
+
+
+
+**描述**  
+
+
+
+附件上传  
+
+
+
+**请求方法**  
+
+
+
+filesystem_upload(parameter,callback)
+
+
+
+**请求参数说明**  
+
+
+
+<table>
+
+  <tr>
+
+    <th>参数字段</th>
+
+    <th>必选</th>
+
+		<th>类型</th>
+
+    <th>长度限制</th>
+
+    <th>说明</th>
+
+  </tr>
+
+	<tr>
+
+			<th>fileElementId</th>
+
+	    <td>True</td>
+
+			<td>String</td>
+
+	    <td>无</td>
+
+			<th>一般为为要提交文件的input标签的ID</th>
+
+	</tr>
+
+  <tr>
+
+    <td>filepath</td>
+
+    <td>True</td>
+
+		<td>String</td>
+
+    <td>100</td>
+
+    <td>附件路径，单据相关的唯一标示，一般为单据ID</td>
+
+  </tr>
+
+  <tr>
+
+    <td>groupname</td>
+
+    <td>True</td>
+
+		<td>String</td>
+
+    <td>100</td>
+
+    <td>分組名称,一般在一个单据下存在比较多附件时管理使用，与filepath一起做为文件的管理纬度<</td>
+
+  </tr>
+
+  <tr>
+
+    <td>permission</td>
+
+    <td>False</td>
+
+		<td>String</td>
+
+    <td>20</td>
+
+    <td>read/private，read－公有（即文件不受权限控制，有路径即可访问），private－私有（访问文件前需要调用附件的getURL方法获取认证信息，否则无法访问），不传的时候会默认private</td>
+
+  </tr>
+
+  <tr>
+
+    <td>url</td>
+
+    <td>False</td>
+
+		<td>boolean</td>
+
+    <td>无</td>
+
+    <td>是否返回附件的url地址</td>
+
+  </tr>
+
+  <tr>
+
+    <td>thumbnail</td>
+
+    <td>False</td>
+
+		<td>String</td>
+
+    <td>10</td>
+
+    <td>缩略图大小设置，例如“500w”，一般仅图片文件使用和url参数配合使用</td>
+
+  </tr>
+
+  <tr>
+
+    <td>isreplace</td>
+
+    <td>False</td>
+
+		<td>boolean</td>
+
+    <td>无</td>
+
+    <td>是否覆盖，当filepath，groupname和filename都相同时是否覆盖掉之前上传的附件，默认为:false,</td>
+
+  </tr>
+
+   <tr>
+
+    <td>isencrypt</td>
+
+    <td>False</td>
+
+	 <td>boolean</td>
+
+    <td>无</td>
+
+    <td>附件是否加密，设置为true会对附件内容进行加密，默认为:false,</td>
+
+  </tr>
+
+</table>
+
+
+
+**返回参数说明**  
+
+
+
+返回："data":{"message":"提示信息","status":0,"data":[]}
+
+
+
+<table>
+
+  <tr>
+
+    <th>参数字段</th>
+
+    <th>返回值说明</th>
+
+  </tr>
+
+  <tr>
+
+    <td>status</td>
+
+    <td>状态，1－成功，2-失败，－1-警告</td>
+
+  </tr>
+
+  <tr>
+
+    <td>data</td>
+
+    <td>返回的数据，json格式，
+
+				<br>具体内容格式如下：［{"id":"附件id","filename":“文件名”,"filesize":“附件大小”，“filepath”:“附件的路径”，“groupname”:“分組”，“uploadtime”:“上传时间”，“url”:“下载地址”}］
+
+		</td>
+
+  </tr>
+
+  <tr>
+
+    <td>message</td>
+
+    <td>返成功或错误信息，一般为成功提示或错误描述，当status为－1时，返回具体批量操作的详细错误，
+
+				<br>格式如下［{"ObjectName":"校验的对象名称","Field":“校验的字段名称”,"RejectedValue":“错误原因”}］
+
+		</td>
+
+  </tr>
+
+</table>
+
+
+
+#### 附件查询
+
+
+
+**请求方法**  
+
+
+
+filesystem_query(parameter,callback)
+
+
+
+**请求参数说明**  
+
+
+
+<table>
+
+  <tr>
+
+    <th>参数字段</th>
+
+    <th>必选</th>
+
+	 <th>类型</th>
+
+    <th>长度限制</th>
+
+    <th>说明</th>
+
+  </tr>
+
+  <tr>
+
+    <td>filepath</td>
+
+    <td>True</td>
+
+	 <td>String</td>
+
+    <td>100</td>
+
+    <td>附件路径，单据相关的唯一标示，一般为单据ID</td>
+
+  </tr>
+
+    <tr>
+
+    <td>groupname</td>
+
+    <td>True</td>
+
+		<td>String</td>
+
+    <td>100</td>
+
+    <td>分組名称,一般在一个单据下存在比较多附件时管理使用，与filepath一起做为文件的管理纬度<</td>
+
+  </tr>
+
+</table>
+
+
+
+**返回参数说明**  
+
+
+
+返回："data":{"message":"提示信息","status":0,"data":[]}
+
+
+
+<table>
+
+  <tr>
+
+    <th>参数字段</th>
+
+    <th>返回值说明</th>
+
+  </tr>
+
+  <tr>
+
+    <td>status</td>
+
+    <td>状态，1－成功，2-失败，－1-警告</td>
+
+  </tr>
+
+  <tr>
+
+    <td>data</td>
+
+    <td>返回的数据，json格式，
+
+				<br>具体内容格式如下：［{"id":"附件id","filename":“文件名”,"filesize":“附件大小”，“filepath”:“附件的路径”，“groupname”:“分組”，“uploadtime”:“上传时间”，“url”:“下载地址”}］
+
+		</td>
+
+  </tr>
+
+  <tr>
+
+    <td>message</td>
+
+    <td>返成功或错误信息，一般为成功提示或错误描述，当status为－1时，返回具体批量操作的详细错误，
+
+				<br>格式如下［{"ObjectName":"校验的对象名称","Field":“校验的字段名称”,"RejectedValue":“错误原因”}］
+
+		</td>
+
+  </tr>
+
+</table>
+
+
+
+#### 附件下载  
+
+
+
+**请求方法**  
+
+
+
+filesystem_download(parameter,callback)
+
+
+
+**请求参数说明**  
+
+
+
+<table>
+
+  <tr>
+
+    <th>参数字段</th>
+
+    <th>必选</th>
+
+		<th>类型</th>
+
+    <th>长度限制</th>
+
+    <th>说明</th>
+
+  </tr>
+
+  <tr>
+
+    <td>id</td>
+
+    <td>True</td>
+
+		<td>String</td>
+
+    <td>最长36,一般19</td>
+
+    <td>附件的ID</td>
+
+  </tr>
+
+</table>
+
+
+
+**返回参数说明**  
+
+
+
+返回："data":{"message":"提示信息","status":0,"data":[]}
+
+
+
+<table>
+
+  <tr>
+
+    <th>参数字段</th>
+
+    <th>返回值说明</th>
+
+  </tr>
+
+  <tr>
+
+    <td>status</td>
+
+    <td>状态，1－成功，2-失败，－1-警告</td>
+
+  </tr>
+
+  <tr>
+
+    <td>data</td>
+
+    <td>具体文件对象</td>
+
+  </tr>
+
+  <tr>
+
+    <td>message</td>
+
+    <td>返成功或错误信息，一般为成功提示或错误描述，当status为－1时，返回具体批量操作的详细错误，
+
+				<br>格式如下［{"ObjectName":"校验的对象名称","Field":“校验的字段名称”,"RejectedValue":“错误原因”}］
+
+		</td>
+
+  </tr>
+
+</table>
+
+
+
+#### 附件删除  
+
+
+
+**请求方法**  
+
+
+
+filesystem_delete(parameter,callback)
+
+
+
+**请求参数说明**  
+
+
+
+<table>
+
+  <tr>
+
+    <th>参数字段</th>
+
+    <th>必选</th>
+
+		<th>类型</th>
+
+    <th>长度限制</th>
+
+    <th>说明</th>
+
+  </tr>
+
+  <tr>
+
+    <td>id</td>
+
+    <td>True</td>
+
+		<td>String</td>
+
+    <td>最长36,一般19</td>
+
+    <td>附件的ID</td>
+
+  </tr>
+
+</table>
+
+
+
+**返回参数说明**  
+
+
+
+返回："data":{"message":"提示信息","status":0,"data":[]}
+
+
+
+<table>
+
+  <tr>
+
+    <th>参数字段</th>
+
+    <th>返回值说明</th>
+
+  </tr>
+
+  <tr>
+
+    <td>status</td>
+
+    <td>状态，1－成功，2-失败，－1-警告</td>
+
+  </tr>
+
+  <tr>
+
+    <td>data</td>
+
+    <td>空</td>
+
+  </tr>
+
+  <tr>
+
+    <td>message</td>
+
+    <td>返成功或错误信息，一般为成功提示或错误描述，当status为－1时，返回具体批量操作的详细错误，
+
+				<br>格式如下［{"ObjectName":"校验的对象名称","Field":“校验的字段名称”,"RejectedValue":“错误原因”}］
+
+		</td>
+
+  </tr>
+
+</table>
+
+
+
+#### 获得附件的url
+
+
+
+**请求方法**  
+
+
+
+filesystem_geturl(parameter,callback)
+
+
+
+**请求参数说明**  
+
+
+
+<table>
+
+  <tr>
+
+    <th>参数字段</th>
+
+    <th>必选</th>
+
+		<th>类型</th>
+
+    <th>长度限制</th>
+
+    <th>说明</th>
+
+  </tr>
+
+  <tr>
+
+    <td>ids</td>
+
+    <td>True</td>
+
+		<td>String</td>
+
+    <td>无</td>
+
+    <td>附件的ID数组，格式如下"id1,id2,id3..."</td>
+
+  </tr>
+
+  <tr>
+
+    <td>thumbnail</td>
+
+    <td>False</td>
+
+		<td>String</td>
+
+    <td>10</td>
+
+    <td>缩略图大小设置，例如“500w”，一般仅图片文件使用和url参数配合使用</td>
+
+  </tr>
+
+</table>
+
+
+
+**返回参数说明**  
+
+
+
+返回："data":{"message":"提示信息","status":0,"data":[]}
+
+
+
+<table>
+
+  <tr>
+
+    <th>参数字段</th>
+
+    <th>返回值说明</th>
+
+  </tr>
+
+  <tr>
+
+    <td>status</td>
+
+    <td>状态，1－成功，2-失败，－1-警告</td>
+
+  </tr>
+
+  <tr>
+
+    <td>data</td>
+
+    <td>空</td>
+
+  </tr>
+
+  <tr>
+
+    <td>message</td>
+
+    <td>返成功或错误信息，一般为成功提示或错误描述，当status为－1时，返回具体批量操作的详细错误，
+
+				<br>格式如下［{"ObjectName":"校验的对象名称","Field":“校验的字段名称”,"RejectedValue":“错误原因”}］
+
+		</td>
+
+  </tr>
+
+</table>
+
+
+
+
+
+#### 附件覆盖上传
+
+
+
+**请求方法**  
+
+
+
+filesystem_replace(parameter,callback)
+
+
+
+**请求参数说明**  
+
+
+
+<table>
+
+  <tr>
+
+    <th>参数字段</th>
+
+    <th>必选</th>
+
+		<th>类型</th>
+
+    <th>长度限制</th>
+
+    <th>说明</th>
+
+  </tr>
+
+	<tr>
+
+    <td>fileElementId</td>
+
+    <td>True</td>
+
+		<td>String</td>
+
+    <td>无</td>
+
+    <td>一般为为要提交文件的input标签的ID</td>
+
+	</tr>
+
+  <tr>
+
+    <td>id</td>
+
+    <td>True</td>
+
+		<td>String</td>
+
+    <td>最长36,一般19</td>
+
+    <td>需要被覆盖的附件ID</td>
+
+  </tr>
+
+  <tr>
+
+    <td>filepath</td>
+
+    <td>True</td>
+
+		<td>String</td>
+
+    <td>100</td>
+
+    <td>附件路径，单据相关的唯一标示，一般为单据ID</td>
+
+  </tr>
+
+   <tr>
+
+    <td>groupname</td>
+
+    <td>True</td>
+
+		<td>String</td>
+
+    <td>100</td>
+
+    <td>分組名称,一般在一个单据下存在比较多附件时管理使用，与filepath一起做为文件的管理纬度<</td>
+
+  </tr>
+
+  <tr>
+
+	 <td>permission</td>
+
+	 <td>False</td>
+
+	 <td>String</td>
+
+	 <td>20</td>
+
+	 <td>read/private，read－公有（即文件不受权限控制，有路径即可访问），private－私有（访问文件前需要调用附件的getURL方法获取认证信息，否则无法访问），不传的时候会默认private</td>
+
+  </tr>
+
+  <tr>
+
+		<td>url</td>
+
+		<td>False</td>
+
+		<td>boolean</td>
+
+		<td>无</td>
+
+		<td>是否返回附件的url地址</td>
+
+  </tr>
+
+  <tr>
+
+		<td>thumbnail</td>
+
+		<td>False</td>
+
+		<td>String</td>
+
+		<td>10</td>
+
+		<td>缩略图大小设置，例如“500w”，一般仅图片文件使用和url参数配合使用</td>
+
+   </tr>
+   <tr>
+
+		<td>isencrypt</td>
+
+		<td>False</td>
+
+		<td>String</td>
+
+		<td></td>
+
+		<td>附件是否加密，设置为true会对附件内容进行加密,默认设置为False</td>
+
+   </tr>
+
+</table>
+
+
+
+**返回参数说明**  
+
+
+
+返回："data":{"message":"提示信息","status":0,"data":[]}
+
+
+
+<table>
+
+  <tr>
+
+    <th>参数字段</th>
+
+    <th>返回值说明</th>
+
+  </tr>
+
+  <tr>
+
+    <td>status</td>
+
+    <td>状态，1－成功，2-失败，－1-警告</td>
+
+  </tr>
+
+  <tr>
+
+    <td>data</td>
+
+    <td>返回的数据，json格式，
+
+				<br>具体内容格式如下：［{"id":"附件id","filename":“文件名”,"filesize":“附件大小”，“filepath”:“附件的路径”，“groupname”:“分組”，“uploadtime”:“上传时间”，“url”:“下载地址”}
+
+		</td>
+
+  </tr>
+
+  <tr>
+
+    <td>message</td>
+
+    <td>返成功或错误信息，一般为成功提示或错误描述，当status为－1时，返回具体批量操作的详细错误，
+
+				<br>格式如下［{"ObjectName":"校验的对象名称","Field":“校验的字段名称”,"RejectedValue":“错误原因”}］
+
+			</td>
+
+  </tr>
+
+</table>
+
+
+
+
+
+#### 附件更新
+
+
+
+**请求方法**  
+
+
+
+filesystem_update(parameter,callback)
+
+
+
+**请求参数说明**  
+
+
+
+<table>
+
+  <tr>
+
+    <th>参数字段</th>
+
+    <th>必选</th>
+
+		<th>类型</th>
+
+    <th>长度限制</th>
+
+    <th>说明</th>
+
+  </tr>
+
+   <tr>
+
+    <td>id</td>
+
+    <td>True</td>
+
+		<td>String</td>
+
+    <td>最长36,一般19</td>
+
+    <td>需要被覆盖的附件d的ID</td>
+
+  </tr>
+
+  <tr>
+
+    <td>filepath</td>
+
+    <td>True</td>
+
+		<td>String</td>
+
+    <td>100</td>
+
+    <td>附件路径，单据相关的唯一标示，一般为单据ID</td>
+
+  </tr>
+
+  <tr>
+
+    <td>groupname</td>
+
+    <td>True</td>
+
+		<td>String</td>
+
+    <td>100</td>
+
+    <td>分組名称,一般在一个单据下存在比较多附件时管理使用，与filepath一起做为文件的管理纬度<</td>
+
+  </tr>
+
+</table>
+
+
+
+**返回参数说明**  
+
+
+
+返回："data":{"message":"提示信息","status":0,"data":[]}
+
+
+
+<table>
+
+  <tr>
+
+    <th>参数字段</th>
+
+    <th>返回值说明</th>
+
+  </tr>
+
+  <tr>
+
+    <td>status</td>
+
+    <td>状态，1－成功，2-失败，－1-警告</td>
+
+  </tr>
+
+  <tr>
+
+    <td>data</td>
+
+    <td>返回的数据，json格式，
+
+				<br>具体内容格式如下：［{"id":"附件id","filename":“文件名”,"filesize":“附件大小”，“filepath”:“附件的路径”，“groupname”:“分組”，“uploadtime”:“上传时间”，“url”:“下载地址”}
+
+		</td>
+
+  </tr>
+
+  <tr>
+
+    <td>message</td>
+
+    <td>返成功或错误信息，一般为成功提示或错误描述，当status为－1时，返回具体批量操作的详细错误，
+
+				<br>格式如下［{"ObjectName":"校验的对象名称","Field":“校验的字段名称”,"RejectedValue":“错误原因”}］
+
+			</td>
+
+  </tr>
+
+</table>
+
+
+
+#### 直接上传文件服务器
+
+
+
+**请求方法**  
+
+
+
+ossupload(parameter,callback)
+
+
+
+**请求参数说明**  
+
+
+
+<table>
+
+  <tr>
+
+    <th>参数字段</th>
+
+    <th>必选</th>
+
+		<th>类型</th>
+
+    <th>长度限制</th>
+
+    <th>说明</th>
+
+  </tr>
+
+	<tr>
+
+    <td>fileid</td>
+
+    <td>True</td>
+
+		<td>String</td>
+
+    <td>无</td>
+
+    <td>一般为为要提交文件的input标签的ID</td>
+
+	</tr>
+
+  <tr>
+
+    <td>filepath</td>
+
+    <td>True</td>
+
+		<td>String</td>
+
+    <td>100</td>
+
+    <td>附件路径，单据相关的唯一标示，一般为单据ID</td>
+
+  </tr>
+
+   <tr>
+
+    <td>groupname</td>
+
+    <td>True</td>
+
+		<td>String</td>
+
+    <td>100</td>
+
+    <td>分組名称,一般在一个单据下存在比较多附件时管理使用，与filepath一起做为文件的管理纬度<</td>
+
+  </tr>
+
+  <tr>
+
+	 <td>permission</td>
+
+	 <td>False</td>
+
+	 <td>String</td>
+
+	 <td>20</td>
+
+	 <td>read/private，read－公有（即文件不受权限控制，有路径即可访问），private－私有（访问文件前需要调用附件的getURL方法获取认证信息，否则无法访问），不传的时候会默认private</td>
+
+  </tr>
+
+  <tr>
+
+		<td>url</td>
+
+		<td>False</td>
+
+		<td>boolean</td>
+
+		<td>无</td>
+
+		<td>是否返回附件的url地址</td>
+
+  </tr>
+
+  <tr>
+
+		<td>thumbnail</td>
+
+		<td>False</td>
+
+		<td>String</td>
+
+		<td>10</td>
+
+		<td>缩略图大小设置，例如“500w”，一般仅图片文件使用和url参数配合使用</td>
+
+   </tr>
+
+</table>
+
+
+
+**返回参数说明**  
+
+
+
+返回："data":{"message":"提示信息","status":0,"data":[]}
+
+
+
+<table>
+
+  <tr>
+
+    <th>参数字段</th>
+
+    <th>返回值说明</th>
+
+  </tr>
+
+  <tr>
+
+    <td>status</td>
+
+    <td>状态，1－成功，2-失败，－1-警告</td>
+
+  </tr>
+
+  <tr>
+
+    <td>data</td>
+
+    <td>返回的数据，json格式，
+
+				<br>具体内容格式如下：［{"id":"附件id","filename":“文件名”,"filesize":“附件大小”，“filepath”:“附件的路径”，“groupname”:“分組”，“uploadtime”:“上传时间”，“url”:“下载地址”}
+
+		</td>
+
+  </tr>
+
+  <tr>
+
+    <td>message</td>
+
+    <td>返成功或错误信息，一般为成功提示或错误描述，当status为－1时，返回具体批量操作的详细错误，
+
+				<br>格式如下［{"ObjectName":"校验的对象名称","Field":“校验的字段名称”,"RejectedValue":“错误原因”}］
+
+			</td>
+
+  </tr>
+
+</table>
+
+
+
+### 附件管理RestAPI ###
+
+
+
+#### 附件上传
+
+
+
+**描述**  
+
+附件上传  
+
+**请求方法**  
+
+
+
+file/upload
+
+
+
+**请求方式**  
+
+
+
+POST
+
+
+
+**请求参数说明**  
+
+
+
+<table>
+
+  <tr>
+
+    <th>参数字段</th>
+
+    <th>必选</th>
+
+		<th>类型</th>
+
+    <th>长度限制</th>
+
+    <th>说明</th>
+
+  </tr>
+
+  <tr>
+
+    <td>filepath</td>
+
+    <td>True</td>
+
+		<td>String</td>
+
+    <td>100</td>
+
+    <td>附件路径，单据相关的唯一标示，一般为单据ID</td>
+
+  </tr>
+
+  <tr>
+
+    <td>groupname</td>
+
+    <td>True</td>
+
+		<td>String</td>
+
+    <td>100</td>
+
+    <td>分組名称,一般在一个单据下存在比较多附件时管理使用，与filepath一起做为文件的管理纬度<</td>
+
+  </tr>
+
+  <tr>
+
+    <td>permission</td>
+
+    <td>False</td>
+
+		<td>String</td>
+
+    <td>20</td>
+
+    <td>read/private，read－公有（即文件不受权限控制，有路径即可访问），private－私有（访问文件前需要调用附件的getURL方法获取认证信息，否则无法访问），不传的时候会默认private</td>
+
+  </tr>
+
+  <tr>
+
+    <td>url</td>
+
+    <td>False</td>
+
+		<td>boolean</td>
+
+    <td>无</td>
+
+    <td>是否返回附件的url地址</td>
+
+  </tr>
+
+  <tr>
+
+    <td>thumbnail</td>
+
+    <td>False</td>
+
+		<td>String</td>
+
+    <td>10</td>
+
+    <td>缩略图大小设置，例如“500w”，一般仅图片文件使用和url参数配合使用</td>
+
+  </tr>
+
+  <tr>
+
+    <td>isreplace</td>
+
+    <td>False</td>
+
+		<td>boolean</td>
+
+    <td>无</td>
+
+    <td>是否覆盖，当filepath，groupname和filename都相同时是否覆盖掉之前上传的附件，默认为:false,</td>
+
+  </tr>
+
+  <tr>
+
+    <td>isencrypt</td>
+
+    <td>False</td>
+
+	 <td>boolean</td>
+
+    <td>无</td>
+
+    <td>附件是否加密，设置为true时会对附件内容进行加密，默认为:false,</td>
+
+  </tr>
+
+</table>
+
+
+
+**返回参数说明**  
+
+
+
+返回："data":{"message":"提示信息","status":0,"data":[]}
+
+
+
+<table>
+
+  <tr>
+
+    <th>参数字段</th>
+
+    <th>返回值说明</th>
+
+  </tr>
+
+  <tr>
+
+    <td>status</td>
+
+    <td>状态，1－成功，2-失败，－1-警告</td>
+
+  </tr>
+
+  <tr>
+
+    <td>data</td>
+
+    <td>返回的数据，json格式，
+
+				<br>具体内容格式如下：［{"id":"附件id","filename":“文件名”,"filesize":“附件大小”，“filepath”:“附件的路径”，“groupname”:“分組”，“uploadtime”:“上传时间”，“url”:“下载地址”}］
+
+		</td>
+
+  </tr>
+
+  <tr>
+
+    <td>message</td>
+
+    <td>返成功或错误信息，一般为成功提示或错误描述，当status为－1时，返回具体批量操作的详细错误，
+
+				<br>格式如下［{"ObjectName":"校验的对象名称","Field":“校验的字段名称”,"RejectedValue":“错误原因”}］
+
+		</td>
+
+  </tr>
+
+</table>
+
+
+
+#### 附件查询
+
+
+
+**请求方法**  
+
+
+
+file/query
+
+
+
+**请求方式**  
+
+
+
+GET
+
+
+
+**请求参数说明**  
+
+
+
+<table>
+
+  <tr>
+
+    <th>参数字段</th>
+
+    <th>必选</th>
+
+		<th>类型</th>
+
+    <th>长度限制</th>
+
+    <th>说明</th>
+
+  </tr>
+
+  <tr>
+
+    <td>filepath</td>
+
+    <td>True</td>
+
+		<td>String</td>
+
+    <td>100</td>
+
+    <td>附件路径，单据相关的唯一标示，一般为单据ID</td>
+
+  </tr>
+
+    <tr>
+
+    <td>groupname</td>
+
+    <td>True</td>
+
+		<td>String</td>
+
+    <td>100</td>
+
+    <td>分組名称,一般在一个单据下存在比较多附件时管理使用，与filepath一起做为文件的管理纬度<</td>
+
+  </tr>
+
+</table>
+
+
+
+**返回参数说明**  
+
+
+
+返回："data":{"message":"提示信息","status":0,"data":[]}
+
+
+
+<table>
+
+  <tr>
+
+    <th>参数字段</th>
+
+    <th>返回值说明</th>
+
+  </tr>
+
+  <tr>
+
+    <td>status</td>
+
+    <td>状态，1－成功，2-失败，－1-警告</td>
+
+  </tr>
+
+  <tr>
+
+    <td>data</td>
+
+    <td>返回的数据，json格式，
+
+				<br>具体内容格式如下：［{"id":"附件id","filename":“文件名”,"filesize":“附件大小”，“filepath”:“附件的路径”，“groupname”:“分組”，“uploadtime”:“上传时间”，“url”:“下载地址”}］
+
+		</td>
+
+  </tr>
+
+  <tr>
+
+    <td>message</td>
+
+    <td>返成功或错误信息，一般为成功提示或错误描述，当status为－1时，返回具体批量操作的详细错误，
+
+				<br>格式如下［{"ObjectName":"校验的对象名称","Field":“校验的字段名称”,"RejectedValue":“错误原因”}］
+
+		</td>
+
+  </tr>
+
+</table>
+
+
+
+#### 附件下载  
+
+
+
+**请求方法**  
+
+
+
+file/download
+
+
+
+**请求方式**  
+
+
+
+GET
+
+
+
+**请求参数说明**  
+
+
+
+<table>
+
+  <tr>
+
+    <th>参数字段</th>
+
+    <th>必选</th>
+
+		<th>类型</th>
+
+    <th>长度限制</th>
+
+    <th>说明</th>
+
+  </tr>
+
+  <tr>
+
+    <td>id</td>
+
+    <td>True</td>
+
+		<td>String</td>
+
+    <td>最长36,一般19</td>
+
+    <td>附件的ID</td>
+
+  </tr>
+
+  <tr>
+
+    <td>stream</td>
+
+    <td>false</td>
+
+		<td>String</td>
+
+    <td>10</td>
+
+    <td>"true"</td>
+
+  </tr>
+
+</table>
+
+
+
+**返回参数说明**  
+
+
+
+返回："data":{"message":"提示信息","status":0,"data":[]}
+
+
+
+<table>
+
+  <tr>
+
+    <th>参数字段</th>
+
+    <th>返回值说明</th>
+
+  </tr>
+
+  <tr>
+
+    <td>status</td>
+
+    <td>状态，1－成功，2-失败，－1-警告</td>
+
+  </tr>
+
+  <tr>
+
+    <td>data</td>
+
+    <td>具体文件对象</td>
+
+  </tr>
+
+  <tr>
+
+    <td>message</td>
+
+    <td>返成功或错误信息，一般为成功提示或错误描述，当status为－1时，返回具体批量操作的详细错误，
+
+				<br>格式如下［{"ObjectName":"校验的对象名称","Field":“校验的字段名称”,"RejectedValue":“错误原因”}］
+
+		</td>
+
+  </tr>
+
+</table>
+
+
+
+#### 附件删除  
+
+
+
+**请求方法**  
+
+
+
+file/delete
+
+
+
+**请求方式**  
+
+
+
+GET
+
+
+
+**请求参数说明**  
+
+
+
+<table>
+
+  <tr>
+
+    <th>参数字段</th>
+
+    <th>必选</th>
+
+		<th>类型</th>
+
+    <th>长度限制</th>
+
+    <th>说明</th>
+
+  </tr>
+
+  <tr>
+
+    <td>id</td>
+
+    <td>True</td>
+
+		<td>String</td>
+
+    <td>最长36,一般19</td>
+
+    <td>附件的ID</td>
+
+  </tr>
+
+</table>
+
+
+
+**返回参数说明**  
+
+
+
+返回："data":{"message":"提示信息","status":0,"data":[]}
+
+
+
+<table>
+
+  <tr>
+
+    <th>参数字段</th>
+
+    <th>返回值说明</th>
+
+  </tr>
+
+  <tr>
+
+    <td>status</td>
+
+    <td>状态，1－成功，2-失败，－1-警告</td>
+
+  </tr>
+
+  <tr>
+
+    <td>data</td>
+
+    <td>空</td>
+
+  </tr>
+
+  <tr>
+
+    <td>message</td>
+
+    <td>返成功或错误信息，一般为成功提示或错误描述，当status为－1时，返回具体批量操作的详细错误，
+
+				<br>格式如下［{"ObjectName":"校验的对象名称","Field":“校验的字段名称”,"RejectedValue":“错误原因”}］
+
+		</td>
+
+  </tr>
+
+</table>
+
+
+
+#### 获得附件的url
+
+
+
+**请求方法**  
+
+
+
+file/url
+
+
+
+**请求方式**  
+
+
+
+GET
+
+
+
+**请求参数说明**  
+
+<table>
+
+  <tr>
+
+    <th>参数字段</th>
+
+    <th>必选</th>
+
+		<th>类型</th>
+
+    <th>长度限制</th>
+
+    <th>说明</th>
+
+  </tr>
+
+  <tr>
+
+    <td>ids</td>
+
+    <td>True</td>
+
+		<td>String</td>
+
+    <td>无</td>
+
+    <td>附件的ID数组，格式如下"id1,id2,id3..."</td>
+
+  </tr>
+
+  <tr>
+
+    <td>thumbnail</td>
+
+    <td>False</td>
+
+		<td>String</td>
+
+    <td>10</td>
+
+    <td>缩略图大小设置，例如“500w”，一般仅图片文件使用和url参数配合使用</td>
+
+  </tr>
+
+</table>
+
+
+
+**返回参数说明**  
+
+
+
+返回："data":{"message":"提示信息","status":0,"data":[]}
+
+
+
+<table>
+
+  <tr>
+
+    <th>参数字段</th>
+
+    <th>返回值说明</th>
+
+  </tr>
+
+  <tr>
+
+    <td>status</td>
+
+    <td>状态，1－成功，2-失败，－1-警告</td>
+
+  </tr>
+
+  <tr>
+
+    <td>data</td>
+
+    <td>空</td>
+
+  </tr>
+
+  <tr>
+
+    <td>message</td>
+
+    <td>返成功或错误信息，一般为成功提示或错误描述，当status为－1时，返回具体批量操作的详细错误，
+
+				<br>格式如下［{"ObjectName":"校验的对象名称","Field":“校验的字段名称”,"RejectedValue":“错误原因”}］
+
+		</td>
+
+  </tr>
+
+</table>
+
+
+
+#### 附件覆盖上传
+
+
+
+**请求方法**  
+
+
+
+file/replace
+
+
+
+**请求方式**  
+
+
+
+POST
+
+
+
+**请求参数说明**  
+
+
+
+<table>
+
+  <tr>
+
+    <th>参数字段</th>
+
+    <th>必选</th>
+
+		<th>类型</th>
+
+    <th>长度限制</th>
+
+    <th>说明</th>
+
+  </tr>
+
+  <tr>
+
+    <td>id</td>
+
+    <td>True</td>
+
+		<td>String</td>
+
+    <td>最长36,一般19</td>
+
+    <td>需要被覆盖的附件ID</td>
+
+  </tr>
+
+  <tr>
+
+    <td>filepath</td>
+
+    <td>True</td>
+
+		<td>String</td>
+
+    <td>100</td>
+
+    <td>附件路径，单据相关的唯一标示，一般为单据ID</td>
+
+  </tr>
+
+   <tr>
+
+    <td>groupname</td>
+
+    <td>True</td>
+
+		<td>String</td>
+
+    <td>100</td>
+
+    <td>分組名称,一般在一个单据下存在比较多附件时管理使用，与filepath一起做为文件的管理纬度<</td>
+
+  </tr>
+
+  <tr>
+
+	 <td>permission</td>
+
+	 <td>False</td>
+
+	 <td>String</td>
+
+	 <td>20</td>
+
+	 <td>read/private，read－公有（即文件不受权限控制，有路径即可访问），private－私有（访问文件前需要调用附件的getURL方法获取认证信息，否则无法访问），不传的时候会默认private</td>
+
+  </tr>
+
+  <tr>
+
+		<td>url</td>
+
+		<td>False</td>
+
+		<td>boolean</td>
+
+		<td>无</td>
+
+		<td>是否返回附件的url地址</td>
+
+  </tr>
+
+  <tr>
+
+		<td>thumbnail</td>
+
+		<td>False</td>
+
+		<td>String</td>
+
+		<td>10</td>
+
+		<td>缩略图大小设置，例如“500w”，一般仅图片文件使用和url参数配合使用</td>
+
+   </tr>
+
+<tr>
+
+		<td>isencrypt</td>
+
+		<td>False</td>
+
+		<td>String</td>
+
+		<td>无</td>
+
+		<td>附件是否加密，设置为true会对附件内容进行加密，默认设置为False</td>
+
+   </tr>
+
+</table>
+
+
+
+**返回参数说明**  
+
+
+
+返回："data":{"message":"提示信息","status":0,"data":[]}
+
+
+
+<table>
+
+  <tr>
+
+    <th>参数字段</th>
+
+    <th>返回值说明</th>
+
+  </tr>
+
+  <tr>
+
+    <td>status</td>
+
+    <td>状态，1－成功，2-失败，－1-警告</td>
+
+  </tr>
+
+  <tr>
+
+    <td>data</td>
+
+    <td>返回的数据，json格式，
+
+				<br>具体内容格式如下：［{"id":"附件id","filename":“文件名”,"filesize":“附件大小”，“filepath”:“附件的路径”，“groupname”:“分組”，“uploadtime”:“上传时间”，“url”:“下载地址”}
+
+		</td>
+
+  </tr>
+
+  <tr>
+
+    <td>message</td>
+
+    <td>返成功或错误信息，一般为成功提示或错误描述，当status为－1时，返回具体批量操作的详细错误，
+
+				<br>格式如下［{"ObjectName":"校验的对象名称","Field":“校验的字段名称”,"RejectedValue":“错误原因”}］
+
+			</td>
+
+  </tr>
+
+</table>
+
+
+
+
+
+#### 附件更新
+
+
+
+**请求方法**  
+
+
+
+file/update
+
+
+
+**请求方式**  
+
+
+
+POST
+
+
+
+**请求参数说明**  
+
+
+
+<table>
+
+  <tr>
+
+    <th>参数字段</th>
+
+    <th>必选</th>
+
+		<th>类型</th>
+
+    <th>长度限制</th>
+
+    <th>说明</th>
+
+  </tr>
+
+   <tr>
+
+      <td>id</td>
+
+    <td>True</td>
+
+	<td>String</td>
+
+    <td>最长36,一般19</td>
+
+    <td>需要被覆盖的附件d的ID</td>
+
+  </tr>
+
+  <tr>
+
+    <td>filepath</td>
+
+    <td>True</td>
+
+		<td>String</td>
+
+    <td>100</td>
+
+    <td>附件路径，单据相关的唯一标示，一般为单据ID</td>
+
+  </tr>
+
+  <tr>
+
+    <td>groupname</td>
+
+    <td>True</td>
+
+		<td>String</td>
+
+    <td>100</td>
+
+    <td>分組名称,一般在一个单据下存在比较多附件时管理使用，与filepath一起做为文件的管理纬度</td>
+
+  </tr>
+
+</table>
+
+
+
+**返回参数说明**  
+
+
+
+返回："data":{"message":"提示信息","status":0,"data":[]}
+
+
+
+<table>
+
+  <tr>
+
+    <th>参数字段</th>
+
+    <th>返回值说明</th>
+
+  </tr>
+
+  <tr>
+
+    <td>status</td>
+
+    <td>状态，1－成功，2-失败，－1-警告</td>
+
+  </tr>
+
+  <tr>
+
+    <td>data</td>
+
+    <td>返回的数据，json格式，
+
+				<br>具体内容格式如下：［{"id":"附件id","filename":“文件名”,"filesize":“附件大小”，“filepath”:“附件的路径”，“groupname”:“分組”，“uploadtime”:“上传时间”，“url”:“下载地址”}
+
+		</td>
+
+  </tr>
+
+  <tr>
+
+    <td>message</td>
+
+    <td>返成功或错误信息，一般为成功提示或错误描述，当status为－1时，返回具体批量操作的详细错误，
+
+				<br>格式如下［{"ObjectName":"校验的对象名称","Field":“校验的字段名称”,"RejectedValue":“错误原因”}］
+
+			</td>
+
+  </tr>
+
+</table>
+
+#### 附件复制
+
+
+
+**请求方法**  
+
+
+
+file/copy
+
+
+
+**请求方式**  
+
+
+
+POST
+
+
+
+**请求参数说明**  
+
+
+
+<table>
+
+  <tr>
+
+    <th>参数字段</th>
+
+    <th>必选</th>
+
+	 <th>类型</th>
+
+    <th>长度限制</th>
+
+    <th>说明</th>
+
+  </tr>
+
+   <tr>
+
+    <td>id</td>
+
+    <td>True</td>
+
+	<td>String</td>
+
+    <td>最长36,一般19</td>
+
+    <td>需要被复制的附件的ID</td>
+
+  </tr>
+
+  <tr>
+
+    <td>filepath</td>
+
+    <td>True</td>
+
+	 <td>String</td>
+
+    <td>100</td>
+
+    <td>附件路径，单据相关的唯一标示，一般为单据ID</td>
+
+  </tr>
+
+  <tr>
+
+    <td>groupname</td>
+
+    <td>True</td>
+
+	 <td>String</td>
+
+    <td>100</td>
+
+    <td>分組名称,一般在一个单据下存在比较多附件时管理使用，与filepath一起做为文件的管理纬度</td>
+
+  </tr>
+
+</table>
+
+
+
+**返回参数说明**  
+
+
+
+返回："data":{"message":"提示信息","status":0,"data":[]}
+
+
+
+<table>
+
+  <tr>
+
+    <th>参数字段</th>
+
+    <th>返回值说明</th>
+
+  </tr>
+
+  <tr>
+
+    <td>status</td>
+
+    <td>状态，1表示成功，0表示失败，－1表示警告</td>
+
+  </tr>
+
+  <tr>
+
+    <td>data</td>
+
+    <td>返回的数据，json格式，
+
+				<br>具体内容格式如下：［{"id":"附件id","filename":“文件名”,"filesize":“附件大小”，“filepath”:“附件的路径”，“groupname”:“分組”，“uploadtime”:“上传时间”，“url”:“下载地址”}
+
+		</td>
+
+  </tr>
+
+  <tr>
+
+    <td>message</td>
+
+    <td>返成功或错误信息</td>
+
+  </tr>
+
+</table>
