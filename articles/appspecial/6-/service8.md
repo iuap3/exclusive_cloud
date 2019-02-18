@@ -65,7 +65,8 @@ iuap的附件上传服务提供了对文件资源的通用操作，使用分布�
     defaultBucketRead=your bucket
 
     #使用本地文件系统时的存储路径
-    storeDir=/etc/filetest
+    storeDir=/etc/filetest //文件在服务器上的存储路径
+    local_server=http://ip:8080/wbalone/images //配置外部访问文件服务器的url
 	
 	#使用FastDfs文件系统时Fdfs系统的配置
     connect_timeout = 10
