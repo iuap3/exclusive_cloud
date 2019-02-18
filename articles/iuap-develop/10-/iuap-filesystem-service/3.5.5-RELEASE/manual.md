@@ -29,14 +29,12 @@ iuap的iuap-saas-filesystem-service服务适配了三种文件系统：阿里云
    2.1技术架构
 ![img001](/articles/iuap-develop/10-/iuap-filesystem-service/3.5.5-RELEASE/img/1.png)
 
-<center>图 1</center>
-
 iuap文件服务对附件组件进行了一次包装，通过调用文件服务的接口，可以对文件进行上传、删除，下载，查询等一系列的操作。在对文件进行操作时，文件的相关信息会通过管理模块，被记录到数据库中。附件组件对应的文件系统有本地文件系统、FastDFS和阿里云OSS三种，实际操作时，附件组件会根据配置文件的选择相应的文件系统。通过整个文件系统的架构，加强了对文件的管理。
 
 
   2.2实现原理
-![](image/2.png)
-<center>图 2</center>
+![img001](/articles/iuap-develop/10-/iuap-filesystem-service/3.5.5-RELEASE/img/2.png)
+
 
 1. 通过服务接口调用文件服务。
 2. 文件服务调用附件组件，对文件服务器上的文件进行处理。
@@ -64,8 +62,7 @@ iuap文件服务对附件组件进行了一次包装，通过调用文件服务�
 
 文件系统配有跨域请求过滤器，如果通过nginx配置集群，在使用文件系统时，请求文件服务的ip是nginx的服务器的ip，和文件服务所在的服务器ip不一致，会存在跨域请求的问题。解决方法是修改web.xml文件，将nginx代理服务器的ip和端口设置为可以信任，添加位置如图：
 
-![](image/3.png)
-<center>图 3</center>
+![img001](/articles/iuap-develop/10-/iuap-filesystem-service/3.5.5-RELEASE/img/3.png)
 
 
 
@@ -111,11 +108,11 @@ iuap的文件服务对附件组件进行了包装，在调用附件组件上传�
 
 5.1.3效果
 
-![](image/8.png)
-<center>图 8</center>
+![img001](/articles/iuap-develop/10-/iuap-filesystem-service/3.5.5-RELEASE/img/8.png)
 
-![](image/9.png)
-<center>图 9</center>
+
+![img001](/articles/iuap-develop/10-/iuap-filesystem-service/3.5.5-RELEASE/img/9.png)
+
 
 5.2文件下载
    
@@ -129,11 +126,11 @@ iuap的文件服务对附件组件进行了包装，在调用附件组件上传�
 
 5.2.3效果
 
-![](image/10.png)
-<center>图 10</center>
+![img001](/articles/iuap-develop/10-/iuap-filesystem-service/3.5.5-RELEASE/img/10.png)
 
-![](image/11.png)
-<center>图 11</center>
+
+![img001](/articles/iuap-develop/10-/iuap-filesystem-service/3.5.5-RELEASE/img/11.png)
+
 
 5.3文件删除
    
@@ -147,11 +144,10 @@ iuap的文件服务对附件组件进行了包装，在调用附件组件上传�
 
 5.3.3效果
 
-![](image/12.png)
-<center>图 12</center>
+![img001](/articles/iuap-develop/10-/iuap-filesystem-service/3.5.5-RELEASE/img/12.png)
 
 删除成功后：
 
-![](image/13.png)
-<center>图 13</center>
+![img001](/articles/iuap-develop/10-/iuap-filesystem-service/3.5.5-RELEASE/img/13.png)
+
 
