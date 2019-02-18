@@ -27,7 +27,7 @@ iuap的iuap-saas-filesystem-service服务适配了三种文件系统：阿里云
 ## **第二章** 技术架构
 
    2.1技术架构
-![](image/1.png)
+![img001](/articles/iuap-develop/10-/iuap-filesystem-service/3.5.5-RELEASE/img/1.png)
 
 <center>图 1</center>
 
