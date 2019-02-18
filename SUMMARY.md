@@ -206,6 +206,7 @@
     * [缓存框架示例](articles/application/6-/service14.md)
     * [开发示例](articles/application/6-/service1.md)
       * [编码规则](articles/application/6-/service6.md)
+      * [参照](articles/application/6-/reference.md)
   * [API参考](articles/application/7-/)
     * [SDK加签接口](articles/application/7-/)
     * [Restfull接口](articles/application/7-/)
