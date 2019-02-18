@@ -57,18 +57,18 @@ a.继承：com.yonyou.iuap.ref.sdk.refmodel.model.AbstractTreeGridRefModel
 getRefModelInfo方法要来设置数据头和数据体，blobRefTree方法用来获取数据体。
 
 具体示例如下：
-![](images/9.png)
-<center>图 9</center>
-![](images/10.png)
-<center>图 10</center>
-![](images/11.png)
-<center>图 11</center>
+![](/articles/application/6-/images/reference/9.png)
+
+![](/articles/application/6-/images/reference/10.png)
+
+![](/articles/application/6-/images/reference/11.png)
+
 
 通过getRefModelInfo方法设置了参照页面的参照名称，以及表参照的表头，通过blobRefTree方法查询了数据体，设置了分页参数。
 
 在数据库中进行注册：
-![](images/12.png)
-<center>图 12</center>
+![](/articles/application/6-/images/reference/12.png)
+
 
 
 
@@ -92,14 +92,14 @@ getRefModelInfo方法要来设置数据头和数据体，blobRefTree方法用来
 blobRefTree方法用来获取参照树。
 
 具体示例如下：
-![](images/13.png)
-<center>图 13</center>
-![](images/14.png)
-<center>图 14</center>
+![](/articles/application/6-/images/reference/13.png)
+
+![](/articles/application/6-/images/reference/14.png)
+
 
 在数据库中进行注册：
-![](images/15.png)
-<center>图 15</center>
+![](/articles/application/6-/images/reference/15.png)
+
 
 
 
@@ -137,18 +137,18 @@ blobRefTree方法用来获取参照树。
 getRefModelInfo方法要来设置数据头，blobRefTree方法用来获取参照树，blobRefTree方法用来获取单表数据体。
 
 具体示例如下：
-![](images/16.png)
-<center>图 16</center>
-![](images/17.png)
-<center>图 17</center>
-![](images/18.png)
-<center>图 18</center>
-![](images/19.png)
-<center>图 19</center>
+![](/articles/application/6-/images/reference/16.png)
+
+![](/articles/application/6-/images/reference/17.png)
+
+![](/articles/application/6-/images/reference/18.png)
+
+![](/articles/application/6-/images/reference/19.png)
+
 
 在数据库中进行注册：
-![](images/20.png)
-<center>图 20</center>
+![](/articles/application/6-/images/reference/20.png)
+
 
 4.2.4通用型参照
 
@@ -173,14 +173,14 @@ getCommonRefData方法用来获取参照数据。
 具体示例如下：
 
 
-![](images/21.png)
-<center>图 21</center>
-![](images/22.png)
-<center>图 22</center>
+![](/articles/application/6-/images/reference/21.png)
+
+![](/articles/application/6-/images/reference/22.png)
+
 
 在数据库中进行注册：
-![](images/23.png)
-<center>图 23</center>
+![](/articles/application/6-/images/reference/23.png)
+
 
 4.3前端开发流程
 
