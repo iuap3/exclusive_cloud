@@ -177,6 +177,8 @@
           * [安全日志同步SDK](articles/iuap-develop/10-/iuap-securitylog-local-sdk/3.1.0-RELEASE/manual.md)
           * [安全日志异步SDK](articles/iuap-develop/10-/iuap-securitylog-rest-sdk/3.1.0-RELEASE/manual.md)
           * [安全日志服务](articles/iuap-develop/10-/iuap-securitylog-service/3.1.0-RELEASE/manual.md)
+          * [流程组件服务](articles/iuap-develop/10-/iuap-bpm/3.5.5-RELEASE/manual.md)
+					
     * [应用平台操作手册](articles/application/5-/)    
       * [管理中心概述](articles/application/5-/summary.md)
       * [门户配置](articles/application/5-/config.md)
@@ -208,6 +210,7 @@
   * [API参考](articles/application/7-/)
     * [SDK加签接口](articles/application/7-/)
     * [Restfull接口](articles/application/7-/)
+	    * [流程相关接口](articles/application/7-/eiapresturl.md)
   * [常见问题](articles/application/8-/)
     * [功能操作](articles/application/8-/user_scenarios.md)
     * [异常排查](articles/application/8-/functions.md)
