@@ -1,0 +1,224 @@
+加签调用接口
+------------
+
+### 获取后编码
+
+**1、调用方式：**
+
+**（1）引入jar包iuap-billcode-sdk。**
+
+\<dependency\>
+
+\<groupId\>com.yonyou.iuap.pap.billcode\</groupId\>
+
+\<artifactId\>iuap-billcode-sdk\</artifactId\>
+
+\<version\>\${project.version}\</version\>
+
+\</dependency\>
+
+**（2）调用BillCodeSignUtil类中的getBillCode()方法。**
+
+Stringcode=BillCodeSignUtil.getBillCode(JSONObject.toJSONString(data));
+
+**2、请求参数：**
+
+参数以json格式提交
+
+{  
+    **"billVo"**:**" {"code":"001", "name":"督办名称"}"**,  
+    **"pkAssign"**:**""**,  
+    **"billObjCode"**:**"ygdemo"**  
+}
+
+**3、参数说明：**
+
+| **参数**    | **参数类型** | **是否必须** | **说明**                     |
+|-------------|--------------|--------------|------------------------------|
+| billVo      | Json         | 是           | 业务单据VO                   |
+| pkAssign    | String       | 是           | 编码分配标志（传空串就可以） |
+| billObjCode | String       | 是           | 编码对象PK（表pub_bcr_obj）  |
+
+**4、返回值**
+
+获取编码成功：
+
+{  
+    **"billcode"**:**"001"**,  
+    **"status"**:**"success"**  
+}
+
+获取编码失败：
+
+{  
+    **"msg"**:**"获取编码值为空，无法获取锁导致出错"**,  
+    **"status"**:**"failed"**  
+}
+
+**5、返回参数说明**
+
+| **参数** | **参数类型** | **说明**     |
+|----------|--------------|--------------|
+| billcode | String       | 返回的编码值 |
+| status   | String       | 请求状态     |
+| msg      | String       | 错误信息     |
+
+### 获取前编码
+
+**1、调用方式：**
+
+**（1）引入jar包iuap-billcode-sdk**。
+
+\<dependency\>
+
+\<groupId\>com.yonyou.iuap.pap.billcode\</groupId\>
+
+\<artifactId\>iuap-billcode-sdk\</artifactId\>
+
+\<version\>\${project.version}\</version\>
+
+\</dependency\>
+
+**（2）调用BillCodeSignUtil类中的getPreBillCode()方法。**
+
+String code=BillCodeSignUtil.getPreBillCode(JSONObject.toJSONString(data));
+
+**2、请求参数：**
+
+参数以json格式提交
+
+{  
+    **"pkAssign"**:**""**,  
+    **"billObjCode"**:**"ygdemo"**  
+}
+
+**3、参数说明：**
+
+| **参数**    | **参数类型** | **是否必须** | **说明**                     |
+|-------------|--------------|--------------|------------------------------|
+| pkAssign    | String       | 是           | 编码分配标志（传空串就可以） |
+| billObjCode | String       | 是           | 编码对象PK（表pub_bcr_obj）  |
+
+**4、返回值**
+
+获取编码成功：
+
+{  
+    **"billcode"**:**"001"**,  
+    **"status"**:**"success"**  
+}
+
+获取编码失败：
+
+{  
+    **"msg"**:**"获取编码值为空，无法获取锁导致出错"**,  
+    **"status"**:**"failed"**  
+}
+
+**5、返回参数说明**
+
+| **参数** | **参数类型** | **说明**     |
+|----------|--------------|--------------|
+| billcode | String       | 返回的编码值 |
+| status   | String       | 请求状态     |
+| msg      | String       | 错误信息     |
+
+### 提交前编码
+
+**1、调用方式：**
+
+**（1）引入jar包iuap-billcode-sdk**。
+
+\<dependency\>
+
+\<groupId\>com.yonyou.iuap.pap.billcode\</groupId\>
+
+\<artifactId\>iuap-billcode-sdk\</artifactId\>
+
+\<version\>\${project.version}\</version\>
+
+\</dependency\>
+
+**（2）调用BillCodeSignUtil类中的commitPreBillCode()方法。**
+
+String code=BillCodeSignUtil.commitPreBillCode(JSONObject.toJSONString(data));
+
+**2、请求参数：**
+
+参数以json格式提交
+
+{  
+    **" billCode "**:**" 0001"**,  
+    **"pkAssign"**:**""**,  
+    **"billObjCode"**:**"ygdemo"**  
+}
+
+**3、参数说明：**
+
+| **参数**    | **参数类型** | **是否必须** | **说明**                     |
+|-------------|--------------|--------------|------------------------------|
+| billCode    | String       | 是           | 需要提交的前编码值           |
+| pkAssign    | String       | 否           | 编码分配标志（传空串就可以） |
+| billObjCode | String       | 否           | 编码对象PK（表pub_bcr_obj）  |
+
+**4、返回值**
+
+提交成功：
+
+{  
+    **"status"**:**"success"**  
+}
+
+提交失败：
+
+{  
+    **"msg"**:**"编码提交失败"**,  
+    **"status"**:**"failed"**  
+}
+
+**5、返回参数说明**
+
+| **参数** | **参数类型** | **说明** |
+|----------|--------------|----------|
+| status   | String       | 请求状态 |
+| msg      | String       | 错误信息 |
+
+### 回退编码
+
+**1、调用方式：**
+
+**（1）引入jar包iuap-billcode-sdk**。
+
+\<dependency\>
+
+\<groupId\>com.yonyou.iuap.pap.billcode\</groupId\>
+
+\<artifactId\>iuap-billcode-sdk\</artifactId\>
+
+\<version\>\${project.version}\</version\>
+
+\</dependency\>
+
+**（2）调用BillCodeSignUtil类中的returnBillCode()方法。**
+
+String code=BillCodeSignUtil.returnBillCode(JSONObject.toJSONString(data));
+
+**2、请求参数：**
+
+参数以json格式提交
+
+{  
+    **"billVo"**:**" {"code":"001", "name":"督办名称"}"**,  
+    **"pkAssign"**:**""**,  
+    **"billObjCode"**:**"ygdemo"**,  
+    **"billCode"**:**"20180101000"**  
+}
+
+**3、参数说明：**
+
+| **参数**    | **参数类型** | **是否必须** | **说明**                     |
+|-------------|--------------|--------------|------------------------------|
+| billVo      | Json         | 是           | 业务单据VO                   |
+| pkAssign    | String       | 否           | 编码分配标志（传空串就可以） |
+| billObjCode | String       | 否           | 编码对象PK（表pub_bcr_obj）  |
+| billCode    | String       | 是           | 需要回退的编码值             |
