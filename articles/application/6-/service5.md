@@ -9,7 +9,8 @@ iuap-dispatch-service组件功能包括添加、删除、暂停、重启任务�
 从maven库上下载war包，下面说明获取到 iuap-saas-dispatch-service.war 后，需要修改的配置文件（相关数据库表，在执行iuap初始化脚本时已经添加，无需关注）。
 
 第1步：修改dispatch-server.properties中调度服务的配置
-![图 24](images\service5\图24.png)
+
+![图24](images\service5\图24.png)
 
 第2步：修改auth.properties中redis的配置
 ![图 25](images\service5\图25.png)
