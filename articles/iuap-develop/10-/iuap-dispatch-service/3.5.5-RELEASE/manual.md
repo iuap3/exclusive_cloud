@@ -38,11 +38,11 @@ iuap-dispatch-service组件功能包括添加、删除、暂停、恢复、立�
 ${iuap.modules.version} 为平台在maven私服上发布的组件的version。
 
 ## 功能结构 ##
-![图2](images/图 2功能架构图1.png)
+![图2](images/2.png)
 <center>功能架构图1</center>
 
 
-![图3](images/图 3功能架构图2.png)
+![图3](images/3.png)
 <center>功能架构图2</center>
 
 ## 功能说明 ##
@@ -242,7 +242,7 @@ public class TaskExampleController {
 #### 调度任务规则管理
 
 　　点击管理中心主界面上的【调度任务规则管理】，进入调度任务规则管理界面，如下图所示：
-![图４](images/图４.png)
+![图４](images/4.png)
 
 
 　　左侧为规则分组，每个分组后的数字表示它包含的规则个数。右侧为规则信息，规则编码、规则名称、规则URL，顶部两个按钮可以新建分组和新建规则。
