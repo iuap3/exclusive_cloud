@@ -9,26 +9,26 @@ iuap-dispatch-service组件功能包括添加、删除、暂停、重启任务�
 从maven库上下载war包，下面说明获取到 iuap-saas-dispatch-service.war 后，需要修改的配置文件（相关数据库表，在执行iuap初始化脚本时已经添加，无需关注）。
 
 第1步：修改dispatch-server.properties中调度服务的配置
-<center>![图 24](images\service5\图24.png)</center>
+![图 24](images\service5\图24.png)
 
 第2步：修改auth.properties中redis的配置
-<center>![图 25](images\service5\图25.png)</center>
+![图 25](images\service5\图25.png)
 
 第3步：修改jdbc.properties中的数据库配置
 
-<center>![图 26](images\service5\图26.png)</center>
+![图 26](images\service5\图26.png)
 
-<center>![图 27](images\service5\图27.png)</center>
+![图 27](images\service5\图27.png)
 
 第4步：如果与消息中心对接，需要修改msg-sdk.properties中消息中心和认证文件的配置，认证文件路径配置为本机authfile.txt的地址
-<center>![图 28](images\service5\图28.png)</center>
+![图 28](images\service5\图28.png)
 
 第5步：修改sdk.properties中客户认证路径为本机路径:
 
 client.credential.path=d:/iuap\_ieap/authfile.txt
 
 第6步：配置workbench-sdk.properties工作台服务地址、客户认证路径
-<center>![图 29](images\service5\图29.png)</center>
+![图 29](images\service5\图29.png)
 
 
 ## 代码开发示例
@@ -55,7 +55,7 @@ asynchronized指是否是异步调用。
 {"resultValue":"logContent:executefailure","sendMsgContent":"msgContent:task executesfailure","asynchronized":"false"}
 ```
 **要点2：controller 的url路径要和点击【调度任务规则管理】-【编辑规则】下图中设定的&quot;调度规则url&quot;一致，接收的参数即为如下配置的参数test1，test2。**
-<center>![图 30](images/service5/图30.png)</center>
+![图 30](images/service5/图30.png)
 
 
 **要点3：系统默认提供加签调用，是否验签由具体业务场景决定。**
@@ -203,7 +203,7 @@ public class TaskExampleController {
 点击〖搜规则〗，输入规则名称，可以搜索规则。
 
 ##### 新建分组
-<center>![图 6](images/service5/图6.png)</center>
+![图 6](images/service5/图6.png)
 
 
 
@@ -211,7 +211,7 @@ public class TaskExampleController {
 
 ##### 新建规则
 选择一个分组，点击〖新建规则〗，打开新建规则界面，如下图所示：
-<center>![图 7](images/service5/图7.png)</center>
+![图 7](images/service5/图7.png)
 
 
 规则编码、规则名称、调度规则URL为必填项。
@@ -219,18 +219,18 @@ public class TaskExampleController {
 调用规则就是按照规则执行任务，例如预警或定时执行等，根据不同业务场景选择调用规则后，取相应的参数值。
 
 点击右侧的〖增行〗，可以对参数进行设置，设置完，点击〖增行〗即可保存：
-<center>![图 8](images/service5/图8.png)</center>
+![图 8](images/service5/图8.png)
 
 
 #### 调度任务管理
 
 点击管理中心主界面上的【调度任务管理】，进入调度任务管理界面，如下图所示：
-<center>![图 9](images/service5/图9.png)</center>
+![图 9](images/service5/图9.png)
 
 
 左侧为任务分组，每个分组后的数字表示它包含的任务个数。右侧为任务信息，包括任务成功次数、失败次数、任务状态，右边三个蓝色按钮分别表示查看任务详情、日志和删除。
 
-<center>![图 10](images/service5/图10.png)</center>
+![图 10](images/service5/图10.png)
 
 将鼠标放置于某个任务上，可以启用、停用该任务，或者显示任务是否已过期。
 
@@ -239,12 +239,12 @@ public class TaskExampleController {
 任务栏上方的日志是所有任务的日志，每条任务右侧的日志按钮显示该条任务的日志。
 
 点击〖多选〗可以选择对多个任务进行操作： 
-<center>![图 11](images/service5/图11.png)</center>
+![图 11](images/service5/图11.png)
 
 
 ##### 新建分组
 点击〖新建分组〗，输入分组名称，即可新建一个分组。
-<center>![图 12](images/service5/图12.png)</center>
+![图 12](images/service5/图12.png)
 
 
 界面说明如下：
@@ -254,7 +254,7 @@ public class TaskExampleController {
 ##### 新建任务
 
 选择一个分组，点击〖新建任务〗，打开新建任务界面，如下图所示：
-<center>![图 13](images/service5/图13.png)</center>
+![图 13](images/service5/图13.png)
 
 
 任务编码、任务名称、调用规则和定时规则为必填项。
@@ -273,14 +273,14 @@ public class TaskExampleController {
 
 点击&quot;消息接收&quot;右侧的〖设置〗，可以对消息接收人进行设置：
 
- <center>![图 14](images/service5/图14.png)</center>
+ ![图 14](images/service5/图14.png)
 
 
 选择一个或多个接收人。邮件和手机短信在消息通道进行配置，具体可见&quot;消息通道配置&quot;部分内容。消息中心是在消息中心进行接收，具体可见&quot;消息中心&quot;部分内容。
 
 点击&quot;定时规则&quot;右侧的〖设置〗，可以设置定时规则，一次发生还是周期发生，如下图所示：
 
-  <center>![图 15](images/service5/图15.png)</center>
+  ![图 15](images/service5/图15.png)
 
 
 开始时间和结束时间规定了定时规则的时间范围。
@@ -298,7 +298,7 @@ A． 开始时间是2016-12-29 16:22，开始于8:00，每5分钟执行一次，
 B． 开始时间是2016-12-29 16:22，开始于16:30，每5分钟执行一次，则当天第一次执行是16:30；结束时间是2016-12-29 16:50，终止于16:55，则当天最后一次执行是16:50。
 
 ##### 查看任务详情
-  <center>![图 16](images/service5/图16.png)</center>
+  ![图 16](images/service5/图16.png)
 
 
 操作说明：点击主界面列表的数据行右侧查看任务详情图标。弹出任务详情界面。
@@ -311,7 +311,7 @@ B． 开始时间是2016-12-29 16:22，开始于16:30，每5分钟执行一次�
 4. 日志：进入日志查看界面，显示当前任务的日志
 
 ##### 修改任务
-  <center>![图 17](images/service5/图17.png)</center>
+  ![图 17](images/service5/图17.png)
 
 
 操作说明：在主界面列表的数据行右侧点击编辑任务图标。弹出任务编辑界面，填写后保存。
@@ -334,25 +334,25 @@ B． 开始时间是2016-12-29 16:22，开始于16:30，每5分钟执行一次�
 
 执行后结果会显示在界面上
 
- <center>![图 18](images/service5/图18.png)</center>
+ ![图 18](images/service5/图18.png)
 
 
 操作说明：鼠标选择已停用的任务时，列表行显示启用按钮。点击按钮启用该任务。
 
 ##### 停用任务
-<center>![图 19](images/service5/图19.png)</center>
+![图 19](images/service5/图19.png)
 
 
 操作说明：鼠标选择正在运行中的任务时，列表行显示停用按钮。点击按钮停用该任务。
 
 ##### 批量操作任务
-<center>![图 20](images/service5/图20.png)</center>
+![图 20](images/service5/图20.png)
 
 
 操作说明：点击多选按钮时，会滑出启用、停用、删除按钮。列表界面切换为多选状态，选择多个任务后，点击按钮进行操作。点击多选回到原有状态。
 
 ##### 查看任务执行日志
-<center>![图 21](images/service5/图21.png)</center>
+![图 21](images/service5/图21.png)
 
 
 操作说明：
@@ -363,7 +363,7 @@ B． 开始时间是2016-12-29 16:22，开始于16:30，每5分钟执行一次�
 
 过滤任务界面：
 
-<center>![图 22](images/service5/图22.png)</center>
+![图 22](images/service5/图22.png)
 
 
 操作说明：
@@ -372,7 +372,7 @@ B． 开始时间是2016-12-29 16:22，开始于16:30，每5分钟执行一次�
 2. 选择具体任务后，界面会按照选择的任务过滤显示
 
 ##### 查看日志详情
-<center>![图 23](images/service5/图23.png)</center>
+![图 23](images/service5/图23.png)
 
 
 操作说明：点击任务日志列表界面的数据行右侧的&quot;查看原因&quot;按钮，显示日志详情。
