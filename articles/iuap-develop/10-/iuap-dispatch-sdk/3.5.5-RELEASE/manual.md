@@ -102,8 +102,7 @@ dispatch-client.properties配置文件字段说明
 
 ```
      public void addSimpleTask(Date startDate, TimeConfig timeConfig, String note){
-		SimpleTaskConfig taskConfig =
-					new SimpleTaskConfig(UUID.randomUUID().toString()/*任务名*/,
+		SimpleTaskConfig taskConfig = new SimpleTaskConfig(UUID.randomUUID().toString()/*任务名*/,
 										 "simpleTaskGroup"/*任务组名*/,
 										 timeConfig);
 		taskConfig.setStartDate(startDate);
@@ -122,15 +121,10 @@ dispatch-client.properties配置文件字段说明
 
 ```
     public void addCronTask(){
-		CronTaskConfig cronTaskConfig = new CronTaskConfig("cronTask",
-														   "cronTaskGroup",
-														   "* */1 * * * ?");
+		CronTaskConfig cronTaskConfig = new CronTaskConfig("cronTask", "cronTaskGroup", "* */1 * * * ?");
 		Map<String,String> params = new HashMap<String,String>();
 		params.put("serverName", System.getProperty("os.name"));//任务可传入附加数据
-		boolean success = DispatchRemoteManager.add(cronTaskConfig,
-													TestTaskImpl.class,
-													params,
-													true);
+		boolean success = DispatchRemoteManager.add(cronTaskConfig,TestTaskImpl.class,params,true);
 		if(success){
 			System.out.println("任务添加成功");
 		}else{
