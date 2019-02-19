@@ -45,7 +45,8 @@
 架构设计
 --------
 
-![](image/215e812bc0ee7ce387a482195fd50cfc.tiff)
+
+![](media/20190219100241.png)
 
 图 1
 
@@ -74,7 +75,7 @@
 
 5、获取消息通道，调用相应通道对应的消息发送接口进行短信、邮件或者站内信的发送；
 
-![](image/6976c888903459e4405cb1b3704a3cec.png)
+![](media/6976c888903459e4405cb1b3704a3cec.png)
 
 图 2
 
@@ -91,11 +92,11 @@
 
 4、message-channelExt.xml配置新通道发送消息的类；
 
-![](image/c806912b450b2d6aca3cb8e49f8a2827.png)
+![](media/c806912b450b2d6aca3cb8e49f8a2827.png)
 
 图 3
 
-![](image/0106304a9a4b2cb4638e163bea140850.png)
+![](media/0106304a9a4b2cb4638e163bea140850.png)
 
 图 4
 
@@ -132,7 +133,7 @@
 
 消息中心提供消息管理功能，包括消息查看和搜索。在应用平台主界面点击导航条上的【消息中心】，打开消息中心界面，如下图所示：（所有的图要加题注，例如：如图1）
 
-![](image/3607f8bf7d3284eaded4d674dbc0d2b5.png)
+![](media/3607f8bf7d3284eaded4d674dbc0d2b5.png)
 
 图 5
 
@@ -151,13 +152,13 @@
 
 消息模板用于定义系统发送的各种消息的展现样式。点击管理中心主界面上的【消息模板管理】，进入消息模板管理界面，如下图所示：
 
-![https://github.com/iuap3/exclusive_cloud/raw/master/articles/application/5-/images/image73.png](media/ccb62361f55a16a4f3203d738b98fbbd.png)
+![](media/ccb62361f55a16a4f3203d738b98fbbd.png)
 
 图 6
 
 左侧为模板分组，可以点击进行选择。要新增一个消息模板，点击【新增】打开模板
 
-![https://github.com/iuap3/exclusive_cloud/raw/master/articles/application/5-/images/image74.png](media/61745f305559b7699916e1259566231f.png)
+![](media/61745f305559b7699916e1259566231f.png)
 
 图 7
 
@@ -173,7 +174,7 @@
 
 返回消息模板管理主界面，将鼠标放到建好的消息模板上，可以对其进行编辑和删除：
 
-![https://github.com/iuap3/exclusive_cloud/raw/master/articles/application/5-/images/image75.png](media/10534668e88faa2ec81013d662bb6e2e.png)
+![](media/10534668e88faa2ec81013d662bb6e2e.png)
 
 图 8
 
@@ -186,7 +187,7 @@
 
 消息通道配置用于配置消息类型以及配套的发送配置，主要有邮箱、短信和upush推送三种类型。点击管理中心主界面上的【消息通道配置】，进入消息通道配置界面，如下图所示：
 
-![https://github.com/iuap3/exclusive_cloud/raw/master/articles/application/5-/images/image70.png](media/ae25cefc8c790d6519a9ab6b6653fdee.png)
+![](media/ae25cefc8c790d6519a9ab6b6653fdee.png)
 
 图 9
 
@@ -196,13 +197,13 @@
 
 短信：如下图所示，填写邮件发送服务器地址、接口调用秘钥和短信服务器URL。短信服务器URL为必填项。完成设置后点击【确定】。
 
-![https://github.com/iuap3/exclusive_cloud/raw/master/articles/application/5-/images/image71.png](media/0274560ac0fc74eabfe97cf9ec19eed1.png)
+![](media/0274560ac0fc74eabfe97cf9ec19eed1.png)
 
 图 10
 
 upush推送：有信的推送服务。如下图所示，填写控制台登录名、远程接口秘钥和upush推送服务器URL。upush推送服务器URL为必填项。完成设置后点击【确定】。
 
-![https://github.com/iuap3/exclusive_cloud/raw/master/articles/application/5-/images/image72.png](media/d7e4a136f86f8216f08735cb64230208.png)
+![](media/d7e4a136f86f8216f08735cb64230208.png)
 
 图 11
 

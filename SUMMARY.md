@@ -212,7 +212,7 @@
 	  * [编码规则](articles/iuap-develop/10-/iuap-billcode/3.5.5-RELEASE/API_SDK.md)
     * [Restfull接口](articles/application/7-/)
 	  * [消息组件](articles/iuap-develop/9-/iuap-mq/3.5.5-RELEASE/API_RESTFUL.md)
-	  * [编码规则](articles/iuap-develop/10-/iuap-billcode/3.5.5-RELEASE/API_RESTFU.md)
+	  * [编码规则](articles/iuap-develop/10-/iuap-billcode/3.5.5-RELEASE/API_RESTFUL.md)
   * [常见问题](articles/application/8-/)
     * [功能操作](articles/application/8-/user_scenarios.md)
     * [异常排查](articles/application/8-/functions.md)

@@ -23,6 +23,6 @@
 
 模板消息：com.yonyou.uap.msg.sdk.MessageCenterUtil.*pushTemplateMessage*(msg.toString());
 
-![](image/c67b28b4c7dc48d8d9ac61e0e0677640.png)
+![](media/c67b28b4c7dc48d8d9ac61e0e0677640.png)
 
 图 12
