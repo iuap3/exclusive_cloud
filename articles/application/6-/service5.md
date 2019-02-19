@@ -10,26 +10,26 @@ iuap-dispatch-service组件功能包括添加、删除、暂停、重启任务�
 
 第1步：修改dispatch-server.properties中调度服务的配置
 
-![图24](images\service5\图24.png)
+![图24](images/service5/图24.png)
 
 第2步：修改auth.properties中redis的配置
-![图 25](images\service5\图25.png)
+![图 25](images/service5/图25.png)
 
 第3步：修改jdbc.properties中的数据库配置
 
-![图 26](images\service5\图26.png)
+![图 26](images/service5/图26.png)
 
-![图 27](images\service5\图27.png)
+![图 27](images/service5/图27.png)
 
 第4步：如果与消息中心对接，需要修改msg-sdk.properties中消息中心和认证文件的配置，认证文件路径配置为本机authfile.txt的地址
-![图 28](images\service5\图28.png)
+![图 28](images/service5/图28.png)
 
 第5步：修改sdk.properties中客户认证路径为本机路径:
 
 client.credential.path=d:/iuap\_ieap/authfile.txt
 
 第6步：配置workbench-sdk.properties工作台服务地址、客户认证路径
-![图 29](images\service5\图29.png)
+![图 29](images/service5/图29.png)
 
 
 ## 代码开发示例
