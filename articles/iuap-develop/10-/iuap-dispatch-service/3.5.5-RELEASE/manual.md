@@ -38,8 +38,7 @@ iuap-dispatch-service组件功能包括添加、删除、暂停、恢复、立�
 ${iuap.modules.version} 为平台在maven私服上发布的组件的version。
 
 ## 功能结构 ##
-
-![图2](images\图 2功能架构图1.png)
+![图2](images/图 2功能架构图1.png)
 <center>功能架构图1</center>
 
 
