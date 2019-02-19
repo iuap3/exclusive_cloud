@@ -38,12 +38,11 @@ iuap-dispatch-service组件功能包括添加、删除、暂停、恢复、立�
 ${iuap.modules.version} 为平台在maven私服上发布的组件的version。
 
 ## 功能结构 ##
-
-![图2](images/图 2功能架构图1.png)
+![图2](images/2.png)
 <center>功能架构图1</center>
 
 
-![图3](images/图 3功能架构图2.png)
+![图3](images/3.png)
 <center>功能架构图2</center>
 
 ## 功能说明 ##
@@ -61,26 +60,26 @@ iuap-dispatch-service组件功能包括添加、删除、暂停、重启任务�
 从maven库上下载war包，下面说明获取到 iuap-saas-dispatch-service.war 后，需要修改的配置文件（相关数据库表，在执行iuap初始化脚本时已经添加，无需关注）。
 
 第1步：修改dispatch-server.properties中调度服务的配置
-<center>![图 24](images\图24.png)</center>
+<center>![图 24](images/图24.png)</center>
 
 第2步：修改auth.properties中redis的配置
-<center>![图 25](images\图25.png)</center>
+<center>![图 25](images/图25.png)</center>
 
 第3步：修改jdbc.properties中的数据库配置
 
-<center>![图 26](images\图26.png)</center>
+<center>![图 26](images/图26.png)</center>
 
-<center>![图 27](images\图27.png)</center>
+<center>![图 27](images/图27.png)</center>
 
 第4步：如果与消息中心对接，需要修改msg-sdk.properties中消息中心和认证文件的配置，认证文件路径配置为本机authfile.txt的地址
-<center>![图 28](images\图28.png)</center>
+<center>![图 28](images/图28.png)</center>
 
 第5步：修改sdk.properties中客户认证路径为本机路径:
 
 client.credential.path=d:/iuap\_ieap/authfile.txt
 
 第6步：配置workbench-sdk.properties工作台服务地址、客户认证路径
-<center>![图 29](images\图29.png)</center>
+<center>![图 29](images/图29.png)</center>
 
 
 ## 代码开发示例
@@ -243,7 +242,7 @@ public class TaskExampleController {
 #### 调度任务规则管理
 
 　　点击管理中心主界面上的【调度任务规则管理】，进入调度任务规则管理界面，如下图所示：
-![图４](images/图４.png)
+![图４](images/4.png)
 
 
 　　左侧为规则分组，每个分组后的数字表示它包含的规则个数。右侧为规则信息，规则编码、规则名称、规则URL，顶部两个按钮可以新建分组和新建规则。
