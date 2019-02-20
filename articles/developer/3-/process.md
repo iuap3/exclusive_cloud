@@ -223,11 +223,11 @@ middleware的配置文件在管控机上的路径为：
 
 批次及序号 | 组件名称 | 说明 
 ---|---|---
-第一批次
+第一批次||
 1 |	cas |	单点登录器
 2 |	tennantauth |	数据权限
 3 |	user |	用户中心
-第二批次
+第二批次||
 4|	accesscenter|	签名认证
 5|	confcenter|	配置中心
 6|	fe|	前端展示页面
@@ -235,10 +235,10 @@ middleware的配置文件在管控机上的路径为：
 8|	middleware|	中间件服务
 9|	portal|	登录验证添加菜单以及应用中心
 10|	app-publish|	应用部署
-第三批次
+第三批次||
 11|	app-upload	|应用持续集成
 12|	app-manager	|应用管控后台
-第四批次
+第四批次||
 13|	app-manager-cron	|应用管理定时任务
 14|	ceryx_proxy 	|统一接入服务
 15|	data-authority	|数据权限认证
