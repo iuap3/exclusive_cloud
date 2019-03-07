@@ -239,7 +239,7 @@
 	    * [编码规则](articles/iuap-develop/10-/iuap-billcode/3.5.5-RELEASE/API_SDK.md)
       * [调度任务](articles/application/7-/api_dispatch_sdk.md)
       * [用户同步](articles/application/7-/usersyn.md)
-    * [Restfull接口](articles/application/7-/)
+    * [Restful接口](articles/application/7-/)
       * [参照](articles/application/7-/reference.md)
 	  * [消息组件](articles/iuap-develop/9-/iuap-mq/3.5.5-RELEASE/API_RESTFUL.md)
 	  * [编码规则](articles/iuap-develop/10-/iuap-billcode/3.5.5-RELEASE/API_RESTFUL.md)
