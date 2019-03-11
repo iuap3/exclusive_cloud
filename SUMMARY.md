@@ -155,7 +155,6 @@
         * [组件的集成](articles/iuap-develop/7-/part6/README.md)
         * [分布式服务](articles/iuap-develop/7-/part7/README.md)
           * [Restful服务开发](articles/iuap-develop/7-/part7/restfulfu_wu_kai_fa.md)
-          * [WebService服务开发](articles/iuap-develop/7-/part7/webservicefu_wu_kai_fa.md)
       * [前端教程](articles/iuap-develop/8-/README.md) 
       * [基础技术组件](articles/iuap-develop/9-/README.md)
         * [认证组件](articles/iuap-develop/9-/iuap-auth/3.1.0-RELEASE/manual.md)
