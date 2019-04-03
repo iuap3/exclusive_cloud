@@ -224,7 +224,7 @@
       * [消息组件](articles/iuap-develop/9-/iuap-mq/3.5.5-RELEASE/demo.md)
       * [附件管理](articles/application/6-/iuap-filesystem-service/3.5.5-RELEASE/service.md)
       * [定时任务](articles/application/6-/service5.md)
-      * [自定义档案档案](articles/iuap-develop/10-/iuap-iuaprmodel/3.5.5-RELEASE/demo.md)
+      * [自定义档案](articles/iuap-develop/10-/iuap-iuaprmodel/3.5.5-RELEASE/demo.md)
    * [API参考](articles/application/7-/)
       * [SDK接口](articles/application/7-/)
       * [消息组件](articles/iuap-develop/9-/iuap-mq/3.5.5-RELEASE/API_SDK.md)
