@@ -34,7 +34,7 @@
 
 2. spring.profiles.active为应用的环境(开发：dev，测试：test，灰度：stage，生产：online)
 
-3. spring.application.name为应用的编码
+3. spring.application.name为应用的编码，其内容应与RemoteCall注解中的应用编码部分一致（RemoteCall注解由应用编码@租户id组成）
 
 4. registry 此选项为专属云版的微服务治理平台需要的特定配置，对应后端各个服务的地址
 

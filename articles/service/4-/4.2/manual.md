@@ -24,7 +24,7 @@
 	# 应用部署的环境(开发:dev,测试:test,灰度:stage,线上:online)
 	spring.profiles.active=dev
 	
-	#开发调试时指定IP调用的配置(默认为false), 
+	#开发调试时指定IP调用的配置(默认为false, yml下值应加上双引号), 
 	client.usemock=false
 	# 启用mock调用时针对某个调用者的具体IP指定
 	appCode@providerId@profile=172.20.1.1 

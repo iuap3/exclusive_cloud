@@ -51,7 +51,7 @@
 - 服务提供方访问路径中的`ContextPath`与`application.properties`属性文件中配置的`spring.application.name`属性值不一致.
 
 
-一般情况下, 项目名称、项目maven配置的artifactId、`application.properties`属性文件中配置的`spring.application.name`属性值 及 部署时的`ContextPath`这四项要一致; 项目部署时的对外服务端口和`application.properties`属性文件中配置的`server.port`属性值要一致, 如果使用内置Jetty还需要和`pom.xml`中`jetty-maven-plugin`插件的`port`值要一致.
+一般情况下, 项目名称、项目maven配置的artifactId、`application.properties`属性文件中配置的`spring.application.name`属性值、部署时的`ContextPath`及RemoteCall注解的应用编码（RemoteCall注解由应用编码@租户id组成）这五项内容要一致; 项目部署时的对外服务端口和`application.properties`属性文件中配置的`server.port`属性值要一致, 如果使用内置Jetty还需要和`pom.xml`中`jetty-maven-plugin`插件的`port`值要一致.
 
 ### 7：部署到开发者中心环境变量覆盖问题
 
@@ -112,5 +112,18 @@ mw_profiles_active的值建议修改成dev、test、stage、online，分别对�
 
 ![](images/zipkin.png)
 
+## 联调问题
 
+### 1. 本地启动test环境
+> 本地启动时会把本地启动的服务注册到注册中心，这样会被调用方发现并调用。 
+
+解决方案：
+1. 在代码的/src/test/resources/目录中放置一个与应用的application.properties对应的application.yml,里面设置app.version=xxx
+2. 加上环境变量  -Deureka.registration.enabled=false不会把本服务注册到注册中心
+
+### 2. can not find active app from registry
+>健康检查配置的是基于端口的检测,端口启动时候新应用还没真正启动完毕,老的实例被提前杀死；
+
+解决方案：
+1. 开发者中心配置健康检查时，添加微服务的健康检查
 

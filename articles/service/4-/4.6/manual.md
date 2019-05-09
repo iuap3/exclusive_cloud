@@ -41,7 +41,12 @@
 	spring.profiles.active=dev
 	client.usemock=true
 
-然后增加配置文件mock.properties到\src\main\resources，这个文件如下配置
+如果使用application.yml替代application.properties配置, 注意client.usemock的值应加上双引号:
+
+	client
+		usemock: "true"
+
+最后增加配置文件mock.properties到\src\main\resources，这个文件如下配置
 
 	rpc-provider@35568e76-1ef1-4d77-b5cf-8fb66d2c8002@dev=192.168.1.1:8082
 
