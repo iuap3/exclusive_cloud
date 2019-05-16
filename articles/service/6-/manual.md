@@ -61,6 +61,19 @@
 
 mw_profiles_active的值建议修改成dev、test、stage、online，分别对应开发、测试、灰度、生产。
 
+### 8：关于application.name、ContextPath及RemoteCall注解一致性问题
+
+关于配置一致性问题，参考如下示例：
+
+1.application.properties.name:
+>spring.application.name=rpc-provider
+
+2.application.properties.contextPath:
+>server.servlet.context-path=/rpc-provider
+
+3.RemoteCall注解：
+>@RemoteCall(rpc-provider@租户id)
+
 ## 微服务控制台常见问题
 
 ### 1：应用工程的创建过程问题
@@ -114,6 +127,87 @@ mw_profiles_active的值建议修改成dev、test、stage、online，分别对�
 
 ## 联调问题
 
+### 8. 本地启动test环境
+> 本地启动时会把本地启动的服务注册到注册中心，这样会被调用方发现并调用。 
+
+解决方案(任选其一)：
+
+在代码的/src/test/resources/目录中放置一个与应用的application.properties对应的application.yml,里面设置app.version=xxx
+
+或：
+
+加上环境变量  -Deureka.registration.enabled=false不会把本服务注册到注册中心
+
+### 9. can not find active app from registry
+>不能找到活跃的实例问题；
+
+现象: 服务重启、构建过程中，本地实例注册到注册中心，客户端轮询拉取，在时间间隔内，未及时拉取到，存在1分钟左右的延迟；
+
+原因: 健康检查配置的是基于端口的检测，端口启动时候新应用还没真正启动完毕，老的实例被提前杀死；
+
+解决方案：
+
+在5.1.x版本及以前版本: 开发者中心配置健康检查时，添加微服务的健康检查，具体如下：
+
+进入开发者中心->应用管理->找到对应服务->属性->右侧编辑按钮->下拉至健康检查->配置路径。注意路径最后以"/"结尾。
+
+![](images/registry.png)
+
+注意：在后续即将发布的5.2.1+版本会增加实时上下线通知的功能, 从根本上解决该问题.
+
+### 10.关于启动慢的问题
+
+原因：
+>jetty启动的情况下，未正确配置jetty-context.xml
+
+解决方案：
+
+第一步：配置jetty版本：
+
+	9.4.18.v20190429
+
+第二步：配置jetty依赖：
+
+		<dependency>
+		    <groupId>org.eclipse.jetty</groupId>
+		    <artifactId>jetty-webapp</artifactId>
+		    <version>${jetty.version}</version>
+			<scope>test</scope>
+			<exclusions>
+				<exclusion>
+					<groupId>javax.servlet</groupId>
+					<artifactId>servlet-api</artifactId>
+				</exclusion>
+			</exclusions>
+		</dependency>
+
+第三步：配置jetty插件：
+
+	<plugin>
+   		<groupId>org.eclipse.jetty</groupId>
+   		<artifactId>jetty-maven-plugin</artifactId>
+   		<version>${jetty.version}</version>
+	<configuration>
+		<contextXml>${project.basedir}/src/test/resources/jetty-context.xml</contextXml>
+		<webAppConfig>
+			<contextPath>/${project.artifactId}</contextPath>
+			<defaultsDescriptor>${project.basedir}/src/test/resources/webdefault.xml</defaultsDescriptor>
+		</webAppConfig>
+		<httpConnector>
+			<port>8080</port>
+			<idleTimeout>60000</idleTimeout>
+		</httpConnector>
+		<stopPort>9090</stopPort>
+		<stopKey>shutdown</stopKey>
+	</configuration>
+	</plugin>
+
+第四步：配置jetty的配置文件，放在工程的/src/test/resources目录下:
+
+请点击配置文件名称进行下载。
+
+[webdefault.xml](https://developer.yonyoucloud.com/download/microservice/jetty-config/webdefault.xml)
+
 ### 1. 本地启动test环境
 > 本地启动时会把本地启动的服务注册到注册中心，这样会被调用方发现并调用。 
 
@@ -127,3 +221,4 @@ mw_profiles_active的值建议修改成dev、test、stage、online，分别对�
 解决方案：
 1. 开发者中心配置健康检查时，添加微服务的健康检查
 
+[jetty-context.xml](https://developer.yonyoucloud.com/download/microservice/jetty-config/jetty-context.xml)
