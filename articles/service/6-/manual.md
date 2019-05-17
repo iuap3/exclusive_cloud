@@ -208,17 +208,4 @@ mw_profiles_active的值建议修改成dev、test、stage、online，分别对�
 
 [webdefault.xml](https://developer.yonyoucloud.com/download/microservice/jetty-config/webdefault.xml)
 
-### 1. 本地启动test环境
-> 本地启动时会把本地启动的服务注册到注册中心，这样会被调用方发现并调用。 
-
-解决方案：
-1. 在代码的/src/test/resources/目录中放置一个与应用的application.properties对应的application.yml,里面设置app.version=xxx
-2. 加上环境变量  -Deureka.registration.enabled=false不会把本服务注册到注册中心
-
-### 2. can not find active app from registry
->健康检查配置的是基于端口的检测,端口启动时候新应用还没真正启动完毕,老的实例被提前杀死；
-
-解决方案：
-1. 开发者中心配置健康检查时，添加微服务的健康检查
-
 [jetty-context.xml](https://developer.yonyoucloud.com/download/microservice/jetty-config/jetty-context.xml)
