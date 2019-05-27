@@ -4,7 +4,7 @@
 
 <div align=center>
 
-<img src="/articles/developer/5-/images/monitor_1.png"/>
+<img src="/articles/developer/5-/images/monitor/1.png"/>
 
 </div>
 
@@ -12,7 +12,7 @@
 
 <div align=center>
 
-<img src="/articles/developer/5-/images/monitor_2.png"/>
+<img src="/articles/developer/5-/images/monitor/2.png"/>
 
 </div>
 
@@ -22,7 +22,7 @@
 
 <div align=center>
 
-<img src="/articles/developer/5-/images/monitor_3.png"/>
+<img src="/articles/developer/5-/images/monitor/3.png"/>
 
 </div>
 
@@ -30,7 +30,7 @@
 埋点后的应用重新发布，就可以在该页签下看到用户浏览行为信息（图4）
 <div align=center>
 
-<img src="/articles/developer/5-/images/monitor_4.png"/>
+<img src="/articles/developer/5-/images/monitor/4.png"/>
 
 </div>
 
@@ -39,14 +39,14 @@
 
 <div align=center>
 
-<img src="/articles/developer/5-/images/monitor_5.png"/>
+<img src="/articles/developer/5-/images/monitor/5.png"/>
 
 </div>
 
 <p align="center">图 5</p>
 <div align=center>
 
-<img src="/articles/developer/5-/images/monitor_6.png"/>
+<img src="/articles/developer/5-/images/monitor/6.png"/>
 
 </div>
 
@@ -55,7 +55,7 @@
 
 <div align=center>
 
-<img src="/articles/developer/5-/images/monitor_7.png"/>
+<img src="/articles/developer/5-/images/monitor/7.png"/>
 
 </div>
 
@@ -64,7 +64,7 @@
 
 <div align=center>
 
-<img src="/articles/developer/5-/images/monitor_8.png"/>
+<img src="/articles/developer/5-/images/monitor/8.png"/>
 
 </div>
 
@@ -73,7 +73,7 @@
 
 <div align=center>
 
-<img src="/articles/developer/5-/images/monitor_9.png"/>
+<img src="/articles/developer/5-/images/monitor/9.png"/>
 
 </div>
 
