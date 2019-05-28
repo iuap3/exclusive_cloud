@@ -8,13 +8,13 @@
 
 1、登录用友云开发者中心官网，[点击这里](https://developer.yonyoucloud.com)。
 
-2、点击左侧菜单 `资源申请及审批` 。
+2、点击左侧菜单 `资源申请` 。
 <div align=center>
 <img src="images/domain/1.png"/>
 </div>
 <p align="center">图 1</p>
 
-选择 `域名管理`。
+选择 `域名申请`。
 <div align=center>
 <img src="images/domain/2.png"/>
 </div>
