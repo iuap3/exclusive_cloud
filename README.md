@@ -6,17 +6,6 @@
 
 https://pan.baidu.com/s/1mh5Bvny
 
-## 文档编写流程与规范
-
-* [文档编写流程与规范](articles/1-/guide.md)
-
-## 文档目录样例
-
-* [文档目录](SUMMARY.md)
-
-## 文档目录格式说明
-
-![](/articles/1-/images/catalog.png)
 
 
 
